@@ -1,0 +1,24 @@
+/**
+ * Components: Debug
+ */
+
+body::after {
+    background: linear-gradient(to bottom, #1c2124 0%, #292d33 100%);
+    bottom: 0;
+    color: #73bcee;
+    padding: em(10);
+    position: fixed;
+    right: 0;
+    transition: opacity 0.3s;
+
+    @each $breakpoint, $value in $BREAKPOINTS {
+        @include breakpoint($breakpoint) {
+            @if $breakpoint == mobile {
+                content: "#{$breakpoint} / #{nth($value, 3)} cols";
+            } @else {
+                content: "#{$breakpoint} / #{nth($value, 1)} #{nth($value, 2)}px / #{nth($value, 3)} cols";
+            }
+
+        }
+    }
+}

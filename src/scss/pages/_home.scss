@@ -1,0 +1,35 @@
+/**
+ * Pages: Home
+ */
+
+.grid {
+    background-color: #00FFFF;
+}
+
+.col {
+    @include column(2);
+    background-color: rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.col:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.fluid-grid-example {
+    .grid {
+        @include grid ();
+    }
+}
+
+.restricted-grid-example {
+    .grid {
+        @include grid ($max-width: em(500));
+    }
+}
+
+.fixed-grid-example {
+    .grid {
+        @include grid ($width: em(300));
+    }
+}

@@ -1,0 +1,236 @@
+/**
+ * Utils: Mixins
+ */
+
+/**
+ * breakpoint
+ *
+ * Iterate through $BREAKPOINTS and generate media queries
+ *
+ * @param {string} $breakpoint - Key in $BREAKPOINTS map
+ */
+@mixin breakpoint ($breakpoint) {
+    @if map-has-key ($BREAKPOINTS, $breakpoint) {
+        $point-data: map-get($BREAKPOINTS, $breakpoint);
+        $point-type: #{nth($point-data, 1)}-width;
+        $point-width: nth($point-data, 2);
+        $point-cols: nth($point-data, 3);
+        $point-gutter-width: nth($point-data, 4);
+
+        @media (#{$point-type}: #{$point-width / getPropertyFromTypeScale(font-size, html, $CURRENT-BREAKPOINT)}em) {
+            $TOTAL-COLUMNS: $point-cols !global;
+            $GUTTER-WIDTH: $point-gutter-width !global;
+            $CURRENT-BREAKPOINT: $breakpoint !global;
+
+            @content;
+
+            $TOTAL-COLUMNS: $DEFAULT-TOTAL-COLUMNS !global;
+            $GUTTER-WIDTH: $DEFAULT-GUTTER-WIDTH !global;
+            $CURRENT-BREAKPOINT: $DEFAULT-BREAKPOINT !global;
+        }
+    }
+};
+
+/**
+ * generateFont
+ *
+ * Generate font-face declaration
+ * Assumes you follow the following directory structure:
+ *
+ * /
+ * |- fonts/
+ *   |- fontname
+ *     |- fontname.eot
+ *     |- fontname.woff
+ *     |- fontname.ttf
+ *     |- fontname.svg
+ *
+ * @param {string} $fontName - Name of the font to be used when declared
+ * @param {string} $fontFileName - Filename of the font
+ * @param {int} $fontWeight - Weight of the font (100, 200, 300, 400, 500, 600, 700, 800 | Default: 400)
+ * @param {string} $fontStyle - Style of the font (normal, italic, oblique | Default: normal)
+ */
+@mixin generateFont ($fontName, $fontFileName, $fontWeight: 400, $fontStyle: normal) {
+    @font-face {
+        font-family: $fontFileName;
+        src: url('/fonts/#{$fontName}/#{$fontFileName}.eot?iefix');
+        src: url('/fonts/#{$fontName}/#{$fontFileName}.eot?iefix') format("eot"),
+             local('☺'), url('/fonts/#{$fontName}/#{$fontFileName}.woff') format("woff"),
+             url('/fonts/#{$fontName}/#{$fontFileName}.ttf') format("truetype"),
+             url('/fonts/#{$fontName}/#{$fontFileName}.svg##{$fontFileName}') format("svg");
+        font-weight: $fontWeight;
+        font-style: $fontStyle;
+    }
+};
+
+/**
+ * setTypeScale
+ *
+ * @param {string} $type-scale - The style you wish to use from $TYPE-SCALES-MAP
+ * @param {number} $context    - The context of the current type-scale
+ * @param {string} $breakpoint - The breakpoint in which you wish to get the $style from
+ */
+@mixin setTypeScale ($type-scale, $context: getPropertyFromTypeScale(font-size, html, $CURRENT-BREAKPOINT), $breakpoint: $CURRENT-BREAKPOINT, $type-scale-map: $TYPE-SCALES-MAP, $breakpoint-map: $BREAKPOINTS-MAP) {
+
+    // $context is string
+    @if type-of($context) == string {
+
+        // Set $context as the font-size of $context
+        $context: getPropertyFromTypeScale(font-size, $context, $breakpoint, $type-scale-map, $breakpoint-map);
+    }
+
+    // $properties holds all the properties of $type-scale
+    $properties: getAllPropertiesFromTypeScale($type-scale, $breakpoint, $type-scale-map);
+
+    // $type-scale has property font-size
+    @if map-has-key($properties, font-size) {
+
+        // $type-scale is html
+        @if $type-scale == html {
+
+            // Set the font-size property as px
+            font-size: #{getPropertyFromTypeScale(font-size, html, $breakpoint, $type-scale-map)}px;
+        }
+
+        // $type-scale is not html
+        @else {
+
+            // Set the font-size as em
+            font-size: #{getPropertyFromTypeScale(font-size, $type-scale, $breakpoint, $type-scale-map) / $context}em;
+
+            // Set $context as the font-size of $type-scale
+            $context: getPropertyFromTypeScale(font-size, $type-scale, $breakpoint, $type-scale-map);
+        }
+    }
+
+    // Loop through $properties
+    @each $property, $value in $properties {
+
+        // $property is font-size
+        @if $property != font-size {
+
+            // $value of $property is a number
+            @if type-of($value) == number {
+
+                // Set the $value of $property based on the font-size of html
+                #{$property}: #{$value / $context}em;
+            }
+
+            // $value is not a number
+            @else {
+
+                // Set the $value of $property
+                #{$property}: #{$value};
+            }
+        }
+    }
+};
+
+/**
+ * generateTypeScaleStyles
+ *
+ * @param {map} $type-scale-map - The map you want to generate the typescales from (Default: $TYPE-SCALES-MAP)
+ */
+@mixin generateTypeScaleStyles ($type-scale-map: $TYPE-SCALES-MAP, $breakpoint-map: $BREAKPOINTS-MAP) {
+
+    // $breakpoint-map is a map
+    @if type-of($breakpoint-map) == map {
+
+        // $type-scale-map is a map
+        @if type-of($type-scale-map) == map {
+
+            // Loop over each breakpoint in $breakpoints
+            @each $breakpoint in map-keys($type-scale-map) {
+
+                // $breakpoint has type scales
+                @if length(map-get($type-scale-map, $breakpoint)) > 0 {
+
+                    // $breakpoint is the first breakpoint in $breakpoint-map
+                    @if index(map-keys($breakpoint-map), $breakpoint) == 1 {
+
+                        // Loop over each type scale in $breakpoint
+                        @each $type-scale in map-keys(map-get($type-scale-map, $breakpoint)) {
+
+                            // Create the type scale
+                            #{$type-scale} {
+
+                                // Set the properties for the type scale
+                                @include setTypeScale($type-scale);
+                            }
+                        }
+                    }
+
+                    // $breakpoint is not the first breakpoint in $breakpoint-map
+                    @else {
+
+                        // Wrap the type scale in a breakpoint of $breakpoint
+                        @include breakpoint ($breakpoint) {
+
+                            // Loop over each type scale in $breakpoint
+                            @each $type-scale in map-keys(map-get($type-scale-map, $breakpoint)) {
+
+                                // Create the type scale
+                                #{$type-scale} {
+
+                                    // Set the properties for the type scale
+                                    @include setTypeScale($type-scale);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // $type-scale-map is not a map, throw error
+        @else {
+            @error ('`$type-scale-map` is not a map');
+        }
+    }
+
+    // $breakpoint-map is not a map, throw error
+    @else {
+        @error ('`$breakpoint-map` is not a map');
+    }
+};
+
+// Align
+@mixin align ($align) {
+    @if $align == left {
+        margin: auto auto auto 0;
+    }
+
+    @else if $align == right {
+        margin: auto 0 auto auto;
+    }
+
+    @else if $align == center {
+        margin: 0 auto 0 auto;
+    }
+
+    @else if $align == top {
+        margin: 0 auto auto auto;
+    }
+
+    @else if $align == bottom {
+        margin: auto auto 0 auto;
+    }
+};
+
+
+// Grid
+@mixin grid ($width: 100%, $align: center, $max-width: null) {
+    @extend %clearfix;
+    @include align ($align);
+    width: $width;
+
+    @if $max-width != null {
+        max-width: $max-width;
+    }
+};
+
+// Column
+@mixin column ($width: $TOTAL-COLUMNS, $context: $TOTAL-COLUMNS) {
+    float: left;
+    width: percentage($width / $context);
+};

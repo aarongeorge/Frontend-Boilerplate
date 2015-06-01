@@ -1,0 +1,85 @@
+/**
+ * Components: Global Overlay
+ *
+ * Usage:
+ *
+ * <div id="global-overlay">
+ *     <div class="table">
+ *         <div class="td">
+ *             <div class="modal">
+ *             </div>
+ *         </div>
+ *     </div>
+ * </div>
+ *
+ * Features:
+ *
+ * - Modal that stays centered to the screen
+ *   but allows scrolling if the height of the
+ *   content is taller than the viewport
+ *
+ * - Adding the class "fullscreen" to the
+ *   #global-overlay element makes the
+ *   modal fill the viewport, whilst
+ *   still retaining its scrolling ability
+ *   if the content is too tall
+ */
+
+#global-overlay {
+    display: none;
+}
+
+body.modal-visible {
+    overflow: hidden;
+
+    #global-overlay {
+        cursor: pointer;
+        display: block;
+        height: 100%;
+        left: 0;
+        overflow-y: auto;
+        position: fixed;
+        top: 0;
+        width: 100%;
+
+        .table {
+            background-color: rgba(0, 0, 0, 0.2);
+            display: table;
+            height: 100%;
+            width: 100%;
+
+            .td {
+                display: table-cell;
+                padding: em(30) 0;
+                vertical-align: middle;
+
+                .modal {
+                    background-color: #ffffff;
+                    color: #000000;
+                    cursor: default;
+                    margin: 0 auto;
+                    width: 50%;
+                }
+            }
+        }
+
+        &.fullscreen {
+            .table {
+                display: block;
+
+                .td {
+                    display: block;
+                    height: 100%;
+                    padding: 0;
+
+                    .modal {
+                        height: 100%;
+                        margin: 0;
+                        overflow-y: auto;
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}

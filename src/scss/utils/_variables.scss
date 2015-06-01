@@ -1,0 +1,113 @@
+/**
+ * Utils: Variables
+ */
+
+// Maps
+
+/**
+ * Breakpoints
+ *
+ * @key   {string} - Name of breakpoint
+ * @value {string} - Type of breakpoint (min, max)
+ * @value {int}    - Width that breakpoint starts
+ * @value {int}    - Number of columns for grid
+ * @value {int}    - Gutter width for each column
+ */
+$BREAKPOINTS: (
+    default: min 0 6 10,
+    phablet: min 480 6 10,
+    tablet: min 768 12 20,
+    laptop: min 1024 12 20,
+    desktop: min 1366 12 20
+);
+
+/**
+ * Type-scales
+ *
+ * @key   {string}         - Name of type-scale
+ * @value {int} fontSize   - Font size (px)
+ * @value {int} lines      - Lines tall (@value * $BASE-LINE-HEIGHT)
+ * @value {array} elements - List of all elements you wish to have the styles for
+ */
+$TYPE-SCALES: (
+    default: (
+        html: (
+            font-size: 16,
+            line-height: 24
+        ),
+        h1: (
+            font-size: 31,
+            line-height: 39,
+            text-transform: uppercase
+        ),
+        h2: (
+            font-size: 25,
+            line-height: 31,
+            text-transform: uppercase
+        ),
+        h3: (
+            font-size: 20,
+            line-height: 25,
+            text-transform: uppercase
+        ),
+        h4: (
+            font-size: 20,
+            line-height: 25,
+            text-transform: uppercase
+        ),
+        h5: (
+            font-size: 20,
+            line-height: 25,
+            text-transform: uppercase
+        ),
+        h6: (
+            font-size: 16,
+            line-height: 24,
+            text-transform: uppercase
+        ),
+        p: (
+            font-size: 16,
+            line-height: 24
+        )
+    ),
+    tablet: (
+        h1: (
+            font-size: 49,
+            line-height: 61,
+            text-transform: uppercase
+        ),
+        h2: (
+            font-size: 39,
+            line-height: 49,
+            text-transform: uppercase
+        ),
+        h3: (
+            font-size: 31,
+            line-height: 39,
+            text-transform: uppercase
+        ),
+        h4: (
+            font-size: 25,
+            line-height: 31,
+            text-transform: uppercase
+        )
+    )
+);
+
+// Global variable decelerations because SASS doesn't support scope properly :(
+
+// Breakpoint
+$BREAKPOINTS-MAP: $BREAKPOINTS;
+$DEFAULT-BREAKPOINT: nth(map-keys($BREAKPOINTS-MAP), 1);
+$CURRENT-BREAKPOINT: $DEFAULT-BREAKPOINT;
+
+// Grid
+$DEFAULT-TOTAL-COLUMNS: 6;
+$TOTAL-COLUMNS: $DEFAULT-TOTAL-COLUMNS;
+$DEFAULT-GUTTER-WIDTH: 10;
+$GUTTER-WIDTH: $DEFAULT-GUTTER-WIDTH;
+$DEFAULT-VERTICAL-GRID-HEIGHT: 16;
+$VERTICAL-GRID-HEIGHT: $DEFAULT-VERTICAL-GRID-HEIGHT;
+
+// Type scale
+$TYPE-SCALES-MAP: $TYPE-SCALES;
