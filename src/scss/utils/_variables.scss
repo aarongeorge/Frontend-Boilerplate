@@ -24,10 +24,10 @@ $BREAKPOINTS: (
 /**
  * Type-scales
  *
- * @key   {string}         - Name of type-scale
- * @value {int} fontSize   - Font size (px)
- * @value {int} lines      - Lines tall (@value * $BASE-LINE-HEIGHT)
- * @value {array} elements - List of all elements you wish to have the styles for
+ * @key   {string}       - Name of breakpoint
+ * @key   {string}       - Name of element
+ * @key   {string}       - Property
+ * @value {string | int} - Value of property
  */
 $TYPE-SCALES: (
     default: (

@@ -52,7 +52,7 @@
  */
 @mixin generateFont ($fontName, $fontFileName, $fontWeight: 400, $fontStyle: normal) {
     @font-face {
-        font-family: $fontFileName;
+        font-family: $fontName;
         src: url('/fonts/#{$fontName}/#{$fontFileName}.eot?iefix');
         src: url('/fonts/#{$fontName}/#{$fontFileName}.eot?iefix') format("eot"),
              local('☺'), url('/fonts/#{$fontName}/#{$fontFileName}.woff') format("woff"),
