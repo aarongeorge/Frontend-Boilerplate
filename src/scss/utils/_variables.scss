@@ -12,13 +12,14 @@
  * @value {int}    - Width that breakpoint starts
  * @value {int}    - Number of columns for grid
  * @value {int}    - Gutter width for each column
+ * @value {int}    - Vertical Grid height
  */
 $BREAKPOINTS: (
-    default: min 0 6 10,
-    phablet: min 480 6 10,
-    tablet: min 768 12 20,
-    laptop: min 1024 12 20,
-    desktop: min 1366 12 20
+    default: min 0 6 10 24,
+    phablet: min 480 6 10 24,
+    tablet: min 768 12 20 24,
+    laptop: min 1024 12 20 24,
+    desktop: min 1366 12 20 24
 );
 
 /**
@@ -102,11 +103,11 @@ $DEFAULT-BREAKPOINT: nth(map-keys($BREAKPOINTS-MAP), 1);
 $CURRENT-BREAKPOINT: $DEFAULT-BREAKPOINT;
 
 // Grid
-$DEFAULT-TOTAL-COLUMNS: 6;
+$DEFAULT-TOTAL-COLUMNS: nth(map-get($BREAKPOINTS-MAP, nth(map-keys($BREAKPOINTS-MAP), 1)), 3);
 $TOTAL-COLUMNS: $DEFAULT-TOTAL-COLUMNS;
-$DEFAULT-GUTTER-WIDTH: 10;
+$DEFAULT-GUTTER-WIDTH: nth(map-get($BREAKPOINTS-MAP, nth(map-keys($BREAKPOINTS-MAP), 1)), 4);
 $GUTTER-WIDTH: $DEFAULT-GUTTER-WIDTH;
-$DEFAULT-VERTICAL-GRID-HEIGHT: 16;
+$DEFAULT-VERTICAL-GRID-HEIGHT: nth(map-get($BREAKPOINTS-MAP, nth(map-keys($BREAKPOINTS-MAP), 1)), 5);
 $VERTICAL-GRID-HEIGHT: $DEFAULT-VERTICAL-GRID-HEIGHT;
 
 // Type scale
