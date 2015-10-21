@@ -52,7 +52,7 @@
  * @param  {map}    $map   - The map you wish to search for $index in
  * @return {string}
  */
-@function getKeyOfIndexFromMap($map, $index) {
+@function getKeyOfIndexFromMap ($map, $index) {
 
     // $map is a map
     @if type-of($map) == map {

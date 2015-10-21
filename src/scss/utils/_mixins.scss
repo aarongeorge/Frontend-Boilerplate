@@ -217,6 +217,22 @@
     }
 };
 
+// Gutter for column
+@mixin gutter ($gutter) {
+    @if $gutter == no {
+        padding: {
+            left: 0;
+            right: 0;
+        }
+    }
+
+    @else {
+        padding: {
+            left: em($gutter);
+            right: em($gutter);
+        }
+    }
+}
 
 // Grid
 @mixin grid ($width: 100%, $align: center, $max-width: null) {
@@ -230,7 +246,8 @@
 };
 
 // Column
-@mixin column ($width: $TOTAL-COLUMNS, $context: $TOTAL-COLUMNS) {
+@mixin column ($width: $TOTAL-COLUMNS, $gutter: $GUTTER-WIDTH, $context: $TOTAL-COLUMNS) {
+    @include gutter($gutter);
     float: left;
     width: percentage($width / $context);
 };

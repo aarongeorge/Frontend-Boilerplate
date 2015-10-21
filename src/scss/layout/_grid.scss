@@ -1,0 +1,164 @@
+.col {
+    float: left;
+
+    // Default Breakpoint
+    &.-col-1-6 {
+        padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+        width: percentage(1 / 6);
+    }
+
+    &.-col-2-6 {
+        padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+        width: percentage(2 / 6);
+    }
+
+    &.-col-3-6 {
+        padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+        width: percentage(3 / 6);
+    }
+
+    &.-col-4-6 {
+        padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+        width: percentage(4 / 6);
+    }
+
+    &.-col-5-6 {
+        padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+        width: percentage(5 / 6);
+    }
+
+    &.-col-6-6 {
+        padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+        width: percentage(6 / 6);
+    }
+
+    // Tablet Breakpoint
+    @include breakpoint (tablet) {
+        &.-tablet {
+            &-col-1-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(1 / 12);
+            }
+
+            &-col-2-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(2 / 12);
+            }
+
+            &-col-3-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(3 / 12);
+            }
+
+            &-col-4-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(4 / 12);
+            }
+
+            &-col-5-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(5 / 12);
+            }
+
+            &-col-6-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(6 / 12);
+            }
+
+            &-col-7-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(7 / 12);
+            }
+
+            &-col-8-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(8 / 12);
+            }
+
+            &-col-9-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(9 / 12);
+            }
+
+            &-col-10-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(10 / 12);
+            }
+
+            &-col-11-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(11 / 12);
+            }
+
+            &-col-12-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(12 / 12);
+            }
+        }
+    }
+
+    // Desktop Breakpoint
+    @include breakpoint (desktop) {
+        &.-desktop {
+            &-col-1-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(1 / 12);
+            }
+
+            &-col-2-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(2 / 12);
+            }
+
+            &-col-3-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(3 / 12);
+            }
+
+            &-col-4-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(4 / 12);
+            }
+
+            &-col-5-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(5 / 12);
+            }
+
+            &-col-6-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(6 / 12);
+            }
+
+            &-col-7-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(7 / 12);
+            }
+
+            &-col-8-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(8 / 12);
+            }
+
+            &-col-9-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(9 / 12);
+            }
+
+            &-col-10-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(10 / 12);
+            }
+
+            &-col-11-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(11 / 12);
+            }
+
+            &-col-12-12 {
+                padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                width: percentage(12 / 12);
+            }
+        }
+    }
+}
