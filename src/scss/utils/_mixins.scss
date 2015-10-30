@@ -139,7 +139,7 @@
         // $type-scale-map is a map
         @if type-of($type-scale-map) == map {
 
-            // Loop over each breakpoint in $breakpoints
+            // Loop over each breakpoint in $type-scale-map
             @each $breakpoint in map-keys($type-scale-map) {
 
                 // $breakpoint has type scales
@@ -185,6 +185,62 @@
         // $type-scale-map is not a map, throw error
         @else {
             @error ('`$type-scale-map` is not a map');
+        }
+    }
+
+    // $breakpoint-map is not a map, throw error
+    @else {
+        @error ('`$breakpoint-map` is not a map');
+    }
+};
+
+/**
+ * generateGridStyles
+ *
+ * @param {map} $type-scale-map - The map you want to generate the typescales from (Default: $TYPE-SCALES-MAP)
+ */
+@mixin generateGridStyles ($breakpoint-map: $BREAKPOINTS-MAP) {
+
+    // $breakpoint-map is a map
+    @if type-of($breakpoint-map) == map {
+
+        // Loop over each breakpoint in $breakpoint-map
+        @each $breakpoint in map-keys($breakpoint-map) {
+
+            // If `$breakpoint` is `default`
+            @if $breakpoint == 'default' {
+
+                // Loop through all the columns in that breakpoint
+                @for $i from 1 to $TOTAL-COLUMNS {
+
+                    // Generate the column
+                    .col.-col-#{$i}-#{$TOTAL-COLUMNS} {
+                        padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                        width: percentage($i / $TOTAL-COLUMNS);
+                    }
+                }
+            }
+
+            // If `$breakpoint` is not `default`
+            @else {
+
+                // Wrap in a breakpoint
+                @include breakpoint($breakpoint) {
+
+                    // Loop through all the columns in that breakpoint
+                    @for $i from 0 to $TOTAL-COLUMNS {
+
+                        // This variable is necessary (https://github.com/sass/libsass/issues/1672)
+                        $class: unquote('.col.-#{$breakpoint}-col-#{$i + 1}-#{$TOTAL-COLUMNS}');
+
+                        // Generate the column
+                        #{$class} {
+                            padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
+                            width: percentage(($i + 1) / $TOTAL-COLUMNS);
+                        }
+                    }
+                }
+            }
         }
     }
 
