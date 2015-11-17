@@ -4,8 +4,9 @@
 
 // Module definitions
 var autoprefixer = require('gulp-autoprefixer');
-var browserSync = require('browser-sync');
+var babelify = require('babelify');
 var browserify = require('browserify');
+var browserSync = require('browser-sync');
 var buffer = require('vinyl-buffer');
 var del = require('del');
 var gulp = require('gulp');
@@ -37,12 +38,10 @@ var paths = {
  *
  * Cleans the webroot directory
  */
-gulp.task('clean', function (done) {
+gulp.task('clean', function () {
     'use strict';
 
-    del(paths.webroot.root + '**/*', {
-        'force': true
-    }, done);
+    return del([paths.webroot.root + '**/*']);
 });
 
 /**
@@ -101,7 +100,11 @@ gulp.task('bundleScripts', function () {
     return browserify({
             'entries': [paths.src.scripts + 'main.js'],
             'debug': true
-        }).bundle()
+        })
+        .transform(babelify, {
+            'presets': ['es2015']
+        })
+        .bundle()
         .pipe(source('main.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({
