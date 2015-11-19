@@ -228,15 +228,12 @@
                 @include breakpoint($breakpoint) {
 
                     // Loop through all the columns in that breakpoint
-                    @for $i from 0 to $TOTAL-COLUMNS {
-
-                        // This variable is necessary (https://github.com/sass/libsass/issues/1672)
-                        $class: unquote('.col.-#{$breakpoint}-col-#{$i + 1}-#{$TOTAL-COLUMNS}');
+                    @for $i from 1 to $TOTAL-COLUMNS {
 
                         // Generate the column
-                        #{$class} {
+                        .col.-#{$breakpoint}-col-#{$i}-#{$TOTAL-COLUMNS} {
                             padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
-                            width: percentage(($i + 1) / $TOTAL-COLUMNS);
+                            width: percentage(($i) / $TOTAL-COLUMNS);
                         }
                     }
                 }
