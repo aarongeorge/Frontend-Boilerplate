@@ -16,17 +16,20 @@
         $point-width: nth($point-data, 2);
         $point-cols: nth($point-data, 3);
         $point-gutter-width: nth($point-data, 4);
+        $point-vertical-grid-height: nth($point-data, 5);
 
         @media (#{$point-type}: #{$point-width / getPropertyFromTypeScale(font-size, html, $CURRENT-BREAKPOINT)}em) {
             $TOTAL-COLUMNS: $point-cols !global;
             $GUTTER-WIDTH: $point-gutter-width !global;
             $CURRENT-BREAKPOINT: $breakpoint !global;
+            $VERTICAL-GRID-HEIGHT: $point-vertical-grid-height !global;
 
             @content;
 
             $TOTAL-COLUMNS: $DEFAULT-TOTAL-COLUMNS !global;
             $GUTTER-WIDTH: $DEFAULT-GUTTER-WIDTH !global;
             $CURRENT-BREAKPOINT: $DEFAULT-BREAKPOINT !global;
+            $VERTICAL-GRID-HEIGHT: $DEFAULT-VERTICAL-GRID-HEIGHT;
         }
     }
 };
