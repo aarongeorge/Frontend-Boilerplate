@@ -85,32 +85,39 @@
     // $properties holds all the properties of $type-scale
     $properties: getAllPropertiesFromTypeScale($type-scale, $breakpoint, $type-scale-map);
 
-    // $type-scale has property font-size
-    @if map-has-key($properties, font-size) {
-
-        // $type-scale is html
-        @if $type-scale == html {
-
-            // Set the font-size property as px
-            font-size: #{getPropertyFromTypeScale(font-size, html, $breakpoint, $type-scale-map)}px;
-        }
-
-        // $type-scale is not html
-        @else {
-
-            // Set the font-size as em
-            font-size: #{getPropertyFromTypeScale(font-size, $type-scale, $breakpoint, $type-scale-map) / $context}em;
-
-            // Set $context as the font-size of $type-scale
-            $context: getPropertyFromTypeScale(font-size, $type-scale, $breakpoint, $type-scale-map);
-        }
-    }
-
     // Loop through $properties
     @each $property, $value in $properties {
 
         // $property is font-size
-        @if $property != font-size {
+        @if $property == font-size {
+
+            // $type-scale is html
+            @if $type-scale == html {
+
+                // Set the font-size property as px
+                font-size: #{getPropertyFromTypeScale(font-size, html, $breakpoint, $type-scale-map)}px;
+            }
+
+            // $type-scale is not html
+            @else {
+
+                // Set the font-size as em
+                font-size: #{getPropertyFromTypeScale(font-size, $type-scale, $breakpoint, $type-scale-map) / $context}em;
+
+                // Set $context as the font-size of $type-scale
+                $context: getPropertyFromTypeScale(font-size, $type-scale, $breakpoint, $type-scale-map);
+            }
+        }
+
+        // $property is font-weight
+        @else if $property == font-weight {
+
+            // Set the $value of $property
+            font-weight: #{$value};
+        }
+
+        // $property is not font-size or font-weight
+        @else {
 
             // $value of $property is a number
             @if type-of($value) == number {
