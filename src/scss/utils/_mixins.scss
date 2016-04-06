@@ -331,6 +331,20 @@
 };
 
 // Vertical baseline background guide
-@mixin verticalBaseline ($height: $VERTICAL-GRID-HEIGHT, $colour: rgba(0, 255, 255, 0.3)) {
-    background: repeating-linear-gradient(to bottom, $colour em(0), $colour em($height), rgba(0, 0, 0, 0) em($height), rgba(0, 0, 0, 0) em($height * 2));
+@mixin verticalBaseline ($height: $VERTICAL-GRID-HEIGHT, $style: 'lines', $colour: rgba(0, 255, 255, 0.3)) {
+
+    // $style is lines
+    @if $style == 'lines' {
+        background: repeating-linear-gradient(to bottom, transparent em(0), transparent em($height - 1), $colour em($height - 1), $colour em($height));
+    }
+
+    // Style is bars
+    @else if $style == 'bars' {
+        background: repeating-linear-gradient(to bottom, $colour em(0), $colour em($height), rgba(0, 0, 0, 0) em($height), rgba(0, 0, 0, 0) em($height * 2));
+    }
+
+    // $style is not lines or bars, throw error
+    @else {
+        @error ('`$style` of `#{$style}` needs to be either `lines` or `bars`');
+    }
 }
