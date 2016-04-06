@@ -2,6 +2,11 @@
  * Utils: Variables
  */
 
+// Colours
+$DARK-GREY: #333333;
+$LIGHT-GREY: #666666;
+$WHITE: #FFFFFF;
+
 // Maps
 
 /**
@@ -12,14 +17,15 @@
  * @value {int}    - Width that breakpoint starts
  * @value {int}    - Number of columns for grid
  * @value {int}    - Gutter width for each column
+ * @value {int}    - Grid margin
  * @value {int}    - Vertical Grid height
  */
 $BREAKPOINTS: (
-    default: min 0 6 10 24,
-    phablet: min 480 6 10 24,
-    tablet: min 768 12 20 24,
-    laptop: min 1024 12 20 24,
-    desktop: min 1366 12 20 24
+    default: min 0 6 10 10 24,
+    phablet: min 480 6 10 10 24,
+    tablet: min 768 12 20 20 24,
+    laptop: min 1024 12 20 20 24,
+    desktop: min 1366 12 20 20 24
 );
 
 /**
@@ -95,7 +101,7 @@ $TYPE-SCALES: (
     )
 );
 
-// Global variable decelerations because SASS doesn't support scope properly :(
+// Global variable declarations because SASS doesn't support scope properly :(
 
 // Breakpoint
 $BREAKPOINTS-MAP: $BREAKPOINTS;
@@ -107,7 +113,9 @@ $DEFAULT-TOTAL-COLUMNS: nth(map-get($BREAKPOINTS-MAP, nth(map-keys($BREAKPOINTS-
 $TOTAL-COLUMNS: $DEFAULT-TOTAL-COLUMNS;
 $DEFAULT-GUTTER-WIDTH: nth(map-get($BREAKPOINTS-MAP, nth(map-keys($BREAKPOINTS-MAP), 1)), 4);
 $GUTTER-WIDTH: $DEFAULT-GUTTER-WIDTH;
-$DEFAULT-VERTICAL-GRID-HEIGHT: nth(map-get($BREAKPOINTS-MAP, nth(map-keys($BREAKPOINTS-MAP), 1)), 5);
+$DEFAULT-GRID-MARGIN: nth(map-get($BREAKPOINTS-MAP, nth(map-keys($BREAKPOINTS-MAP), 1)), 5);
+$GRID-MARGIN: $DEFAULT-GRID-MARGIN;
+$DEFAULT-VERTICAL-GRID-HEIGHT: nth(map-get($BREAKPOINTS-MAP, nth(map-keys($BREAKPOINTS-MAP), 1)), 6);
 $VERTICAL-GRID-HEIGHT: $DEFAULT-VERTICAL-GRID-HEIGHT;
 
 // Type scale

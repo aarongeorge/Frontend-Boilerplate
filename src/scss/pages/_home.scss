@@ -3,17 +3,18 @@
  */
 
 .grid {
-    background-color: #00FFFF;
+    background-color: $DARK-GREY;
 }
 
 .col {
     @include column(2);
-    background-color: rgba(0, 0, 0, 0.1);
+
+    background-color: $LIGHT-GREY;
     text-align: center;
 }
 
 .col:nth-child(odd) {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: $WHITE;
 }
 
 .fluid-grid-example {

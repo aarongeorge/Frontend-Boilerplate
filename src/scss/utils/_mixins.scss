@@ -16,12 +16,14 @@
         $point-width: nth($point-data, 2);
         $point-cols: nth($point-data, 3);
         $point-gutter-width: nth($point-data, 4);
-        $point-vertical-grid-height: nth($point-data, 5);
+        $point-grid-margin: nth($point-data, 5);
+        $point-vertical-grid-height: nth($point-data, 6);
 
         @media (#{$point-type}: #{$point-width / getPropertyFromTypeScale(font-size, html, $CURRENT-BREAKPOINT)}em) {
             $TOTAL-COLUMNS: $point-cols !global;
             $GUTTER-WIDTH: $point-gutter-width !global;
             $CURRENT-BREAKPOINT: $breakpoint !global;
+            $GRID-MARGIN: $point-grid-margin !global;
             $VERTICAL-GRID-HEIGHT: $point-vertical-grid-height !global;
 
             @content;
@@ -29,6 +31,7 @@
             $TOTAL-COLUMNS: $DEFAULT-TOTAL-COLUMNS !global;
             $GUTTER-WIDTH: $DEFAULT-GUTTER-WIDTH !global;
             $CURRENT-BREAKPOINT: $DEFAULT-BREAKPOINT !global;
+            $GRID-MARGIN: $DEFAULT-GRID-MARGIN !global;
             $VERTICAL-GRID-HEIGHT: $DEFAULT-VERTICAL-GRID-HEIGHT;
         }
     }
@@ -56,11 +59,11 @@
 @mixin generateFont ($fontName, $fontFileName, $fontWeight: 400, $fontStyle: normal) {
     @font-face {
         font-family: $fontName;
-        src: url('/fonts/#{$fontName}/#{$fontFileName}.eot?iefix');
-        src: url('/fonts/#{$fontName}/#{$fontFileName}.eot?iefix') format("eot"),
-             local('☺'), url('/fonts/#{$fontName}/#{$fontFileName}.woff') format("woff"),
-             url('/fonts/#{$fontName}/#{$fontFileName}.ttf') format("truetype"),
-             url('/fonts/#{$fontName}/#{$fontFileName}.svg##{$fontFileName}') format("svg");
+        src: url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.eot?iefix');
+        src: url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.eot?iefix') format("eot"),
+             local('☺'), url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.woff') format("woff"),
+             url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.ttf') format("truetype"),
+             url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.svg##{$fontFileName}') format("svg");
         font-weight: $fontWeight;
         font-style: $fontStyle;
     }
@@ -257,6 +260,15 @@
     }
 };
 
+// Clearfix
+@mixin clearfix () {
+    &:after {
+        clear: both;
+        content: '';
+        display: table;
+    }
+}
+
 // Align
 @mixin align ($align) {
     @if $align == left {
@@ -298,19 +310,27 @@
 }
 
 // Grid
-@mixin grid ($width: 100%, $align: center, $max-width: null) {
-    @extend %clearfix;
-    @include align ($align);
-    width: $width;
+@mixin grid ($width: 100%, $align: center, $max-width: null, $margin: $GRID-MARGIN) {
+    @include align($align);
+    @include clearfix();
+    @include gutter($margin);
 
     @if $max-width != null {
         max-width: $max-width;
     }
+
+    width: $width;
 };
 
 // Column
 @mixin column ($width: $TOTAL-COLUMNS, $gutter: $GUTTER-WIDTH, $context: $TOTAL-COLUMNS) {
     @include gutter($gutter);
+
     float: left;
     width: percentage($width / $context);
 };
+
+// Vertical baseline background guide
+@mixin verticalBaseline ($height: $VERTICAL-GRID-HEIGHT, $colour: rgba(0, 255, 255, 0.3)) {
+    background: repeating-linear-gradient(to bottom, $colour em(0), $colour em($height), rgba(0, 0, 0, 0) em($height), rgba(0, 0, 0, 0) em($height * 2));
+}

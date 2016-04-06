@@ -2,13 +2,6 @@
  * Utils: Placeholders
  */
 
-// Clearfix
-%clearfix:after {
-    clear: both;
-    content: '';
-    display: table;
-}
-
 // Vertical align
 %vertical-align {
     position: relative;
