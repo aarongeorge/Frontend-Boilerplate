@@ -335,12 +335,14 @@
 
     // $style is lines
     @if $style == 'lines' {
-        background: repeating-linear-gradient(to bottom, transparent em(0), transparent em($height - 1), $colour em($height - 1), $colour em($height));
+        background-image: linear-gradient(to bottom, transparent 95%, $colour 100%);
+        background-size: 100% em($height);
     }
 
     // Style is bars
     @else if $style == 'bars' {
-        background: repeating-linear-gradient(to bottom, $colour em(0), $colour em($height), rgba(0, 0, 0, 0) em($height), rgba(0, 0, 0, 0) em($height * 2));
+        background-image: linear-gradient(to bottom, transparent 50%, $colour 50%);
+        background-size: 100% em($height * 2);
     }
 
     // $style is not lines or bars, throw error
