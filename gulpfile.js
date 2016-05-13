@@ -6,7 +6,7 @@
 var autoprefixer = require('gulp-autoprefixer');
 var babelify = require('babelify');
 var browserify = require('browserify');
-var browserSync = require('browser-sync');
+var browserSync = require('browser-sync').create();
 var buffer = require('vinyl-buffer');
 var del = require('del');
 var gulp = require('gulp');
@@ -157,11 +157,12 @@ gulp.task('scripts', gulp.task('bundleScripts'));
 gulp.task('server', function () {
     'use strict';
 
-    browserSync({
+    browserSync.init({
         'server': {
             'baseDir': paths.webroot.root,
             'directory': true
         },
+        'ghostMode': false,
         'port': 1337,
         'notify': true
     });

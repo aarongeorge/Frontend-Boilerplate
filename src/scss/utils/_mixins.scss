@@ -20,6 +20,7 @@
         $point-vertical-grid-height: nth($point-data, 6);
 
         @media (#{$point-type}: #{$point-width / getPropertyFromTypeScale(font-size, html, $CURRENT-BREAKPOINT)}em) {
+            $BREAKPOINT-WIDTH: $point-width !global;
             $TOTAL-COLUMNS: $point-cols !global;
             $GUTTER-WIDTH: $point-gutter-width !global;
             $CURRENT-BREAKPOINT: $breakpoint !global;
@@ -28,11 +29,12 @@
 
             @content;
 
+            $BREAKPOINT-WIDTH: $DEFAULT-BREAKPOINT-WIDTH !global;
             $TOTAL-COLUMNS: $DEFAULT-TOTAL-COLUMNS !global;
             $GUTTER-WIDTH: $DEFAULT-GUTTER-WIDTH !global;
             $CURRENT-BREAKPOINT: $DEFAULT-BREAKPOINT !global;
             $GRID-MARGIN: $DEFAULT-GRID-MARGIN !global;
-            $VERTICAL-GRID-HEIGHT: $DEFAULT-VERTICAL-GRID-HEIGHT;
+            $VERTICAL-GRID-HEIGHT: $DEFAULT-VERTICAL-GRID-HEIGHT !global;
         }
     }
 };
@@ -59,11 +61,12 @@
 @mixin generateFont ($fontName, $fontFileName, $fontWeight: 400, $fontStyle: normal) {
     @font-face {
         font-family: $fontName;
-        src: url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.eot?iefix');
-        src: url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.eot?iefix') format("eot"),
-             local('☺'), url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.woff') format("woff"),
-             url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.ttf') format("truetype"),
-             url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.svg##{$fontFileName}') format("svg");
+        src: url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.eot');
+        src: url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.eot?iefix') format('embedded-opentype'),
+             url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.woff') format('woff'),
+             url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.woff2') format('woff2'),
+             url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.svg') format('svg'),
+             url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.ttf') format('truetype');
         font-weight: $fontWeight;
         font-style: $fontStyle;
     }
@@ -217,6 +220,16 @@
     // $breakpoint-map is a map
     @if type-of($breakpoint-map) == map {
 
+        // Default grid styles
+        .grid {
+            @include grid();
+        }
+
+        // Default column styles
+        .col {
+            @include column();
+        }
+
         // Loop over each breakpoint in $breakpoint-map
         @each $breakpoint in map-keys($breakpoint-map) {
 
@@ -226,10 +239,19 @@
                 // Loop through all the columns in that breakpoint
                 @for $i from 1 through $TOTAL-COLUMNS {
 
-                    // Generate the column
-                    .col.-col-#{$i}-#{$TOTAL-COLUMNS} {
-                        padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
-                        width: percentage($i / $TOTAL-COLUMNS);
+                    // Generate the width class
+                    .col.-col-#{$i} {
+                        @include column($width: $i);
+                    }
+
+                    // Generate the left offset class
+                    .col.-col-offset-left-#{$i} {
+                        margin-left: percentage($i / $TOTAL-COLUMNS);
+                    }
+
+                    // Generate the right offset class
+                    .col.-col-offset-right-#{$i} {
+                        margin-right: percentage($i / $TOTAL-COLUMNS);
                     }
                 }
             }
@@ -240,13 +262,32 @@
                 // Wrap in a breakpoint
                 @include breakpoint($breakpoint) {
 
+                    // Breakpoint grid styles
+                    .grid {
+                        @include grid();
+                    }
+
                     // Loop through all the columns in that breakpoint
                     @for $i from 1 through $TOTAL-COLUMNS {
 
-                        // Generate the column
-                        .col.-#{$breakpoint}-col-#{$i}-#{$TOTAL-COLUMNS} {
-                            padding: em($VERTICAL-GRID-HEIGHT / 2) em($GUTTER-WIDTH / 2);
-                            width: percentage($i / $TOTAL-COLUMNS);
+                        // Generate the max width class
+                        .grid.-#{$breakpoint}-grid-max-width-#{$i} {
+                            max-width: em(($i / $TOTAL-COLUMNS) * $BREAKPOINT-WIDTH);
+                        }
+
+                        // Generate the width class
+                        .col.-#{$breakpoint}-col-#{$i} {
+                            @include column($width: $i);
+                        }
+
+                        // Generate the left offset class
+                        .col.-#{$breakpoint}-col-offset-left-#{$i} {
+                            margin-left: percentage($i / $TOTAL-COLUMNS);
+                        }
+
+                        // Generate the right offset class
+                        .col.-#{$breakpoint}-col-offset-right-#{$i} {
+                            margin-right: percentage($i / $TOTAL-COLUMNS);
                         }
                     }
                 }
@@ -267,6 +308,15 @@
         content: '';
         display: table;
     }
+}
+
+// Vertical align
+@mixin verticalAlign () {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
 }
 
 // Align
@@ -310,10 +360,10 @@
 }
 
 // Grid
-@mixin grid ($width: 100%, $align: center, $max-width: null, $margin: $GRID-MARGIN) {
+@mixin grid ($width: 100%, $align: center, $max-width: null) {
     @include align($align);
     @include clearfix();
-    @include gutter($margin);
+    @include gutter($GRID-MARGIN);
 
     @if $max-width != null {
         max-width: $max-width;
