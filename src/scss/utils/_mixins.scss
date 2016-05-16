@@ -385,14 +385,14 @@
 
     // $style is lines
     @if $style == 'lines' {
-        background-image: linear-gradient(to bottom, transparent 95%, $colour 100%);
+        background-image: linear-gradient(to bottom, transparent em($height - 1), $colour em(1));
         background-size: 100% em($height);
     }
 
     // Style is bars
     @else if $style == 'bars' {
-        background-image: linear-gradient(to bottom, transparent 50%, $colour 50%);
-        background-size: 100% em($height * 2);
+        background-image: linear-gradient(to bottom, transparent em($height / 2), $colour em($height / 2));
+        background-size: 100% em($height);
     }
 
     // $style is not lines or bars, throw error
