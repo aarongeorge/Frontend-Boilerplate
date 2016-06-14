@@ -3,13 +3,12 @@
  */
 
 body::after {
-    background: linear-gradient(to bottom, #1c2124 0%, #292d33 100%);
+    background: #FFFFFF;
     bottom: 0;
-    color: #73bcee;
+    color: #000000;
     padding: em(10);
     position: fixed;
     right: 0;
-    transition: opacity 0.3s;
 
     @each $breakpoint, $value in $BREAKPOINTS {
         @include breakpoint($breakpoint) {

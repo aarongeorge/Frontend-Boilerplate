@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>HTML5 Template</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="/css/main.css">
+        <!-- /Stylesheets -->
+    </head>
+    <body>
+
+        <a href="#" data-action="open|testViewOne">Open View One</a>
+        <a href="#" data-action="open|testViewTwo">Open View Two</a>
+
+        <div id="global-overlay">
+            <div class="table">
+                <div class="td">
+                    <div class="modal">
+                        <div class="view testViewOne">
+                            <p>Test View One</p>
+                            <a href="#" data-action="close">Close</a>
+                        </div>
+                        <div class="view testViewTwo">
+                            <p>Test View Two</p>
+                            <a href="#" data-action="close">Close</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scripts -->
+        <script src="/js/main.js"></script>
+        <!-- /Scripts -->
+    </body>
+</html>

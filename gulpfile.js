@@ -176,8 +176,6 @@ gulp.task('server', function () {
 gulp.task('watch', function () {
     'use strict';
 
-    gulp.watch([paths.src.fonts + '**/*'], gulp.series(browserSync.reload));
-    gulp.watch([paths.src.images + '**/*'], gulp.series(browserSync.reload));
     gulp.watch([paths.src.root + '**/*.html', paths.src.images + '**/*', paths.src.fonts + '**/*'], gulp.series('copy', 'htmlEnvPath', browserSync.reload));
     gulp.watch([paths.src.scripts + '**/*.js'], gulp.series('scripts', browserSync.reload));
     gulp.watch([paths.src.styles + '**/*.scss'], gulp.task('styles'));
