@@ -15,14 +15,16 @@
         $point-type: #{nth($point-data, 1)}-width;
         $point-width: nth($point-data, 2);
         $point-cols: nth($point-data, 3);
-        $point-gutter-width: nth($point-data, 4);
-        $point-grid-margin: nth($point-data, 5);
-        $point-vertical-grid-height: nth($point-data, 6);
+        $point-horizontal-gutter: nth($point-data, 4);
+        $point-vertical-gutter: nth($point-data, 5);
+        $point-grid-margin: nth($point-data, 6);
+        $point-vertical-grid-height: nth($point-data, 7);
 
         @media (#{$point-type}: #{$point-width / getPropertyFromTypeScale(font-size, html, $CURRENT-BREAKPOINT)}em) {
             $BREAKPOINT-WIDTH: $point-width !global;
             $TOTAL-COLUMNS: $point-cols !global;
-            $GUTTER-WIDTH: $point-gutter-width !global;
+            $HORIZONTAL-GUTTER: $point-horizontal-gutter !global;
+            $VERTICAL-GUTTER: $point-vertical-gutter !global;
             $CURRENT-BREAKPOINT: $breakpoint !global;
             $GRID-MARGIN: $point-grid-margin !global;
             $VERTICAL-GRID-HEIGHT: $point-vertical-grid-height !global;
@@ -31,7 +33,8 @@
 
             $BREAKPOINT-WIDTH: $DEFAULT-BREAKPOINT-WIDTH !global;
             $TOTAL-COLUMNS: $DEFAULT-TOTAL-COLUMNS !global;
-            $GUTTER-WIDTH: $DEFAULT-GUTTER-WIDTH !global;
+            $HORIZONTAL-GUTTER: $DEFAULT-HORIZONTAL-GUTTER !global;
+            $VERTICAL-GUTTER: $DEFAULT-VERTICAL-GUTTER !global;
             $CURRENT-BREAKPOINT: $DEFAULT-BREAKPOINT !global;
             $GRID-MARGIN: $DEFAULT-GRID-MARGIN !global;
             $VERTICAL-GRID-HEIGHT: $DEFAULT-VERTICAL-GRID-HEIGHT !global;
@@ -343,18 +346,32 @@
 };
 
 // Gutter for column
-@mixin gutter ($gutter) {
-    @if $gutter == no {
+@mixin gutter ($horizontal-gutter: null, $vertical-gutter: null) {
+    @if $horizontal-gutter != null {
+        padding: {
+            left: em($horizontal-gutter);
+            right: em($horizontal-gutter);
+        }
+    }
+
+    @else {
         padding: {
             left: 0;
             right: 0;
         }
     }
 
+    @if $vertical-gutter != null {
+        padding: {
+            top: em($vertical-gutter);
+            bottom: em($vertical-gutter);
+        }
+    }
+
     @else {
         padding: {
-            left: em($gutter);
-            right: em($gutter);
+            top: 0;
+            bottom: 0;
         }
     }
 }
@@ -373,8 +390,8 @@
 };
 
 // Column
-@mixin column ($width: $TOTAL-COLUMNS, $gutter: $GUTTER-WIDTH, $context: $TOTAL-COLUMNS) {
-    @include gutter($gutter);
+@mixin column ($width: $TOTAL-COLUMNS, $horizontal-gutter: $HORIZONTAL-GUTTER, $vertical-gutter: $VERTICAL-GUTTER, $context: $TOTAL-COLUMNS) {
+    @include gutter($horizontal-gutter, $vertical-gutter);
 
     float: left;
     width: percentage($width / $context);

@@ -39,7 +39,7 @@ var ModalPage = function () {
         e.preventDefault();
 
         // Get the params
-        var params = e.srcElement.getAttribute('data-action').split('|');
+        var params = e.currentTarget.getAttribute('data-action').split('|');
 
         // Call `viewSwitcher` with `params`
         viewSwitcher[params[0]](params[1]);
