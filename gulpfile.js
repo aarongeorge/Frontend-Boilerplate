@@ -115,9 +115,7 @@ gulp.task('copy', function () {
     return gulp.src([
             paths.src.fonts + '**/*',
             paths.src.images + '**/*',
-            paths.src.root + '**/*.html',
-            paths.src.scripts + '**/*',
-            paths.src.styles + '**/*'
+            paths.src.root + '**/*.html'
         ],
         {
             'base': paths.src.root
