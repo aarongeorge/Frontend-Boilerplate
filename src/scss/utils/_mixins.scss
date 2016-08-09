@@ -58,7 +58,16 @@
  *
  * @param {string} $fontName - Name of the font to be used when declared
  * @param {string} $fontFileName - Filename of the font
- * @param {int} $fontWeight - Weight of the font (100, 200, 300, 400, 500, 600, 700, 800 | Default: 400)
+ * @param {int} $fontWeight - Weight of the font (Default: 400)
+ *     100 - Thin (Hairline)
+ *     200 - Extra Light (Ultra Light)
+ *     300 - Light
+ *     400 - Normal (Regular)
+ *     500 - Medium
+ *     600 - Semi Bold (Demi Bold)
+ *     700 - Bold
+ *     800 - Extra Bold (Ultra Bold)
+ *     900 - Black (Heavy)
  * @param {string} $fontStyle - Style of the font (normal, italic, oblique | Default: normal)
  */
 @mixin generateFont ($fontName, $fontFileName, $fontWeight: 400, $fontStyle: normal) {
