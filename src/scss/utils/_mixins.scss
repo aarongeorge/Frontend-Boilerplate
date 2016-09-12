@@ -406,6 +406,14 @@
     width: percentage($width / $context);
 };
 
+// Nested column
+@mixin nestedColumn ($width: $TOTAL-COLUMNS, $horizontal-gutter: $HORIZONTAL-GUTTER, $vertical-gutter: $VERTICAL-GUTTER, $context: $TOTAL-COLUMNS) {
+    @include gutter($horizontal-gutter, $vertical-gutter);
+
+    float: left;
+    width: calc((100% / #{$context}) * #{$width});
+};
+
 // Vertical baseline background guide
 @mixin verticalBaseline ($height: $VERTICAL-GRID-HEIGHT, $style: 'lines', $colour: rgba(0, 255, 255, 0.3)) {
 
