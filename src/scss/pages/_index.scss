@@ -7,8 +7,6 @@
 }
 
 .col {
-    @include column(2);
-
     background-color: $LIGHT-GREY;
     text-align: center;
 }

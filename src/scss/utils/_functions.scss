@@ -48,8 +48,8 @@
  *
  * Returns the name of the key at $index of $map
  *
- * @param  {number} $index - The index of the key you want the name of
  * @param  {map}    $map   - The map you wish to search for $index in
+ * @param  {number} $index - The index of the key you want the name of
  * @return {string}
  */
 @function getKeyOfIndexFromMap ($map, $index) {
@@ -150,6 +150,46 @@
 };
 
 /**
+ * getPreviousKeys
+ *
+ * Returns a map of keys prior to `$key` in `$map`
+ *
+ * @param {map}    $map - The map you wish to get the values before $key in
+ * @param {string} $key - The key you wish to end the map at
+ */
+@function getPreviousKeys ($map, $key) {
+
+    // `$map` is a map
+    @if type-of($map) == map {
+
+        // `$key` exists in `$map`
+        @if map-has-key($map, $key) {
+
+            // Create empty map
+            $keyMap: ();
+
+            // Iterate over all previous keys in `$map`
+            @for $i from 1 through getIndexOfKeyFromMap($map, $key) {
+                $keyMap: append($keyMap, getKeyOfIndexFromMap($map, $i));
+            }
+
+            // Return `$keyMap`
+            @return $keyMap;
+        }
+
+        // `$key` does not exist in `$map`, throw error
+        @else {
+             @error ('`$key` of `#{$key}` does not exist in `$map`');
+        }
+    }
+
+    // `$map` is not a map, throw error
+    @else {
+         @error ('`$map` is not a map');
+    }
+}
+
+/**
  * getTypeScaleFromBreakpoint
  *
  * Returns the value of $type-scale in $breakpoint of $type-scale-map
@@ -159,81 +199,81 @@
  * @param  {string}        $breakpoint - The breakpoint that you wish to search
  * @return {number|string}
  */
- @function getTypeScaleFromBreakpoint ($type-scale, $breakpoint: getKeyOfIndexFromMap($TYPE-SCALES-MAP, 1), $type-scale-map: $TYPE-SCALES-MAP, $breakpoint-map: $BREAKPOINTS-MAP) {
+@function getTypeScaleFromBreakpoint ($type-scale, $breakpoint: getKeyOfIndexFromMap($TYPE-SCALES-MAP, 1), $type-scale-map: $TYPE-SCALES-MAP, $breakpoint-map: $BREAKPOINTS-MAP) {
 
-     // $breakpoint-map is a map
-     @if type-of($breakpoint-map) == map {
+    // $breakpoint-map is a map
+    @if type-of($breakpoint-map) == map {
 
-         // $breakpoint exists in $breakpoint-map
-         @if map-has-key($breakpoint-map, $breakpoint) {
+        // $breakpoint exists in $breakpoint-map
+        @if map-has-key($breakpoint-map, $breakpoint) {
 
-             // $type-scale-map is a map
-             @if type-of($type-scale-map) == map {
+            // $type-scale-map is a map
+            @if type-of($type-scale-map) == map {
 
-                 // $breakpoint exists in $type-scale-map
-                 @if map-has-key($type-scale-map, $breakpoint) {
+                // $breakpoint exists in $type-scale-map
+                @if map-has-key($type-scale-map, $breakpoint) {
 
-                     // $type-scale exists in $breakpoint
-                     @if map-has-key(map-get($type-scale-map, $breakpoint), $type-scale) {
+                    // $type-scale exists in $breakpoint
+                    @if map-has-key(map-get($type-scale-map, $breakpoint), $type-scale) {
 
-                         // Return the value of $type-scale
-                         @return getValueOfKeyFromMap(map-get($type-scale-map, $breakpoint), $type-scale);
-                     }
+                        // Return the value of $type-scale
+                        @return getValueOfKeyFromMap(map-get($type-scale-map, $breakpoint), $type-scale);
+                    }
 
-                     // $type-scale does not exist in $breakpoint
-                     @else {
+                    // $type-scale does not exist in $breakpoint
+                    @else {
 
-                         // $breakpoint is not the lowest breakpoint in $type-scale-map
-                         @if index(map-keys($type-scale-map), $breakpoint) > 1 {
+                        // $breakpoint is not the lowest breakpoint in $type-scale-map
+                        @if index(map-keys($type-scale-map), $breakpoint) > 1 {
 
-                             // Run this function again searching one breakpoint lower for $type-scale
-                             @return getTypeScaleFromBreakpoint($type-scale, getKeyOfIndexFromMap($breakpoint-map, getIndexOfKeyFromMap($breakpoint-map, $breakpoint) - 1), $type-scale-map, $breakpoint-map);
-                         }
+                            // Run this function again searching one breakpoint lower for $type-scale
+                            @return getTypeScaleFromBreakpoint($type-scale, getKeyOfIndexFromMap($breakpoint-map, getIndexOfKeyFromMap($breakpoint-map, $breakpoint) - 1), $type-scale-map, $breakpoint-map);
+                        }
 
-                         // $breakpoint is the lowest breakpoint in $type-scale-map
-                         @else {
+                        // $breakpoint is the lowest breakpoint in $type-scale-map
+                        @else {
 
-                             // $type-scale does not exist in $type-scale-map, throw error
-                             @error ('`$type-scale` of `#{$type-scale}` does not exist in `$type-scale-map`');
-                         }
-                     }
-                 }
+                            // $type-scale does not exist in $type-scale-map, throw error
+                            @error ('`$type-scale` of `#{$type-scale}` does not exist in `$type-scale-map`');
+                        }
+                    }
+                }
 
-                 // $breakpoint does not exist in $type-scale-map
-                 @else {
+                // $breakpoint does not exist in $type-scale-map
+                @else {
 
-                     // $breakpoint is not the lowest breakpoint in $breakpoint-map
-                     @if index(map-keys($breakpoint-map), $breakpoint) > 1 {
+                    // $breakpoint is not the lowest breakpoint in $breakpoint-map
+                    @if index(map-keys($breakpoint-map), $breakpoint) > 1 {
 
-                         // Run this function again searching one breakpoint lower for $type-scale
-                         @return getTypeScaleFromBreakpoint($type-scale, getKeyOfIndexFromMap($breakpoint-map, getIndexOfKeyFromMap($breakpoint-map, $breakpoint) - 1), $type-scale-map, $breakpoint-map);
-                     }
+                        // Run this function again searching one breakpoint lower for $type-scale
+                        @return getTypeScaleFromBreakpoint($type-scale, getKeyOfIndexFromMap($breakpoint-map, getIndexOfKeyFromMap($breakpoint-map, $breakpoint) - 1), $type-scale-map, $breakpoint-map);
+                    }
 
-                     // $breakpoint is the lowest breakpoint in $breakpoint-map
-                     @else {
+                    // $breakpoint is the lowest breakpoint in $breakpoint-map
+                    @else {
 
-                         // $type-scale does not exist in $type-scale-map, throw error
-                         @error ('`$type-scale` of `#{$type-scale}` does not exist in `$type-scale-map`');
-                     }
-                 }
-             }
+                        // $type-scale does not exist in $type-scale-map, throw error
+                        @error ('`$type-scale` of `#{$type-scale}` does not exist in `$type-scale-map`');
+                    }
+                }
+            }
 
-             // $type-scale-map is not a map, throw error
-             @else {
-                  @error ('`$type-scale-map` is not a map');
-             }
-         }
+            // $type-scale-map is not a map, throw error
+            @else {
+                @error ('`$type-scale-map` is not a map');
+            }
+        }
 
-         // $breakpoint does not exist in $breakpoint-map, throw error
-         @else {
-              @error ('`$breakpoint` of `#{$breakpoint}` does not exist in `$breakpoint-map`');
-         }
-     }
+        // $breakpoint does not exist in $breakpoint-map, throw error
+        @else {
+            @error ('`$breakpoint` of `#{$breakpoint}` does not exist in `$breakpoint-map`');
+        }
+    }
 
-     // $breakpoint-map is not a map, throw error
-     @else {
-          @error ('`$breakpoint-map` is not a map');
-     }
+    // $breakpoint-map is not a map, throw error
+    @else {
+        @error ('`$breakpoint-map` is not a map');
+    }
  };
 
 /**
