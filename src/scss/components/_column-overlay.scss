@@ -1,0 +1,11 @@
+/**
+ * Components: Grid overlay
+ */
+
+body {
+    @each $breakpoint, $value in $BREAKPOINTS {
+        @include breakpoint($breakpoint) {
+            @include columnOverlay();
+        }
+    }
+}

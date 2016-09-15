@@ -373,8 +373,8 @@
 // Gutter for column
 @mixin gutter ($horizontal-gutter: $HORIZONTAL-GUTTER, $vertical-gutter: $VERTICAL-GUTTER) {
     padding: {
-        bottom: em($horizontal-gutter);
-        left: em($vertical-gutter);
+        bottom: em($vertical-gutter);
+        left: em($horizontal-gutter);
         right: em($horizontal-gutter);
         top: em($vertical-gutter);
     }
@@ -438,3 +438,9 @@
         @error ('`$style` of `#{$style}` needs to be either `lines` or `bars`');
     }
 }
+
+// Column overlay
+@mixin columnOverlay ($column-colour: rgba(0, 255, 255, 0.3), $gutter-colour: transparent) {
+    background: linear-gradient(90deg, $gutter-colour em($HORIZONTAL-GUTTER), $column-colour em($HORIZONTAL-GUTTER), $column-colour calc(100% - #{em($HORIZONTAL-GUTTER)}), $gutter-colour calc(100% - #{em($HORIZONTAL-GUTTER)}), $gutter-colour 100%);
+    background-size: percentage(1 / $TOTAL-COLUMNS) 100%;
+};

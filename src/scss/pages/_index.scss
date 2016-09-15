@@ -2,8 +2,16 @@
  * Pages: Index
  */
 
-body {
-    @include verticalBaseline();
+.test-grid-example {
+    .grid {
+        padding: 0;
+
+        .col {
+            div {
+                background-color: #00FF00;
+            }
+        }
+    }
 }
 
 .grid {

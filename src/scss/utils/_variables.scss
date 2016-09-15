@@ -24,8 +24,8 @@ $WHITE: #FFFFFF;
 $BREAKPOINTS: (
     default: min 0 6 10 10 10 24,
     phablet: min 480 6 10 10 10 24,
-    tablet: min 768 12 20 20 20 24,
-    laptop: min 1024 12 20 20 20 24,
+    tablet: min 768 12 10 20 20 24,
+    laptop: min 1024 12 10 20 20 24,
     desktop: min 1366 12 20 20 20 24
 );
 
