@@ -63,7 +63,7 @@ var environmentVariables = {
     'prod': [
         {
             'replaceString': '{{envPath}}',
-            'value': 'https://prod.example.com'
+            'value': 'http://aarongeorge.com/framework'
         }
     ]
 };
