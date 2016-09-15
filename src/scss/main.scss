@@ -22,10 +22,11 @@
 
 // Components
 @import 'components/debug';
-@import 'components/column-overlay';
 @import 'components/buttons';
 @import 'components/global-overlay';
 @import 'components/view';
 
 // Pages
 @import 'pages/index';
+@import 'pages/grid';
+@import 'pages/typescale';

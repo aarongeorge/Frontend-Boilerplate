@@ -2,39 +2,16 @@
  * Pages: Index
  */
 
-.test-grid-example {
-    .grid {
-        padding: 0;
-
-        .col {
-            div {
-                background-color: #00FF00;
-            }
-        }
-    }
-}
-
-.grid {
-    background-color: $DARK-GREY;
-}
-
-.col {
-    background-color: $LIGHT-GREY;
+ul {
+    margin: 0 auto;
     text-align: center;
-}
 
-.col:nth-child(odd) {
-    background-color: $WHITE;
-}
+    a {
+        color: $DARK-GREY;
+        text-decoration: none;
 
-.restricted-grid-example {
-    .grid {
-        @include grid ($max-width: em(500));
-    }
-}
-
-.fixed-grid-example {
-    .grid {
-        @include grid ($width: em(300));
+        &:hover {
+            border-bottom: 1px solid $DARK-GREY;
+        }
     }
 }

@@ -3,6 +3,7 @@
  */
 
 // Colours
+$BLACK: #000000;
 $DARK-GREY: #333333;
 $LIGHT-GREY: #666666;
 $WHITE: #FFFFFF;
@@ -24,9 +25,9 @@ $WHITE: #FFFFFF;
 $BREAKPOINTS: (
     default: min 0 6 10 10 10 24,
     phablet: min 480 6 10 10 10 24,
-    tablet: min 768 12 10 20 20 24,
-    laptop: min 1024 12 10 20 20 24,
-    desktop: min 1366 12 20 20 20 24
+    tablet: min 768 12 20 20 20 24,
+    laptop: min 1024 12 20 20 20 36,
+    desktop: min 1366 12 20 20 20 36
 );
 
 /**
@@ -44,60 +45,96 @@ $TYPE-SCALES: (
             line-height: 24
         ),
         h1: (
-            font-size: 31,
-            line-height: 39,
-            text-transform: uppercase
+            font-size: 32,
+            line-height: 48,
+            text-transform: uppercase,
+            margin-top: 24
         ),
         h2: (
-            font-size: 25,
-            line-height: 31,
-            text-transform: uppercase
+            font-size: 26,
+            line-height: 48,
+            text-transform: uppercase,
+            margin-top: 24
         ),
         h3: (
-            font-size: 20,
-            line-height: 25,
-            text-transform: uppercase
+            font-size: 22,
+            line-height: 24,
+            text-transform: uppercase,
+            margin-top: 24
         ),
         h4: (
-            font-size: 20,
-            line-height: 25,
-            text-transform: uppercase
+            font-size: 18,
+            line-height: 24,
+            text-transform: uppercase,
+            margin-top: 24
         ),
         h5: (
-            font-size: 20,
-            line-height: 25,
-            text-transform: uppercase
+            font-size: 16,
+            line-height: 24,
+            text-transform: uppercase,
+            margin-top: 24
         ),
         h6: (
             font-size: 16,
             line-height: 24,
-            text-transform: uppercase
+            text-transform: uppercase,
+            margin-top: 24
         ),
         p: (
             font-size: 16,
-            line-height: 24
+            line-height: 24,
+            margin-top: 24
+        ),
+        blockquote: (
+            border-left-color: $BLACK,
+            border-left-style: solid,
+            border-left-width: 3,
+            font-size: 20,
+            line-height: 24,
+            margin-top: 24,
+            padding-left: 20
         )
     ),
     tablet: (
         h1: (
-            font-size: 49,
-            line-height: 61,
-            text-transform: uppercase
+            font-size: 48,
+            line-height: 72,
+            margin-top: 36
         ),
         h2: (
             font-size: 39,
-            line-height: 49,
-            text-transform: uppercase
+            line-height: 72,
+            margin-top: 36
         ),
         h3: (
-            font-size: 31,
-            line-height: 39,
-            text-transform: uppercase
+            font-size: 33,
+            line-height: 36,
+            margin-top: 36
         ),
         h4: (
-            font-size: 25,
-            line-height: 31,
-            text-transform: uppercase
+            font-size: 27,
+            line-height: 36,
+            margin-top: 36
+        ),
+        h5: (
+            font-size: 24,
+            line-height: 36,
+            margin-top: 36
+        ),
+        h6: (
+            font-size: 24,
+            line-height: 36,
+            margin-top: 36
+        ),
+        p: (
+            font-size: 24,
+            line-height: 36,
+            margin-top: 36
+        ),
+        blockquote: (
+            font-size: 30,
+            line-height: 36,
+            margin-top: 36
         )
     )
 );
