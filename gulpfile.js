@@ -11,7 +11,6 @@ var buffer = require('vinyl-buffer');
 var del = require('del');
 var foreach = require('gulp-foreach');
 var gulp = require('gulp');
-var ignore = require('gulp-ignore');
 var replace = require('gulp-replace');
 var sass = require('gulp-sass');
 var source = require('vinyl-source-stream');
@@ -138,7 +137,7 @@ gulp.task('replaceEnvironmentVariables', function () {
             paths.webroot.styles + '**/*'
         ],
         {
-            'base': paths.src.root
+            'base': paths.webroot.root
         }
     )
     .pipe(foreach(function (stream) {
@@ -170,11 +169,7 @@ gulp.task('styles', function () {
         }))
         .pipe(autoprefixer())
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(paths.webroot.styles))
-        .pipe(ignore.exclude('*.map'))
-        .pipe(browserSync.reload({
-            'stream': true
-        }));
+        .pipe(gulp.dest(paths.webroot.styles));
 });
 
 /**
@@ -242,9 +237,7 @@ gulp.task('injectCSS', function () {
 gulp.task('watch', function () {
     'use strict';
 
-    gulp.watch([paths.src.fonts + '**/*'], gulp.series(browserSync.reload));
-    gulp.watch([paths.src.images + '**/*'], gulp.series(browserSync.reload));
-    gulp.watch([paths.src.root + '**/*.html'], gulp.series('copy', 'replaceEnvironmentVariables', browserSync.reload));
+    gulp.watch([paths.src.root + '**/*.html', paths.src.fonts + '**/*', paths.src.images + '**/*'], gulp.series('copy', 'replaceEnvironmentVariables', browserSync.reload));
     gulp.watch([paths.src.scripts + '**/*.js'], gulp.series('scripts', 'replaceEnvironmentVariables', browserSync.reload));
     gulp.watch([paths.src.styles + '**/*.scss'], gulp.series('styles', 'replaceEnvironmentVariables', 'injectCSS'));
 });

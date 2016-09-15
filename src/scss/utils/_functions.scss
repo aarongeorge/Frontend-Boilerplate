@@ -150,46 +150,6 @@
 };
 
 /**
- * getPreviousKeys
- *
- * Returns a map of keys prior to `$key` in `$map`
- *
- * @param {map}    $map - The map you wish to get the values before $key in
- * @param {string} $key - The key you wish to end the map at
- */
-@function getPreviousKeys ($map, $key) {
-
-    // `$map` is a map
-    @if type-of($map) == map {
-
-        // `$key` exists in `$map`
-        @if map-has-key($map, $key) {
-
-            // Create empty map
-            $keyMap: ();
-
-            // Iterate over all previous keys in `$map`
-            @for $i from 1 through getIndexOfKeyFromMap($map, $key) {
-                $keyMap: append($keyMap, getKeyOfIndexFromMap($map, $i));
-            }
-
-            // Return `$keyMap`
-            @return $keyMap;
-        }
-
-        // `$key` does not exist in `$map`, throw error
-        @else {
-             @error ('`$key` of `#{$key}` does not exist in `$map`');
-        }
-    }
-
-    // `$map` is not a map, throw error
-    @else {
-         @error ('`$map` is not a map');
-    }
-}
-
-/**
  * getTypeScaleFromBreakpoint
  *
  * Returns the value of $type-scale in $breakpoint of $type-scale-map

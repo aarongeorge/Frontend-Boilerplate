@@ -2,6 +2,10 @@
  * Pages: Index
  */
 
+body {
+    @include verticalBaseline();
+}
+
 .grid {
     background-color: $DARK-GREY;
 }
@@ -13,12 +17,6 @@
 
 .col:nth-child(odd) {
     background-color: $WHITE;
-}
-
-.fluid-grid-example {
-    .grid {
-        @include grid ();
-    }
 }
 
 .restricted-grid-example {
