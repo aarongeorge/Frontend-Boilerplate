@@ -9,12 +9,12 @@ var browserify = require('browserify');
 var browserSync = require('browser-sync').create();
 var buffer = require('vinyl-buffer');
 var del = require('del');
-var foreach = require('gulp-foreach');
 var gulp = require('gulp');
 var replace = require('gulp-replace');
 var sass = require('gulp-sass');
 var source = require('vinyl-source-stream');
 var sourcemaps = require('gulp-sourcemaps');
+var flatmap = require('gulp-flatmap');
 
 // Paths
 var paths = {
@@ -63,7 +63,7 @@ var environmentVariables = {
     'prod': [
         {
             'replaceString': '{{envPath}}',
-            'value': 'http://aarongeorge.com/framework'
+            'value': 'https://example.com'
         }
     ]
 };
@@ -140,7 +140,7 @@ gulp.task('replaceEnvironmentVariables', function () {
             'base': paths.webroot.root
         }
     )
-    .pipe(foreach(function (stream) {
+    .pipe(flatmap(function (stream) {
         for (var i = 0; i < environmentVariables[gulp.environment].length; i++) {
             stream.pipe(replace(environmentVariables[gulp.environment][i].replaceString, environmentVariables[gulp.environment][i].value));
         }
