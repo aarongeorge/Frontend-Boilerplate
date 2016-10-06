@@ -245,7 +245,7 @@
 
                 // Default column styles
                 .col {
-                    @include column($columns: $TOTAL-COLUMNS, $gutters: true, $direction: left);
+                    @include column($columns: 1, $gutters: true, $direction: left);
                 }
 
                 // Loop through all the columns in that breakpoint
@@ -289,7 +289,7 @@
 
                     // Breakpoint col styles
                     .col {
-                        @include column($gutters: true);
+                        @include column($columns: 1, $gutters: true);
                     }
 
                     // Loop through all the columns in that breakpoint
@@ -381,11 +381,11 @@
 }
 
 // Grid
-@mixin grid ($width: 100%, $max-width: null, $gutters: null, $align: center) {
+@mixin grid ($width: 100%, $max-width: null, $gutters: null, $align: center, $grid-gutter: $GRID-MARGIN) {
     @include align($align);
 
     @if ($gutters == true) {
-        @include gutter();
+        @include gutter($grid-gutter, $grid-gutter);
     }
 
     @if ($max-width != null) {
