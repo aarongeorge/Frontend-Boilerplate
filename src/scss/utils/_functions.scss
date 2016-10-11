@@ -8,7 +8,7 @@
  * Converts px value to em
  *
  * @param {int} $target  - Value to be converted
- * @param {int} $context - The context the `$target` will be divided by
+ * @param {int} $context - The context the `$target` will be derived from
  * @return {string}
  */
 @function em ($target, $context: getPropertyFromTypeScale(font-size, html, $CURRENT-BREAKPOINT), $breakpoint: $CURRENT-BREAKPOINT, $type-scale-map: $TYPE-SCALES-MAP) {
@@ -20,8 +20,31 @@
         $context: getPropertyFromTypeScale(font-size, $context, $breakpoint, $type-scale-map);
     }
 
+    // Return the value in em's
     @return #{$target / $context}em;
 };
+
+/**
+ * tracking
+ *
+ * Converts tracking value to letter spacing
+ *
+ * @param {int} $target  - Value to be converted
+ * @param {int} $context - The context the `$target` will be derived from
+ * @return {string}
+ */
+@function tracking ($target, $context: getPropertyFromTypeScale(font-size, html, $CURRENT-BREAKPOINT), $breakpoint: $CURRENT-BREAKPOINT, $type-scale-map: $TYPE-SCALES-MAP) {
+
+    // $context is string
+    @if type-of($context) == string {
+
+        // Set $context as the font-size of $context
+        $context: getPropertyFromTypeScale(font-size, $context, $breakpoint, $type-scale-map);
+    }
+
+    // Return the value of letter-spacing
+    @return #{em($target * $context, 1000)};
+}
 
 /**
  * lines
