@@ -9,12 +9,13 @@ var browserify = require('browserify');
 var browserSync = require('browser-sync').create();
 var buffer = require('vinyl-buffer');
 var del = require('del');
+var flatmap = require('gulp-flatmap');
 var gulp = require('gulp');
+var gulpif = require('gulp-if');
 var replace = require('gulp-replace');
 var sass = require('gulp-sass');
 var source = require('vinyl-source-stream');
 var sourcemaps = require('gulp-sourcemaps');
-var flatmap = require('gulp-flatmap');
 
 // Paths
 var paths = {
@@ -162,13 +163,13 @@ gulp.task('styles', function () {
     'use strict';
 
     return gulp.src(paths.src.styles + 'main.scss')
-        .pipe(sourcemaps.init())
+        .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.init()))
         .pipe(sass({
             'outputStyle': 'expanded',
             'precision': 14
         }))
         .pipe(autoprefixer())
-        .pipe(sourcemaps.write('./'))
+        .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.write('./')))
         .pipe(gulp.dest(paths.webroot.styles));
 });
 
@@ -192,10 +193,10 @@ gulp.task('scripts', function () {
         .bundle()
         .pipe(source('main.js'))
         .pipe(buffer())
-        .pipe(sourcemaps.init({
+        .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.init({
             'loadMaps': true
-        }))
-        .pipe(sourcemaps.write('./'))
+        })))
+        .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.write('./')))
         .pipe(gulp.dest(paths.webroot.scripts));
 });
 
