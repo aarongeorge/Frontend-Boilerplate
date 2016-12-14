@@ -224,10 +224,12 @@ gulp.task('server', function () {
  *
  * Injects CSS into browserSync instance
  */
-gulp.task('injectCSS', function () {
+gulp.task('injectCSS', function (cb) {
     'use strict';
 
     browserSync.reload('main.css');
+
+    cb();
 });
 
 /**
