@@ -228,7 +228,10 @@ gulp.task('watch', function () {
     'use strict';
 
     // HTML
-    gulp.watch([paths.src.root + '**/*.html', paths.src.fonts + '**/*', paths.src.images + '**/*'], gulp.series('copy', 'replaceEnvironmentVariables', browserSync.reload));
+    gulp.watch([paths.src.root + '**/*.html', paths.src.fonts + '**/*', paths.src.images + '**/*'], gulp.series('copy', 'replaceEnvironmentVariables', function (cb) {
+        browserSync.reload();
+        cb();
+    }));
 
     // JS
     gulp.watch([paths.src.scripts + '**/*.js'], gulp.series('scripts', 'replaceEnvironmentVariables', function (cb) {
