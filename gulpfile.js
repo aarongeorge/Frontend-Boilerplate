@@ -220,19 +220,6 @@ gulp.task('server', function () {
 });
 
 /**
- * injectCSS
- *
- * Injects CSS into browserSync instance
- */
-gulp.task('injectCSS', function (cb) {
-    'use strict';
-
-    browserSync.reload('main.css');
-
-    cb();
-});
-
-/**
  * Watch
  *
  * Watches files and runs the correct tasks
@@ -240,9 +227,20 @@ gulp.task('injectCSS', function (cb) {
 gulp.task('watch', function () {
     'use strict';
 
+    // HTML
     gulp.watch([paths.src.root + '**/*.html', paths.src.fonts + '**/*', paths.src.images + '**/*'], gulp.series('copy', 'replaceEnvironmentVariables', browserSync.reload));
-    gulp.watch([paths.src.scripts + '**/*.js'], gulp.series('scripts', 'replaceEnvironmentVariables', browserSync.reload));
-    gulp.watch([paths.src.styles + '**/*.scss'], gulp.series('styles', 'replaceEnvironmentVariables', 'injectCSS'));
+
+    // JS
+    gulp.watch([paths.src.scripts + '**/*.js'], gulp.series('scripts', 'replaceEnvironmentVariables', function (cb) {
+        browserSync.reload();
+        cb();
+    }));
+
+    // SCSS
+    gulp.watch([paths.src.styles + '**/*.scss'], gulp.series('styles', 'replaceEnvironmentVariables', function (cb) {
+        browserSync.reload('main.css');
+        cb();
+    }));
 });
 
 // Default Task
