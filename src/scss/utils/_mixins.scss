@@ -134,6 +134,13 @@
             font-weight: #{$value};
         }
 
+        // $property is font-family
+        @else if $property == font-family {
+
+            // Set the $value of $property
+            font-family: quote($value);
+        }
+
         // $property is not font-size or font-weight
         @else {
 
