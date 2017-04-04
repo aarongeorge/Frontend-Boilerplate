@@ -502,8 +502,18 @@
 }
 
 // Grid
-@mixin grid ($width: 100%, $max-width: null, $gutters: null, $align: center, $grid-gutter: $GRID-MARGIN) {
+@mixin grid ($width: 100%, $max-width: null, $gutters: null, $direction: null, $align: center, $grid-gutter: $GRID-MARGIN) {
     @include align($align);
+
+    display: flex;
+    flex: {
+        direction: row;
+        wrap: wrap;
+    }
+
+    @if ($direction != null) {
+        flex-direction: $direction;
+    }
 
     @if ($gutters == true) {
         @include gutter($grid-gutter, $grid-gutter);
@@ -512,18 +522,12 @@
     @if ($max-width != null) {
         max-width: $max-width;
     }
-
-    @include clearfix();
 };
 
 // Column
-@mixin column ($columns: null, $gutters: null, $direction: null, $context: $TOTAL-COLUMNS) {
+@mixin column ($columns: null, $gutters: null, $context: $TOTAL-COLUMNS) {
     @if ($gutters == true) {
         @include gutter();
-    }
-
-    @if ($direction != null) {
-        float: $direction;
     }
 
     @if ($columns != null) {
@@ -535,7 +539,6 @@
 @mixin nestedColumn ($columns: $TOTAL-COLUMNS, $context: $TOTAL-COLUMNS) {
     @include gutter();
 
-    float: left;
     width: calc((100% / #{$context}) * #{$columns});
 };
 
