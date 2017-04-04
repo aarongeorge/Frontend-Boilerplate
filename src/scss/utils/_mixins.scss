@@ -273,7 +273,7 @@
 
                 // Default column styles
                 .col {
-                    @include column($columns: 1, $gutters: true, $direction: left);
+                    @include column($columns: 1, $gutters: true);
 
                     // No gutters class modifier
                     &.-no-gutters {
