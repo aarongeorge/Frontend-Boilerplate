@@ -10,8 +10,12 @@ var View = function (options) {
         'open': '-open',
         'opening': '-opening'
     };
-    this.transitionInDuration = 300;
-    this.transitionOutDuration = 300;
+    this.transitionInDuration = 100;
+    this.transitionOutDuration = 100;
+    this.openingCallback = function () {};
+    this.openCallback = function () {};
+    this.closingCallback = function () {};
+    this.closedCallback = function () {};
 
     // Set options
     options = typeof options === 'undefined' ? {} : options;
@@ -64,6 +68,9 @@ View.prototype.open = function (cb) {
             // Update `lastInteraction`
             this.lastInteraction = window.performance.now();
 
+            // Call `openingCallback`
+            this.openingCallback();
+
             // Update `animationType`
             this.viewElement.style[this.animationType] = this.transitionInDuration + 'ms';
 
@@ -81,6 +88,9 @@ View.prototype.open = function (cb) {
 
                 // Set `state` to `open`
                 _this.state = 'open';
+
+                // Call `openCallback`
+                _this.openCallback();
 
                 // Remove `classes.opening` class
                 _this.viewElement.classList.remove(_this.classes.opening);
@@ -128,6 +138,9 @@ View.prototype.open = function (cb) {
 
                 // Set `state` to `open`
                 _this.state = 'open';
+
+                // Call `openallback`
+                _this.openCallback();
 
                 // Remove `classes.opening` class
                 _this.viewElement.classList.remove(_this.classes.opening);
@@ -202,6 +215,9 @@ View.prototype.close = function (cb) {
             // Update `lastInteraction`
             this.lastInteraction = window.performance.now();
 
+            // Call `closingCallback`
+            this.closingCallback();
+
             // Update `animationType`
             this.viewElement.style[this.animationType] = this.transitionOutDuration + 'ms';
 
@@ -219,6 +235,9 @@ View.prototype.close = function (cb) {
 
                 // Set `state` to `closed`
                 _this.state = 'closed';
+
+                // Call `closedCallback`
+                _this.closedCallback();
 
                 // Remove `classes.closing` class
                 _this.viewElement.classList.remove(_this.classes.closing);
@@ -266,6 +285,9 @@ View.prototype.close = function (cb) {
 
                 // Set `state` to `closed`
                 _this.state = 'closed';
+
+                // Call `closedCallback`
+                _this.closedCallback();
 
                 // Remove `classes.closing` class
                 _this.viewElement.classList.remove(_this.classes.closing);
