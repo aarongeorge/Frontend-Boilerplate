@@ -615,6 +615,8 @@
 
 // Column
 @mixin column ($columns: null, $gutters: null, $direction: null, $context: $TOTAL-COLUMNS) {
+    float: left;
+    
     @if ($gutters == true) {
         @include gutter();
     }
