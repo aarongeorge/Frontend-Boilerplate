@@ -245,6 +245,26 @@
             // If `$breakpoint` is `default`
             @if $breakpoint == 'default' {
 
+                // Default grid styles
+                .grid {
+                    @include grid($gutters: true);
+                }
+
+                // Default flex grid styles
+                .flex-grid {
+                    @include flexGrid($gutters: true);
+
+                    // Vertical class modifier
+                    &.-vertical {
+                        flex-direction: column;
+                    }
+
+                    // Horizontal class modifier
+                    &.-horizontal {
+                        flex-direction: row;
+                    }
+                }
+
                 // Default shared grid styles
                 .grid,
                 .flex-grid {
@@ -269,61 +289,40 @@
                             top: 0;
                         }
                     }
-                }
 
-                // Default grid styles
-                .grid {
-                    @include grid($gutters: true);
-                }
+                    // Default column styles
+                    &.col {
 
-                // Default flex grid styles
-                .flex-grid {
-                    @include flexGrid($gutters: true);
-
-                    // Vertical class modifier
-                    &.-vertical {
-                        flex-direction: column;
-                    }
-
-                    // Horizontal class modifier
-                    &.-horizontal {
-                        flex-direction: row;
-                    }
-                }
-
-                // Default shared column styles
-                .col,
-                .flex-col {
-                    
-                    // No gutters class modifier
-                    &.-no-gutters {
-                        padding: 0;
-                    }
-
-                    // No horizontal gutters class modifier
-                    &.-no-horizontal-gutters {
-                        padding: {
-                            left: 0;
-                            right: 0;
+                        // No gutters class modifier
+                        &.-no-gutters {
+                            padding: 0;
                         }
-                    }
 
-                    // No vertical gutters class modifier
-                    &.-no-vertical-gutters {
-                        padding: {
-                            bottom: 0;
-                            top: 0;
+                        // No horizontal gutters class modifier
+                        &.-no-horizontal-gutters {
+                            padding: {
+                                left: 0;
+                                right: 0;
+                            }
+                        }
+
+                        // No vertical gutters class modifier
+                        &.-no-vertical-gutters {
+                            padding: {
+                                bottom: 0;
+                                top: 0;
+                            }
                         }
                     }
                 }
 
                 // Default column styles
-                .col {
+                .grid .col {
                     @include column($columns: 1, $gutters: true);
                 }
 
                 // Default flex column styles
-                .flex-col {
+                .flex-grid .col {
                     @include flexColumn($columns: 1, $gutters: true);
                 }
 
@@ -331,12 +330,12 @@
                 @for $i from 1 through $TOTAL-COLUMNS {
 
                     // Generate the width class for col
-                    .col.-col-#{$i} {
+                    .grid .col.-col-#{$i} {
                         @include column($columns: $i);
                     }
 
                     // Generate the width class for flexCol
-                    .flex-col.-col-#{$i} {
+                    .flex-grid .col.-col-#{$i} {
                         @include flexColumn($columns: $i);
                     }
                 }
@@ -345,8 +344,7 @@
                 @for $i from 1 through $TOTAL-COLUMNS {
 
                     // Generate the left offset class
-                    .col.-col-offset-left-#{$i},
-                    .flex-col.-col-offset-left-#{$i} {
+                    .col.-col-offset-left-#{$i} {
                         margin-left: percentage($i / $TOTAL-COLUMNS);
                     }
                 }
@@ -355,8 +353,7 @@
                 @for $i from 1 through $TOTAL-COLUMNS {
 
                     // Generate the right offset class
-                    .col.-col-offset-right-#{$i},
-                    .flex-col.-col-offset-right-#{$i} {
+                    .col.-col-offset-right-#{$i} {
                         margin-right: percentage($i / $TOTAL-COLUMNS);
                     }
                 }
@@ -367,6 +364,27 @@
 
                 // Wrap in a breakpoint
                 @include breakpoint($breakpoint) {
+
+                    // Breakpoint grid styles
+                    .grid {
+                        @include grid($gutters: true);
+                    }
+
+                    // Breakpoint flex grid styles
+                    .flex-grid {
+
+                        @include flexGrid($gutters: true);
+
+                        // Vertical class modifier
+                        &.-#{$breakpoint}-vertical {
+                            flex-direction: column;
+                        }
+
+                        // Horizontal class modifier
+                        &.-#{$breakpoint}-horizontal {
+                            flex-direction: row;
+                        }
+                    }
 
                     // Breakpoint shared grid styles
                     .grid,
@@ -406,27 +424,6 @@
                                 bottom: 0;
                                 top: 0;
                             }
-                        }
-                    }
-
-                    // Breakpoint grid styles
-                    .grid {
-                        @include grid($gutters: true);
-                    }
-
-                    // Breakpoint flex grid styles
-                    .flex-grid {
-
-                        @include flexGrid($gutters: true);
-
-                        // Vertical class modifier
-                        &.-#{$breakpoint}-vertical {
-                            flex-direction: column;
-                        }
-
-                        // Horizontal class modifier
-                        &.-#{$breakpoint}-horizontal {
-                            flex-direction: row;
                         }
                     }
 
@@ -472,12 +469,12 @@
                     }
 
                     // Breakpoint col styles
-                    .col {
+                    .grid .col {
                         @include column($columns: 1, $gutters: true);
                     }
 
                     // Breakpoint flexCol styles
-                    .flex-col {
+                    .flex-grid .col {
                         @include flexColumn($columns: 1, $gutters: true);
                     }
 
@@ -485,12 +482,12 @@
                     @for $i from 1 through $TOTAL-COLUMNS {
 
                         // Generate the width class for col
-                        .col.-#{$breakpoint}-col-#{$i} {
+                        .grid .col.-#{$breakpoint}-col-#{$i} {
                             @include column($columns: $i);
                         }
 
                         // Generate the width class for flexCol
-                        .col.-#{$breakpoint}-col-#{$i} {
+                        .flex-grid .col.-#{$breakpoint}-col-#{$i} {
                             @include flexColumn($columns: $i);
                         }
                     }
@@ -499,8 +496,7 @@
                     @for $i from 1 through $TOTAL-COLUMNS {
 
                         // Generate the left offset class
-                        .col.-#{$breakpoint}-col-offset-left-#{$i},
-                        .flex-col.-#{$breakpoint}-col-offset-left-#{$i} {
+                        .col.-#{$breakpoint}-col-offset-left-#{$i} {
                             margin-left: percentage($i / $TOTAL-COLUMNS);
                         }
                     }
@@ -509,8 +505,7 @@
                     @for $i from 1 through $TOTAL-COLUMNS {
 
                         // Generate the right offset class
-                        .col.-#{$breakpoint}-col-offset-right-#{$i},
-                        .flex-col.-#{$breakpoint}-col-offset-right-#{$i} {
+                        .col.-#{$breakpoint}-col-offset-right-#{$i} {
                             margin-right: percentage($i / $TOTAL-COLUMNS);
                         }
                     }
@@ -616,7 +611,7 @@
 // Column
 @mixin column ($columns: null, $gutters: null, $direction: null, $context: $TOTAL-COLUMNS) {
     float: left;
-    
+
     @if ($gutters == true) {
         @include gutter();
     }
