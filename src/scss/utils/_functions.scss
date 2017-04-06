@@ -63,7 +63,7 @@
     }
 
     // Return the value of line-height
-    @return em(($lines * $VERTICAL-GRID-HEIGHT), $context);
+    @return em(($lines * $BREAKPOINT-VERTICAL-RHYTHM), $context);
 };
 
 /**
