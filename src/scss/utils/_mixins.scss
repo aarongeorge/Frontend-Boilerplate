@@ -559,7 +559,7 @@
 }
 
 // Grid
-@mixin grid ($width: 100%, $max-width: null, $gutters: null, $align: 'center', $horizontal-grid-gutter: $BREAKPOINT-GRID-HORIZONTAL-GUTTER, $vertical-grid-gutter: $BREAKPOINT-GRID-VERTICAL-GUTTER, $type: 'flex', $direction: 'row', $wrap: 'wrap') {
+@mixin grid ($width: 100%, $max-width: null, $gutters: null, $align: 'center', $horizontal-gutter: $BREAKPOINT-GRID-HORIZONTAL-GUTTER, $vertical-gutter: $BREAKPOINT-GRID-VERTICAL-GUTTER, $type: 'flex', $direction: 'row', $wrap: 'wrap') {
 
     // Align grid
     @include align($align);
@@ -580,7 +580,7 @@
 
     // Gutters
     @if ($gutters == true) {
-        @include gutter($horizontal-grid-gutter, $vertical-grid-gutter);
+        @include gutter($horizontal-gutter, $vertical-gutter);
     }
 
     // Width
@@ -593,13 +593,13 @@
 }
 
 // Column
-@mixin column ($columns: null, $gutters: null, $horizontal-grid-gutter: $BREAKPOINT-GRID-HORIZONTAL-GUTTER, $vertical-grid-gutter: $BREAKPOINT-GRID-VERTICAL-GUTTER, $type: 'flex', $direction: 'left', $context: $BREAKPOINT-COLUMNS) {
+@mixin column ($columns: null, $gutters: null, $horizontal-gutter: $BREAKPOINT-COLUMN-HORIZONTAL-GUTTER, $vertical-gutter: $BREAKPOINT-COLUMN-VERTICAL-GUTTER, $type: 'flex', $direction: 'left', $context: $BREAKPOINT-COLUMNS) {
     @if ($type == 'float') {
         float: unquote($direction);
     }
 
     @if ($gutters == true) {
-        @include gutter($horizontal-grid-gutter, $vertical-grid-gutter);
+        @include gutter($horizontal-gutter, $vertical-gutter);
     }
 
     @if ($columns != null) {
