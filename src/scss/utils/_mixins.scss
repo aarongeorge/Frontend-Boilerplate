@@ -326,6 +326,16 @@
                                 top: 0;
                             }
                         }
+
+                        // No offset left class modifier
+                        &.-no-col-offset-left {
+                            margin-left: 0;
+                        }
+
+                        // No offset right class modifier
+                        &.-no-col-offset-right {
+                            margin-right: 0;
+                        }
                     }
                 }
 
@@ -471,6 +481,16 @@
                                 top: 0;
                             }
                         }
+
+                        // No offset left class modifier
+                        &.-#{$breakpoint}-no-col-offset-left {
+                            margin-left: 0;
+                        }
+
+                        // No offset right class modifier
+                        &.-#{$breakpoint}-no-col-offset-right {
+                            margin-right: 0;
+                        }
                     }
 
                     // Loop through all the columns in that breakpoint
@@ -593,7 +613,7 @@
 }
 
 // Column
-@mixin column ($columns: null, $gutters: null, $horizontal-gutter: $BREAKPOINT-COLUMN-HORIZONTAL-GUTTER, $vertical-gutter: $BREAKPOINT-COLUMN-VERTICAL-GUTTER, $type: 'flex', $direction: 'left', $context: $BREAKPOINT-COLUMNS) {
+@mixin column ($columns: null, $gutters: null, $horizontal-gutter: $BREAKPOINT-COLUMN-HORIZONTAL-GUTTER, $vertical-gutter: $BREAKPOINT-COLUMN-VERTICAL-GUTTER, $type: 'flex', $direction: 'left', $nested: null, $context: $BREAKPOINT-COLUMNS) {
     @if ($type == 'float') {
         float: unquote($direction);
     }
@@ -602,16 +622,13 @@
         @include gutter($horizontal-gutter, $vertical-gutter);
     }
 
-    @if ($columns != null) {
+    @if ($nested == true) {
+        width: calc((100% / #{$context}) * #{$columns});
+    }
+
+    @elseif ($columns != null) {
         width: percentage($columns / $context);
     }
-};
-
-// Nested column
-@mixin nestedColumn ($columns: $BREAKPOINT-COLUMNS, $context: $BREAKPOINT-COLUMNS) {
-    @include gutter();
-
-    width: calc((100% / #{$context}) * #{$columns});
 };
 
 // Vertical baseline background guide

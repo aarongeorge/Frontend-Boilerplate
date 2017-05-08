@@ -13,6 +13,10 @@
 @import 'base/normalise';
 @import 'base/typography';
 
+// UI
+@import 'ui/buttons';
+@import 'ui/icons';
+
 // Layout
 @import 'layout/grid';
 @import 'layout/header';
@@ -22,7 +26,6 @@
 
 // Components
 @import 'components/debug';
-@import 'components/buttons';
 @import 'components/global-overlay';
 @import 'components/view';
 
