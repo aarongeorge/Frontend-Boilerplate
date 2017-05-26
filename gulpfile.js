@@ -2,20 +2,12 @@
  * Gulpfile
  */
 
-// Module definitions
-var autoprefixer = require('gulp-autoprefixer');
-var babelify = require('babelify');
-var browserify = require('browserify');
-var browserSync = require('browser-sync').create();
-var buffer = require('vinyl-buffer');
-var del = require('del');
-var flatmap = require('gulp-flatmap');
+// Dependencies
 var gulp = require('gulp');
-var gulpif = require('gulp-if');
-var replace = require('gulp-replace');
-var sass = require('gulp-sass');
-var source = require('vinyl-source-stream');
-var sourcemaps = require('gulp-sourcemaps');
+var browserSync = require('browser-sync').create();
+
+// Set the default environment
+gulp.environment = 'local';
 
 // Paths
 var paths = {
@@ -69,196 +61,56 @@ var environmentVariables = {
     ]
 };
 
-// Set the default environment
-gulp.environment = 'local';
+// Iterate over `environmentVariables` keys
+for (let env of Object.keys(environmentVariables)) {
 
-// Check for environment flag being passed to gulp
-if (process.argv.indexOf('--local') > -1) {
-    gulp.environment = 'local';
+    // Check if `env` was passed to gulp
+    if (process.argv.indexOf('--' + env) > -1) {
+
+        // Set `gulp.environment` to `env`
+        gulp.environment = env;
+        break;
+    }
 }
 
-else if (process.argv.indexOf('--dev') > -1) {
-    gulp.environment = 'dev';
-}
-
-else if (process.argv.indexOf('--qa') > -1) {
-    gulp.environment = 'qa';
-}
-
-else if (process.argv.indexOf('--uat') > -1) {
-    gulp.environment = 'uat';
-}
-
-else if (process.argv.indexOf('--prod') > -1) {
-    gulp.environment = 'prod';
-}
-
-/**
- * Clean
- *
- * Cleans the webroot directory
- */
-gulp.task('clean', function () {
-    'use strict';
-
-    return del([paths.webroot.root + '**/*']);
-});
-
-/**
- * Copy
- *
- * Copies all static files to the webroot
- */
-gulp.task('copy', function () {
-    'use strict';
-
-    return gulp.src([
-            paths.src.fonts + '**/*',
-            paths.src.images + '**/*',
-            paths.src.root + '**/*.html'
-        ],
-        {
-            'base': paths.src.root
-        }
-    )
-    .pipe(gulp.dest(paths.webroot.root));
-});
-
-/**
- * Replace environment variables
- *
- * Replaces all environment variables with their corresponding environment values
- */
-gulp.task('replaceEnvironmentVariables', function () {
-    'use strict';
-
-    return gulp.src([
-            paths.webroot.root + '**/*.html',
-            paths.webroot.scripts + '**/*',
-            paths.webroot.styles + '**/*'
-        ],
-        {
-            'base': paths.webroot.root
-        }
-    )
-    .pipe(flatmap(function (stream) {
-        for (var i = 0; i < environmentVariables[gulp.environment].length; i++) {
-            stream.pipe(replace(environmentVariables[gulp.environment][i].replaceString, environmentVariables[gulp.environment][i].value));
-        }
-
-        return stream;
-    }))
-    .pipe(gulp.dest(paths.webroot.root));
-});
-
-/**
- * Styles
- *
- * Compiles SASS to CSS
- * Writes Sourcemaps
- * Autoprefixes
- * Live-reloads browser
- */
-gulp.task('styles', function () {
-    'use strict';
-
-    return gulp.src(paths.src.styles + 'main.scss')
-        .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.init()))
-        .pipe(sass({
-            'outputStyle': 'expanded',
-            'precision': 14
-        }))
-        .pipe(autoprefixer())
-        .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.write('./')))
-        .pipe(gulp.dest(paths.webroot.styles));
-});
-
-/**
- * Scripts
- *
- * Bundles JS
- * Transpiles es6 to es2015
- * Writes sourcemaps
- */
-gulp.task('scripts', function () {
-    'use strict';
-
-    return browserify({
-            'entries': [paths.src.scripts + 'main.js'],
-            'debug': true
-        })
-        .transform(babelify, {
-            'presets': ['es2015']
-        })
-        .bundle()
-        .pipe(source('main.js'))
-        .pipe(buffer())
-        .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.init({
-            'loadMaps': true
-        })))
-        .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.write('./')))
-        .pipe(gulp.dest(paths.webroot.scripts));
-});
-
-/**
- * Server
- *
- * Runs a server, serving up the contents in paths.webroot.root on port 1337
- */
-gulp.task('server', function () {
-    'use strict';
-
-    browserSync.init({
-        'server': {
-            'baseDir': paths.webroot.root,
-            'directory': true
-        },
-        'ghostMode': false,
-        'port': 1337,
-        'notify': true
-    });
-});
-
-/**
- * Watch
- *
- * Watches files and runs the correct tasks
- */
+// Tasks
+gulp.task('clean', require('./gulp-tasks/clean')(paths));
+gulp.task('copy', require('./gulp-tasks/copy')(gulp, paths));
+gulp.task('compile-scripts', require('./gulp-tasks/compile-scripts')(gulp, paths));
+gulp.task('compile-styles', require('./gulp-tasks/compile-styles')(gulp, paths));
+gulp.task('replace-environment-variables', require('./gulp-tasks/replace-environment-variables')(gulp, paths, environmentVariables));
+gulp.task('server', require('./gulp-tasks/server')(gulp, paths, browserSync));
 gulp.task('watch', function () {
-    'use strict';
 
     // HTML
-    gulp.watch([paths.src.root + '**/*.html', paths.src.fonts + '**/*', paths.src.images + '**/*'], gulp.series('copy', 'replaceEnvironmentVariables', function (cb) {
+    gulp.watch([paths.src.root + '**/*.html', paths.src.fonts + '**/*', paths.src.images + '**/*'], gulp.series('copy', 'replace-environment-variables', function (cb) {
         browserSync.reload();
         cb();
     }));
 
     // JS
-    gulp.watch([paths.src.scripts + '**/*.js'], gulp.series('scripts', 'replaceEnvironmentVariables', function (cb) {
+    gulp.watch([paths.src.scripts + '**/*.js'], gulp.series('compile-scripts', 'replace-environment-variables', function (cb) {
         browserSync.reload();
         cb();
     }));
 
     // SCSS
-    gulp.watch([paths.src.styles + '**/*.scss'], gulp.series('styles', 'replaceEnvironmentVariables', function (cb) {
+    gulp.watch([paths.src.styles + '**/*.scss'], gulp.series('compile-styles', 'replace-environment-variables', function (cb) {
         browserSync.reload('main.css');
         cb();
     }));
 });
 
-// Default Task
 gulp.task('default',
     gulp.series('clean', 'copy',
-        gulp.parallel('scripts', 'styles'),
-        gulp.parallel('replaceEnvironmentVariables'),
+        gulp.parallel('compile-scripts', 'compile-styles'),
+        gulp.parallel('replace-environment-variables'),
         gulp.parallel('server', 'watch')
     )
 );
-
-// Build tasks
 gulp.task('build',
     gulp.series('clean', 'copy',
-        gulp.parallel('scripts', 'styles'),
-        gulp.parallel('replaceEnvironmentVariables')
+        gulp.parallel('compile-scripts', 'compile-styles'),
+        gulp.parallel('replace-environment-variables')
     )
 );

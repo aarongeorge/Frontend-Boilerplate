@@ -1,6 +1,6 @@
 {
   "name": "ag-frontend-boilerplate",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A frontend boilerplate using Gulp as the task runner.",
   "author": "Aaron George <aaron.dean.george@gmail.com>",
   "license": "ISC",
