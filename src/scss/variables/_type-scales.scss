@@ -1,39 +1,9 @@
 /**
- * Utils: Variables
+ * Variables: Type Scales
  */
 
-// Colours
-$BLACK: #000000;
-$DARK-GREY: #333333;
-$LIGHT-GREY: #666666;
-$WHITE: #FFFFFF;
-
-// Maps
-
 /**
- * Breakpoints
- *
- * @key   {string} - Name of breakpoint
- *
- * @value {string} - Type of breakpoint (min, max)
- * @value {int}    - Width that breakpoint starts
- * @value {int}    - Number of columns for breakpoint
- * @value {int}    - Horizontal gutter for each grid
- * @value {int}    - Vertical gutter for each grid
- * @value {int}    - Horizontal gutter for each column
- * @value {int}    - Vertical gutter for each column
- * @value {int}    - Vertical Rhythm spacing 
- */
-$BREAKPOINTS: (
-    default: min 0    6  10 10 10 10 24,
-    phablet: min 480  6  10 10 10 10 24,
-    tablet:  min 768  12 20 20 20 20 24,
-    laptop:  min 1024 12 20 20 20 20 36,
-    desktop: min 1366 12 20 20 20 20 36
-);
-
-/**
- * Type-scales
+ * Type Scales
  *
  * @key   {string}       - Name of breakpoint
  * @key   {string}       - Name of element
@@ -140,25 +110,3 @@ $TYPE-SCALES: (
         )
     )
 );
-
-// Global variable declarations because SASS doesn't support scope properly :(
-
-$BREAKPOINTS-MAP: $BREAKPOINTS;
-$TYPE-SCALES-MAP: $TYPE-SCALES;
-$DEFAULT-BREAKPOINT: nth(map-keys($BREAKPOINTS-MAP), 1);
-$DEFAULT-BREAKPOINT-WIDTH: nth(map-get($BREAKPOINTS-MAP, nth(map-keys($BREAKPOINTS-MAP), 1)), 2);
-$DEFAULT-BREAKPOINT-COLUMNS: nth(map-get($BREAKPOINTS-MAP, nth(map-keys($BREAKPOINTS-MAP), 1)), 3);
-$DEFAULT-BREAKPOINT-GRID-HORIZONTAL-GUTTER: nth(map-get($BREAKPOINTS-MAP, nth(map-keys($BREAKPOINTS-MAP), 1)), 4);
-$DEFAULT-BREAKPOINT-GRID-VERTICAL-GUTTER: nth(map-get($BREAKPOINTS-MAP, nth(map-keys($BREAKPOINTS-MAP), 1)), 5);
-$DEFAULT-BREAKPOINT-COLUMN-HORIZONTAL-GUTTER: nth(map-get($BREAKPOINTS-MAP, nth(map-keys($BREAKPOINTS-MAP), 1)), 6);
-$DEFAULT-BREAKPOINT-COLUMN-VERTICAL-GUTTER: nth(map-get($BREAKPOINTS-MAP, nth(map-keys($BREAKPOINTS-MAP), 1)), 7);
-$DEFAULT-BREAKPOINT-VERTICAL-RHYTHM: nth(map-get($BREAKPOINTS-MAP, nth(map-keys($BREAKPOINTS-MAP), 1)), 8);
-
-$CURRENT-BREAKPOINT: $DEFAULT-BREAKPOINT;
-$BREAKPOINT-WIDTH: $DEFAULT-BREAKPOINT-WIDTH;
-$BREAKPOINT-COLUMNS: $DEFAULT-BREAKPOINT-COLUMNS;
-$BREAKPOINT-GRID-HORIZONTAL-GUTTER: $DEFAULT-BREAKPOINT-GRID-HORIZONTAL-GUTTER;
-$BREAKPOINT-GRID-VERTICAL-GUTTER: $DEFAULT-BREAKPOINT-GRID-VERTICAL-GUTTER;
-$BREAKPOINT-COLUMN-HORIZONTAL-GUTTER: $DEFAULT-BREAKPOINT-COLUMN-HORIZONTAL-GUTTER;
-$BREAKPOINT-COLUMN-VERTICAL-GUTTER: $DEFAULT-BREAKPOINT-COLUMN-VERTICAL-GUTTER;
-$BREAKPOINT-VERTICAL-RHYTHM: $DEFAULT-BREAKPOINT-VERTICAL-RHYTHM;

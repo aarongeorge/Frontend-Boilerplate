@@ -1,0 +1,25 @@
+/**
+ * Variables: Breakpoints
+ */
+
+/**
+ * Breakpoints
+ *
+ * @key   {string} - Name of breakpoint
+ *
+ * @value {string} - Type of breakpoint (min, max)
+ * @value {int}    - Width that breakpoint starts
+ * @value {int}    - Number of columns for breakpoint
+ * @value {int}    - Horizontal gutter for each grid
+ * @value {int}    - Vertical gutter for each grid
+ * @value {int}    - Horizontal gutter for each column
+ * @value {int}    - Vertical gutter for each column
+ * @value {int}    - Vertical Rhythm spacing
+ */
+$BREAKPOINTS: (
+    default: min 0    6  10 10 10 10 24,
+    phablet: min 480  6  10 10 10 10 24,
+    tablet:  min 768  12 20 20 20 20 24,
+    laptop:  min 1024 12 20 20 20 20 36,
+    desktop: min 1366 12 20 20 20 20 36
+);

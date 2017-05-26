@@ -34,6 +34,11 @@ img {
     -ms-interpolation-mode: bicubic;
 }
 
+input,
+textarea {
+    border: 0.0625em solid #000000;
+}
+
 // Make sure background color stays the same when in fullscreen mode
 html:-moz-full-screen-ancestor {
     background-color: inherit;

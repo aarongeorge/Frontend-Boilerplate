@@ -2,11 +2,16 @@
  * SCSS: Main
  */
 
+// Variables
+@import 'variables/colours';
+@import 'variables/breakpoints';
+@import 'variables/type-scales';
+@import 'variables/globals';
+
 // Utils
-@import 'utils/variables';
 @import 'utils/functions';
 @import 'utils/mixins';
-@import 'utils/placeholders';
+@import 'utils/debug';
 
 // Base
 @import 'base/reset';
@@ -25,11 +30,10 @@
 @import 'layout/footer';
 
 // Components
-@import 'components/debug';
 @import 'components/global-overlay';
 @import 'components/view';
 
 // Pages
-@import 'pages/index';
+@import 'pages/homepage';
 @import 'pages/grid';
 @import 'pages/typescale';
