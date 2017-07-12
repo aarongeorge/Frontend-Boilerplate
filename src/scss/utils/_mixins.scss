@@ -144,25 +144,30 @@
             font-family: quote($value);
         }
 
-        // $property is `debug-spacing`
-        @else if $property == debug-spacing {
-            $spacing: nth($value, 1);
-            $debug-context: getPropertyFromTypeScale(font-size, $type-scale, $breakpoint, $type-scale-map);
+        // $property is `debug`
+        @else if $property == debug {
 
-            @if (length($value) == 1) {
-                @include spacer('padding-top', $spacing, $debug-context, 'border-top');
-            }
+            // Spacing
+            @if (map-has-key($value, spacing)) {
+                $values: map-get($value, spacing);
+                $spacing: nth($values, 1);
+                $debug-context: getPropertyFromTypeScale(font-size, $type-scale, $breakpoint, $type-scale-map);
 
-            @else if (length($value) == 2) {
-                $prop: nth($value, 2);
-                @include spacer($prop, $spacing, $debug-context, 'border-top');
-            }
+                @if (length($values) == 1) {
+                    @include spacer('padding-top', $spacing, $debug-context, 'border-top');
+                }
 
-            @else if (length($value) == 3) {
-                $prop: nth($value, 2);
-                $debug-prop: nth($value, 3);
+                @else if (length($values) == 2) {
+                    $prop: nth($values, 2);
+                    @include spacer($prop, $spacing, $debug-context, 'border-top');
+                }
 
-                @include spacer($prop, $spacing, $debug-context, $debug-prop);
+                @else if (length($values) == 3) {
+                    $prop: nth($values, 2);
+                    $debug-prop: nth($values, 3);
+
+                    @include spacer($prop, $spacing, $debug-context, $debug-prop);
+                }
             }
         }
 
