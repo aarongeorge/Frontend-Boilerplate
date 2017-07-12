@@ -5,16 +5,15 @@
  */
 
 // Task
-module.exports = function (gulp, paths) {
-    return function () {
-        return gulp.src([
-            paths.src.fonts + '**/*',
-            paths.src.images + '**/*',
-            paths.src.root + '{*.html, *.ico}'
-        ], {
-            'base': paths.src.root
-        })
-        .pipe(gulp.dest(paths.webroot.root));
+module.exports = (gulp, paths) => {
+    return () => {
+        return gulp.src(
+            [
+                `${paths.src.fonts}**/*`,
+                `${paths.src.images}**/*`,
+                `${paths.src.root}{*.html, *.ico}`
+            ],
+            {'base': paths.src.root})
+            .pipe(gulp.dest(paths.webroot.root));
     };
 };
-

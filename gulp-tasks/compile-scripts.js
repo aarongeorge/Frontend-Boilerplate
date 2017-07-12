@@ -7,30 +7,32 @@
  */
 
 // Dependencies
-var babelify = require('babelify');
-var browserify = require('browserify');
-var buffer = require('vinyl-buffer');
-var gulpif = require('gulp-if');
-var source = require('vinyl-source-stream');
-var sourcemaps = require('gulp-sourcemaps');
+const babelify = require('babelify');
+const browserify = require('browserify');
+const buffer = require('vinyl-buffer');
+const gulpif = require('gulp-if');
+const source = require('vinyl-source-stream');
+const sourcemaps = require('gulp-sourcemaps');
 
 // Task
-module.exports = function (gulp, paths) {
-    return function () {
-        return browserify({
-            'entries': [paths.src.scripts + 'main.js'],
-            'debug': true
-        })
-        .transform(babelify, {
-            'presets': ['es2015']
-        })
-        .bundle()
-        .pipe(source('main.js'))
-        .pipe(buffer())
-        .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.init({
-            'loadMaps': true
-        })))
-        .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.write('./')))
-        .pipe(gulp.dest(paths.webroot.scripts));
+module.exports = (gulp, paths) => {
+    return () => {
+        return browserify(
+            {
+                'entries': [`${paths.src.scripts}main.js`],
+                'debug': true
+            })
+            .transform(babelify, {
+                'presets': [
+                    'es2015',
+                    'stage-2'
+                ]
+            })
+            .bundle()
+            .pipe(source('main.js'))
+            .pipe(buffer())
+            .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.init({'loadMaps': true})))
+            .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.write('./')))
+            .pipe(gulp.dest(paths.webroot.scripts));
     };
 };

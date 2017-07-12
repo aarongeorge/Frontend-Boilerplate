@@ -5,11 +5,11 @@
  */
 
 // Dependencies
-var del = require('del');
+const del = require('del');
 
 // Task
-module.exports = function (paths) {
-    return function () {
-        return del([paths.webroot.root + '**/*']);
+module.exports = (paths) => {
+    return () => {
+        return del([`${paths.webroot.root}**/*`]);
     };
 };

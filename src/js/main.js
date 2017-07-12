@@ -2,9 +2,10 @@
  * Main
  */
 
-window.addEventListener('DOMContentLoaded', function () {
-    'use strict';
+// Dependencies
+import modalPage from './ModalPage';
 
+window.addEventListener('DOMContentLoaded', () => {
     console.log('Loaded');
 
     switch (document.location.pathname) {
@@ -13,14 +14,13 @@ window.addEventListener('DOMContentLoaded', function () {
         case '/modal.html': {
 
             // Call `ModalPage`
-            require('./ModalPage.js')();
+            modalPage();
             break;
         }
 
         // Any other page
         default: {
             console.log('Hello world :)');
-
             break;
         }
     }

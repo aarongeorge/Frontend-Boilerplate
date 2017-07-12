@@ -3,14 +3,14 @@
  */
 
 // Dependencies
-var gulp = require('gulp');
-var browserSync = require('browser-sync').create();
+const gulp = require('gulp');
+const browserSync = require('browser-sync').create();
 
 // Set the default environment
 gulp.environment = 'local';
 
 // Paths
-var paths = {
+const paths = {
     'src': {
         'images': './src/img/',
         'root': './src/',
@@ -28,7 +28,7 @@ var paths = {
 };
 
 // Environment variables
-var environmentVariables = {
+const environmentVariables = {
     'local': [
         {
             'replaceString': '{{envPath}}',
@@ -38,34 +38,34 @@ var environmentVariables = {
     'dev': [
         {
             'replaceString': '{{envPath}}',
-            'value': 'https://dev.example.com'
+            'value': ''
         }
     ],
     'qa': [
         {
             'replaceString': '{{envPath}}',
-            'value': 'https://qa.example.com'
+            'value': ''
         }
     ],
     'uat': [
         {
             'replaceString': '{{envPath}}',
-            'value': 'https://uat.example.com'
+            'value': ''
         }
     ],
     'prod': [
         {
             'replaceString': '{{envPath}}',
-            'value': 'https://example.com'
+            'value': ''
         }
     ]
 };
 
 // Iterate over `environmentVariables` keys
-for (let env of Object.keys(environmentVariables)) {
+for (const env of Object.keys(environmentVariables)) {
 
     // Check if `env` was passed to gulp
-    if (process.argv.indexOf('--' + env) > -1) {
+    if (process.argv.indexOf(`--${env}`) > -1) {
 
         // Set `gulp.environment` to `env`
         gulp.environment = env;
@@ -80,27 +80,38 @@ gulp.task('compile-scripts', require('./gulp-tasks/compile-scripts')(gulp, paths
 gulp.task('compile-styles', require('./gulp-tasks/compile-styles')(gulp, paths));
 gulp.task('replace-environment-variables', require('./gulp-tasks/replace-environment-variables')(gulp, paths, environmentVariables));
 gulp.task('server', require('./gulp-tasks/server')(gulp, paths, browserSync));
-gulp.task('watch', function () {
+gulp.task('watch', () => {
 
     // HTML
-    gulp.watch([paths.src.root + '**/*.html', paths.src.fonts + '**/*', paths.src.images + '**/*'], gulp.series('copy', 'replace-environment-variables', function (cb) {
-        browserSync.reload();
-        cb();
-    }));
+    gulp.watch(
+        [
+            `${paths.src.root}**/*.html`,
+            `${paths.src.fonts}**/*`,
+            `${paths.src.images}**/*`
+        ],
+        gulp.series('copy', 'replace-environment-variables', (cb) => {
+            browserSync.reload();
+            cb();
+        }));
 
     // JS
-    gulp.watch([paths.src.scripts + '**/*.js'], gulp.series('compile-scripts', 'replace-environment-variables', function (cb) {
-        browserSync.reload();
-        cb();
-    }));
+    gulp.watch(
+        [`${paths.src.scripts}**/*.js`],
+        gulp.series('compile-scripts', 'replace-environment-variables', (cb) => {
+            browserSync.reload();
+            cb();
+        }));
 
     // SCSS
-    gulp.watch([paths.src.styles + '**/*.scss'], gulp.series('compile-styles', 'replace-environment-variables', function (cb) {
-        browserSync.reload('main.css');
-        cb();
-    }));
+    gulp.watch(
+        [`${paths.src.styles}**/*.scss`],
+        gulp.series('compile-styles', 'replace-environment-variables', (cb) => {
+            browserSync.reload('main.css');
+            cb();
+        }));
 });
 
+// Default
 gulp.task('default',
     gulp.series('clean', 'copy',
         gulp.parallel('compile-scripts', 'compile-styles'),
@@ -108,6 +119,8 @@ gulp.task('default',
         gulp.parallel('server', 'watch')
     )
 );
+
+// Build
 gulp.task('build',
     gulp.series('clean', 'copy',
         gulp.parallel('compile-scripts', 'compile-styles'),

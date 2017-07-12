@@ -137,14 +137,36 @@
             font-weight: #{$value};
         }
 
-        // $property is font-family
+        // $property is `font-family`
         @else if $property == font-family {
 
             // Set the $value of $property
             font-family: quote($value);
         }
 
-        // $property is not font-size or font-weight
+        // $property is `debug-spacing`
+        @else if $property == debug-spacing {
+            $spacing: nth($value, 1);
+            $debug-context: getPropertyFromTypeScale(font-size, $type-scale, $breakpoint, $type-scale-map);
+
+            @if (length($value) == 1) {
+                @include spacer('padding-top', $spacing, $debug-context, 'border-top');
+            }
+
+            @else if (length($value) == 2) {
+                $prop: nth($value, 2);
+                @include spacer($prop, $spacing, $debug-context, 'border-top');
+            }
+
+            @else if (length($value) == 3) {
+                $prop: nth($value, 2);
+                $debug-prop: nth($value, 3);
+
+                @include spacer($prop, $spacing, $debug-context, $debug-prop);
+            }
+        }
+
+        // $property is not font-size or font-weight or debug-spacing
         @else {
 
             // $value of $property is a number
@@ -336,6 +358,12 @@
                         &.-no-col-offset-right {
                             margin-right: 0;
                         }
+
+                        // Full Bleed
+                        &.-full-bleed {
+                            margin-left: -#{em($BREAKPOINT-GRID-HORIZONTAL-GUTTER)};
+                            width: calc(100% + #{em($BREAKPOINT-GRID-HORIZONTAL-GUTTER * 2)});
+                        }
                     }
                 }
 
@@ -437,83 +465,93 @@
                         @include column($columns: 1, $gutters: true, $type: 'float');
                     }
 
-                    // Breakpoint flexCol styles
+                    // Breakpoint flex-col styles
                     .flex-grid .col {
                         @include column($columns: 1, $gutters: true);
                     }
 
-                    // Breakpoint shared col styles
-                    .col,
-                    .flex-col {
+                    .grid,
+                    .flex-grid {
 
-                        // Add gutters modifier
-                        &.-#{$breakpoint}-gutters {
-                            @include gutter($BREAKPOINT-GRID-HORIZONTAL-GUTTER, $BREAKPOINT-GRID-VERTICAL-GUTTER);
-                        }
+                        // Breakpoint shared col styles
+                        .col,
+                        .flex-col {
 
-                        // Add horizontal gutters modifier
-                        &.-#{$breakpoint}-horizontal-gutters {
-                            @include gutter($BREAKPOINT-GRID-HORIZONTAL-GUTTER, 0);
-                        }
+                            // Add gutters modifier
+                            &.-#{$breakpoint}-gutters {
+                                @include gutter($BREAKPOINT-GRID-HORIZONTAL-GUTTER, $BREAKPOINT-GRID-VERTICAL-GUTTER);
+                            }
 
-                        // Add vertical gutters modifier
-                        &.-#{$breakpoint}-horizontal-gutters {
-                            @include gutter(0, $BREAKPOINT-GRID-VERTICAL-GUTTER);
-                        }
+                            // Add horizontal gutters modifier
+                            &.-#{$breakpoint}-horizontal-gutters {
+                                @include gutter($BREAKPOINT-GRID-HORIZONTAL-GUTTER, 0);
+                            }
 
-                        // No gutters class modifier
-                        &.-#{$breakpoint}-no-gutters {
-                            padding: 0;
-                        }
+                            // Add vertical gutters modifier
+                            &.-#{$breakpoint}-horizontal-gutters {
+                                @include gutter(0, $BREAKPOINT-GRID-VERTICAL-GUTTER);
+                            }
 
-                        // No horizontal gutters class modifier
-                        &.-#{$breakpoint}-no-horizontal-gutters {
-                            padding: {
-                                left: 0;
-                                right: 0;
+                            // No gutters class modifier
+                            &.-#{$breakpoint}-no-gutters {
+                                padding: 0;
+                            }
+
+                            // No horizontal gutters class modifier
+                            &.-#{$breakpoint}-no-horizontal-gutters {
+                                padding: {
+                                    left: 0;
+                                    right: 0;
+                                }
+                            }
+
+                            // No vertical gutters class modifier
+                            &.-#{$breakpoint}-no-vertical-gutters {
+                                padding: {
+                                    bottom: 0;
+                                    top: 0;
+                                }
+                            }
+
+                            // No offset left class modifier
+                            &.-#{$breakpoint}-no-col-offset-left {
+                                margin-left: 0;
+                            }
+
+                            // No offset right class modifier
+                            &.-#{$breakpoint}-no-col-offset-right {
+                                margin-right: 0;
+                            }
+
+                            // Full Bleed
+                            &.-#{$breakpoint}-full-bleed {
+                                margin-left: -#{em($BREAKPOINT-GRID-HORIZONTAL-GUTTER)};
+                                width: calc(100% + #{em($BREAKPOINT-GRID-HORIZONTAL-GUTTER * 2)});
                             }
                         }
 
-                        // No vertical gutters class modifier
-                        &.-#{$breakpoint}-no-vertical-gutters {
-                            padding: {
-                                bottom: 0;
-                                top: 0;
+                        // Loop through all the columns in that breakpoint
+                        @for $i from 1 through $BREAKPOINT-COLUMNS {
+
+                            // Generate the width class for col
+                            .grid .col.-#{$breakpoint}-col-#{$i} {
+                                @include column($columns: $i, $type: 'float');
                             }
-                        }
 
-                        // No offset left class modifier
-                        &.-#{$breakpoint}-no-col-offset-left {
-                            margin-left: 0;
-                        }
+                            // Generate the width class for flexCol
+                            .flex-grid .col.-#{$breakpoint}-col-#{$i} {
+                                @include column($columns: $i);
+                            }
 
-                        // No offset right class modifier
-                        &.-#{$breakpoint}-no-col-offset-right {
-                            margin-right: 0;
-                        }
-                    }
+                            // Generate the left offset class
+                            .col.-#{$breakpoint}-col-offset-left-#{$i} {
+                                margin-left: percentage($i / $BREAKPOINT-COLUMNS);
+                            }
 
-                    // Loop through all the columns in that breakpoint
-                    @for $i from 1 through $BREAKPOINT-COLUMNS {
-
-                        // Generate the width class for col
-                        .grid .col.-#{$breakpoint}-col-#{$i} {
-                            @include column($columns: $i, $type: 'float');
-                        }
-
-                        // Generate the width class for flexCol
-                        .flex-grid .col.-#{$breakpoint}-col-#{$i} {
-                            @include column($columns: $i);
-                        }
-
-                        // Generate the left offset class
-                        .col.-#{$breakpoint}-col-offset-left-#{$i} {
-                            margin-left: percentage($i / $BREAKPOINT-COLUMNS);
-                        }
-
-                        // Generate the right offset class
-                        .col.-#{$breakpoint}-col-offset-right-#{$i} {
-                            margin-right: percentage($i / $BREAKPOINT-COLUMNS);
+                            // Generate the right offset class
+                            .col.-#{$breakpoint}-col-offset-right-#{$i} {
+                                margin-right: percentage($i / $BREAKPOINT-COLUMNS);
+                            }
                         }
                     }
                 }
@@ -657,3 +695,30 @@
     background: linear-gradient(90deg, $gutter-colour em($BREAKPOINT-COLUMN-HORIZONTAL-GUTTER), $column-colour em($BREAKPOINT-COLUMN-HORIZONTAL-GUTTER), $column-colour calc(100% - #{em($BREAKPOINT-COLUMN-HORIZONTAL-GUTTER)}), $gutter-colour calc(100% - #{em($BREAKPOINT-COLUMN-HORIZONTAL-GUTTER)}), $gutter-colour 100%);
     background-size: percentage(1 / $BREAKPOINT-COLUMNS) 100%;
 };
+
+// Spacer
+@mixin spacer ($prop: 'padding-top', $value: 1, $context: getPropertyFromTypeScale(font-size, html, $CURRENT-BREAKPOINT), $debug-prop: 'border-top', $spacings-map: $SPACINGS) {
+
+    // `$DEBUG` is true
+    @if ($DEBUG) {
+
+        // `$value` exists in `$spacings-map`
+        @if map-has-key ($spacings-map, $value) {
+            $spacing-data: map-get($spacings-map, $value);
+            $spacing-colour: nth($spacing-data, 1);
+            #{$debug-prop}: lines($value, $context) solid $spacing-colour;
+        }
+
+        // `$value` does not exist in `$spacings-map`
+        @else {
+
+            // $value does not exist in $spacings-map, throw error
+            @error ('`$value` of `#{$value}` does not exist in `$spacings-map`');
+        }
+    }
+
+    // `$DEBUG` is false
+    @else {
+        #{$prop}: lines($value, $context);
+    }
+}

@@ -5,12 +5,12 @@
  */
 
 // Task
-module.exports = function (gulp, paths, browserSync) {
-    return function () {
+module.exports = (gulp, paths, browserSync) => {
+    return () => {
         browserSync.init({
             'server': {
                 'baseDir': paths.webroot.root,
-                'directory': true
+                'directory': false
             },
             'ghostMode': false,
             'port': 1337,

@@ -1,9 +1,8 @@
 // Imports
-var View = require('./View');
+import View from './View';
 
 // Constructor: ViewSwitcher
-var ViewSwitcher = function (options) {
-    'use strict';
+const ViewSwitcher = function (options = {}) {
 
     // Defaults
     this.animationType = 'transitionDuration';
@@ -11,21 +10,18 @@ var ViewSwitcher = function (options) {
     this.transitionOutDuration = 300;
     this.visibleClass = '-modal-visible';
 
-    // Set options
-    options = typeof options === 'undefined' ? {} : options;
-
     // Override defaults
     if (Object.keys(options).length) {
-        for (var i in options) {
-            if (options.hasOwnProperty(i)) {
+        for (const i in options) {
+            if (Object.prototype.hasOwnProperty.call(options, i)) {
                 this[i] = options[i];
             }
         }
     }
 
     // Other settings
-    this.currentView = undefined;
-    this.state = 'closed'; // closed, closing, open, opening
+    // State = ['closed', 'closing', 'open', 'opening']
+    this.state = 'closed';
     this.views = {};
 
     // Call `createParentView`
@@ -33,8 +29,7 @@ var ViewSwitcher = function (options) {
 };
 
 // Method: createParentView
-ViewSwitcher.prototype.createParentView = function () {
-    'use strict';
+ViewSwitcher.prototype.createParentView = () => {
 
     this.container = new View({
         'animationType': this.animationType,
@@ -45,8 +40,7 @@ ViewSwitcher.prototype.createParentView = function () {
 };
 
 // Method: add
-ViewSwitcher.prototype.add = function (name, view) {
-    'use strict';
+ViewSwitcher.prototype.add = (name, view) => {
 
     // Make sure `views[name]` doesn't already exist
     if (this.views[name] === undefined) {
@@ -62,7 +56,7 @@ ViewSwitcher.prototype.add = function (name, view) {
         else {
 
             // Log error
-            console.log(view + ' is not an instance of `View`');
+            console.log(`${view} is not an instance of \`View\``);
         }
     }
 
@@ -70,41 +64,35 @@ ViewSwitcher.prototype.add = function (name, view) {
     else {
 
         // Log error
-        console.log(name + ' already exists');
+        console.log(`${name} already exists`);
     }
 };
 
 // Method: remove
-ViewSwitcher.prototype.remove = function (name) {
-    'use strict';
-
-    // Make sure `views[name]` exists
-    if (this.views[name] !== undefined) {
-
-        // Remove `views[name]`
-        delete this.views[name];
-    }
+ViewSwitcher.prototype.remove = (name) => {
 
     // `views[name]` doesn't exist
-    else {
+    if (typeof this.views[name] === 'undefined') {
 
         // Log error
-        console.log(name + ' doesn\'t exist');
+        console.log(`${name} doesn't exist`);
+    }
+
+    // Make sure `views[name]` exists
+    else {
+        // Remove `views[name]`
+        delete this.views[name];
     }
 };
 
 // Method: open
-ViewSwitcher.prototype.open = function (name, cb) {
-    'use strict';
-
-    // Check `cb` is a function
-    cb = typeof cb === 'function' ? cb : function () {};
+ViewSwitcher.prototype.open = (name, cb = () => {}) => {
 
     // Make sure `views[name]` exists
     if (this.views[name] !== undefined) {
 
         // Store reference to `this`
-        var _this = this;
+        const _this = this;
 
         // Switch over `state`
         switch (this.state) {
@@ -119,10 +107,10 @@ ViewSwitcher.prototype.open = function (name, cb) {
                 document.querySelector('body').classList.add(this.visibleClass);
 
                 // Call `open` on `container`
-                this.container.open(function () {
+                this.container.open(() => {
 
                     // Call `open` on `view[name]`
-                    _this.views[name].open(function () {
+                    _this.views[name].open(() => {
 
                         // After `view[name]` has opened
                         // Set `state` to `open`
@@ -135,7 +123,7 @@ ViewSwitcher.prototype.open = function (name, cb) {
                         _this.container.element.setAttribute('data-current-view', name);
 
                         // Update `animationType`
-                        _this.container.element.style[_this.animationType] = _this.transitionOutDuration + 'ms';
+                        _this.container.element.style[_this.animationType] = `${_this.transitionOutDuration}ms`;
 
                         // Call `cb`
                         cb();
@@ -161,7 +149,7 @@ ViewSwitcher.prototype.open = function (name, cb) {
                     this.state = 'closing';
 
                     // Call `close` on `view[currentView]`
-                    this.views[this.currentView].close(function () {
+                    this.views[this.currentView].close(() => {
 
                         // After `view[currentView]` has closed
                         // Set `state` to `closed`
@@ -178,7 +166,7 @@ ViewSwitcher.prototype.open = function (name, cb) {
                     console.log('Open was called on the view already open');
 
                     // Do nothing
-                    return;
+
                 }
 
                 break;
@@ -196,19 +184,19 @@ ViewSwitcher.prototype.open = function (name, cb) {
     else {
 
         // Log error
-        console.log(name + ' doesn\'t exist');
+        console.log(`${name} doesn't exist`);
     }
 };
 
 // Method: close
 ViewSwitcher.prototype.close = function (name, cb) {
-    'use strict';
+
 
     // Check `cb` is a function
     cb = typeof cb === 'function' ? cb : function () {};
 
     // Store reference to `this`
-    var _this = this;
+    const _this = this;
 
     // Switch over `state`
     switch (this.state) {
@@ -247,10 +235,10 @@ ViewSwitcher.prototype.close = function (name, cb) {
                         this.state = 'closing';
 
                         // Call `close` on `view[name]`
-                        this.views[name].close(function () {
+                        this.views[name].close(() => {
 
                             // Call `close` on `container`
-                            _this.container.close(function () {
+                            _this.container.close(() => {
 
                                 // Set `state` to `closed`
                                 _this.state = 'closed';
@@ -265,7 +253,7 @@ ViewSwitcher.prototype.close = function (name, cb) {
                                 _this.container.element.removeAttribute('data-current-view');
 
                                 // Update `animationType`
-                                _this.container.element.style[_this.animationType] = _this.transitionInDuration + 'ms';
+                                _this.container.element.style[_this.animationType] = `${_this.transitionInDuration}ms`;
 
                                 // Call `cb`
                                 cb();
@@ -275,7 +263,7 @@ ViewSwitcher.prototype.close = function (name, cb) {
 
                     // `views[name].state` isn't open
                     else {
-                        console.log(this.views[name] + ' is not open');
+                        console.log(`${this.views[name]} is not open`);
                     }
                 }
 
@@ -283,7 +271,7 @@ ViewSwitcher.prototype.close = function (name, cb) {
                 else {
 
                     // Log error
-                    console.log(name + ' doesn\'t exist');
+                    console.log(`${name} doesn't exist`);
                 }
 
             }
@@ -295,10 +283,10 @@ ViewSwitcher.prototype.close = function (name, cb) {
                 this.state = 'closing';
 
                 // Call `close` on `views[currentView]`
-                this.views[_this.currentView].close(function () {
+                this.views[_this.currentView].close(() => {
 
                     // Call `close` on `container`
-                    _this.container.close(function () {
+                    _this.container.close(() => {
 
                         // Set `state` to `closed`
                         _this.state = 'closed';
@@ -313,7 +301,7 @@ ViewSwitcher.prototype.close = function (name, cb) {
                         _this.container.element.removeAttribute('data-current-view');
 
                         // Update `animationType`
-                        _this.container.element.style[_this.animationType] = _this.transitionInDuration + 'ms';
+                        _this.container.element.style[_this.animationType] = `${_this.transitionInDuration}ms`;
 
                         // Call `cb`
                         cb();
