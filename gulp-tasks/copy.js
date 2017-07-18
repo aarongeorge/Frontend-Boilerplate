@@ -11,7 +11,7 @@ module.exports = (gulp, paths) => {
             [
                 `${paths.src.fonts}**/*`,
                 `${paths.src.images}**/*`,
-                `${paths.src.root}{*.html, *.ico}`
+                `${paths.src.root}{*.html,*.ico}`
             ],
             {'base': paths.src.root})
             .pipe(gulp.dest(paths.webroot.root));
