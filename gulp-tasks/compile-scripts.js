@@ -13,6 +13,7 @@ const buffer = require('vinyl-buffer');
 const gulpif = require('gulp-if');
 const source = require('vinyl-source-stream');
 const sourcemaps = require('gulp-sourcemaps');
+const uglify = require('gulp-uglify');
 
 // Task
 module.exports = (gulp, paths) => {
@@ -32,6 +33,7 @@ module.exports = (gulp, paths) => {
             .pipe(source('main.js'))
             .pipe(buffer())
             .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.init({'loadMaps': true})))
+            .pipe(gulpif(gulp.environment === 'prod', uglify()))
             .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.write('./')))
             .pipe(gulp.dest(paths.webroot.scripts));
     };
