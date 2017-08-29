@@ -12,14 +12,14 @@ const historyApiFallback = require('connect-history-api-fallback');
 module.exports = (gulp, paths, browserSync) => {
     return () => {
         browserSync.init({
+            'ghostMode': false,
+            'middleware': [historyApiFallback()],
+            'notify': true,
+            'port': 1337,
             'server': {
                 'baseDir': paths.webroot.root,
-                'directory': false,
-                'middleware': [historyApiFallback()]
-            },
-            'ghostMode': false,
-            'port': 1337,
-            'notify': true
+                'directory': false
+            }
         });
     };
 };
