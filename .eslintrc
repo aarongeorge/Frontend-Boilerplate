@@ -115,7 +115,7 @@
         "no-useless-concat": "error",
         "no-useless-escape": "error",
         "no-useless-return": "error",
-        "no-void": "error",
+        "no-void": "off",
         "no-warning-comments": "off",
         "no-with": "error",
         "prefer-promise-reject-errors": "error",
@@ -144,7 +144,7 @@
 
         // Node.js and CommonJS
         "callback-return": ["error", ["callback", "cb", "next"]],
-        "global-require": "error",
+        "global-require": "off",
         "handle-callback-err": "error",
         "no-buffer-constructor": "error",
         "no-mixed-requires": "error",
@@ -215,7 +215,7 @@
         "no-unneeded-ternary": "error",
         "no-whitespace-before-property": "error",
         "nonblock-statement-body-position": "off",
-        "object-curly-newline": ["error", { "multiline": true }],
+        "object-curly-newline": ["error", { "consistent": true }],
         "object-curly-spacing": ["error", "never"],
         "object-property-newline": "error",
         "one-var": ["error", "never"],
