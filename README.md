@@ -9,8 +9,8 @@ The package.json will install Gulp 4 locally, but you will need the Gulp 4 CLI t
 
 To do so you will need to go into terminal and run the following commands:
 
-    npm uninstall gulp -g
-    npm install gulpjs/gulp-cli#4.0 -g
+    yarn global remove gulp
+    yarn global add gulpjs/gulp#4.0
 
 All this does is remove the Gulp 3 CLI that you have installed globally and installs the Gulp 4 CLI in its place.
 
