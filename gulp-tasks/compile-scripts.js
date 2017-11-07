@@ -18,9 +18,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 
 module.exports = (gulp, paths) => {
-
     return () => {
-
         const entries = [
             {
                 'filename': 'main.js',

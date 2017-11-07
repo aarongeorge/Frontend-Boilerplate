@@ -33,30 +33,50 @@ const environmentVariables = {
         {
             'replaceString': '{{envPath}}',
             'value': ''
+        },
+        {
+            'replaceString': '{{cacheBuster}}',
+            'value': Number(new Date())
         }
     ],
     'dev': [
         {
             'replaceString': '{{envPath}}',
             'value': ''
+        },
+        {
+            'replaceString': '{{cacheBuster}}',
+            'value': Number(new Date())
         }
     ],
     'qa': [
         {
             'replaceString': '{{envPath}}',
             'value': ''
+        },
+        {
+            'replaceString': '{{cacheBuster}}',
+            'value': Number(new Date())
         }
     ],
     'uat': [
         {
             'replaceString': '{{envPath}}',
             'value': ''
+        },
+        {
+            'replaceString': '{{cacheBuster}}',
+            'value': Number(new Date())
         }
     ],
     'prod': [
         {
             'replaceString': '{{envPath}}',
             'value': ''
+        },
+        {
+            'replaceString': '{{cacheBuster}}',
+            'value': Number(new Date())
         }
     ]
 };
@@ -92,7 +112,10 @@ gulp.task('watch', () => {
         gulp.series('copy', 'replace-environment-variables', (cb) => {
             browserSync.reload();
             cb();
-        }));
+        }))
+        .on('error', function handleError () {
+            this.emit('end');
+        });
 
     // JS
     gulp.watch(
@@ -100,7 +123,10 @@ gulp.task('watch', () => {
         gulp.series('compile-scripts', 'replace-environment-variables', (cb) => {
             browserSync.reload();
             cb();
-        }));
+        }))
+        .on('error', function handleError () {
+            this.emit('end');
+        });
 
     // SCSS
     gulp.watch(
@@ -108,7 +134,10 @@ gulp.task('watch', () => {
         gulp.series('compile-styles', 'replace-environment-variables', (cb) => {
             browserSync.reload('main.css');
             cb();
-        }));
+        }))
+        .on('error', function handleError () {
+            this.emit('end');
+        });
 });
 
 // Default
