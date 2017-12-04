@@ -9,7 +9,7 @@ const flatmap = require('gulp-flatmap');
 const replace = require('gulp-replace');
 
 // Task
-module.exports = (gulp, paths, environmentVariables) => {
+module.exports = (gulp, paths, environment, environmentVariables) => {
     return () => {
         return gulp.src(
             [
@@ -19,8 +19,8 @@ module.exports = (gulp, paths, environmentVariables) => {
             ],
             {'base': paths.webroot.root})
             .pipe(flatmap((stream) => {
-                for (let i = 0; i < environmentVariables[gulp.environment].length; i++) {
-                    stream.pipe(replace(environmentVariables[gulp.environment][i].replaceString, environmentVariables[gulp.environment][i].value));
+                for (let i = 0; i < environmentVariables[environment].length; i++) {
+                    stream.pipe(replace(environmentVariables[environment][i].replaceString, environmentVariables[environment][i].value));
                 }
 
                 return stream;

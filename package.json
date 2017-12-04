@@ -4,6 +4,18 @@
   "description": "A frontend boilerplate using Gulp as the task runner.",
   "author": "Aaron George <aaron.dean.george@gmail.com>",
   "license": "ISC",
+  "scripts": {
+      "start": "./node_modules/.bin/gulp",
+      "start:dev": "./node_modules/.bin/gulp --dev",
+      "start:qa": "./node_modules/.bin/gulp --qa",
+      "start:uat": "./node_modules/.bin/gulp --uat",
+      "start:prod": "./node_modules/.bin/gulp --prod",
+      "build": "./node_modules/.bin/gulp build",
+      "build:dev": "./node_modules/.bin/gulp build --dev",
+      "build:qa": "./node_modules/.bin/gulp build --qa",
+      "build:uat": "./node_modules/.bin/gulp build --uat",
+      "build:prod": "./node_modules/.bin/gulp build --prod"
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",

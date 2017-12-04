@@ -17,7 +17,7 @@ const source = require('vinyl-source-stream');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 
-module.exports = (gulp, paths) => {
+module.exports = (gulp, paths, environment) => {
     return () => {
         const entries = [
             {
@@ -34,21 +34,16 @@ module.exports = (gulp, paths) => {
                     'entries': entry.basePath + entry.filename,
                     'debug': true
                 })
-                .transform(babelify, {
-                    'presets': [
-                        'env',
-                        'stage-2'
-                    ]
-                })
+                .transform(babelify)
                 .bundle()
                 .pipe(source(entry.filename))
                 .pipe(rename({
                     'basename': entry.rename
                 }))
                 .pipe(buffer())
-                .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.init({'loadMaps': true})))
-                .pipe(gulpif(gulp.environment === 'prod', uglify()))
-                .pipe(gulpif(gulp.environment !== 'prod', sourcemaps.write('./')))
+                .pipe(gulpif(environment !== 'prod', sourcemaps.init({'loadMaps': true})))
+                .pipe(gulpif(environment === 'prod', uglify()))
+                .pipe(gulpif(environment !== 'prod', sourcemaps.write('./')))
                 .pipe(gulp.dest(entry.outputPath));
         }));
     };
