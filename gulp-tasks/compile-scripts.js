@@ -22,8 +22,8 @@ module.exports = (gulp, paths, environment) => {
         const entries = [
             {
                 'filename': 'main.js',
-                'basePath': `${paths.src.scripts}`,
-                'outputPath': `${paths.webroot.scripts}`,
+                'basePath': paths.src.scripts,
+                'outputPath': paths.webroot.scripts,
                 'rename': 'main'
             }
         ];

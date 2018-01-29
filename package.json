@@ -5,16 +5,16 @@
   "author": "Aaron George <aaron.dean.george@gmail.com>",
   "license": "ISC",
   "scripts": {
-      "start": "./node_modules/.bin/gulp",
-      "start:dev": "./node_modules/.bin/gulp --dev",
-      "start:qa": "./node_modules/.bin/gulp --qa",
-      "start:uat": "./node_modules/.bin/gulp --uat",
-      "start:prod": "./node_modules/.bin/gulp --prod",
-      "build": "./node_modules/.bin/gulp build",
-      "build:dev": "./node_modules/.bin/gulp build --dev",
-      "build:qa": "./node_modules/.bin/gulp build --qa",
-      "build:uat": "./node_modules/.bin/gulp build --uat",
-      "build:prod": "./node_modules/.bin/gulp build --prod"
+    "start": "./node_modules/.bin/gulp",
+    "start:dev": "./node_modules/.bin/gulp --dev",
+    "start:qa": "./node_modules/.bin/gulp --qa",
+    "start:uat": "./node_modules/.bin/gulp --uat",
+    "start:prod": "./node_modules/.bin/gulp --prod",
+    "build": "./node_modules/.bin/gulp build",
+    "build:dev": "./node_modules/.bin/gulp build --dev",
+    "build:qa": "./node_modules/.bin/gulp build --qa",
+    "build:uat": "./node_modules/.bin/gulp build --uat",
+    "build:prod": "./node_modules/.bin/gulp build --prod"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -22,7 +22,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "babelify": "^8.0.0",
     "browser-sync": "^2.18.13",
-    "browserify": "^14.5.0",
+    "browserify": "^15.2.0",
     "connect-history-api-fallback": "^1.4.0",
     "del": "^3.0.0",
     "gulp": "github:gulpjs/gulp#4.0",
@@ -37,7 +37,7 @@
     "gulp-uglify": "^3.0.0",
     "merge-stream": "^1.0.1",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
+    "vinyl-source-stream": "^2.0.0",
     "vinyl-transform": "^1.0.0"
   }
 }
