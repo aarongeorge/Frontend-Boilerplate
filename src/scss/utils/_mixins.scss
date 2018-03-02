@@ -538,24 +538,28 @@
                         // Loop through all the columns in that breakpoint
                         @for $i from 1 through $BREAKPOINT-COLUMNS {
 
-                            // Generate the width class for col
-                            .grid .col.-#{$breakpoint}-col-#{$i} {
-                                @include column($columns: $i, $type: 'float');
-                            }
+                            .col,
+                            .flex-col {
 
-                            // Generate the width class for flexCol
-                            .flex-grid .col.-#{$breakpoint}-col-#{$i} {
-                                @include column($columns: $i);
-                            }
+                                // Generate the width class for col
+                                &.-#{$breakpoint}-col-#{$i} {
+                                    @include column($columns: $i, $type: 'float');
+                                }
 
-                            // Generate the left offset class
-                            .col.-#{$breakpoint}-col-offset-left-#{$i} {
-                                margin-left: percentage($i / $BREAKPOINT-COLUMNS);
-                            }
+                                // Generate the width class for flexCol
+                                &.-#{$breakpoint}-col-#{$i} {
+                                    @include column($columns: $i);
+                                }
 
-                            // Generate the right offset class
-                            .col.-#{$breakpoint}-col-offset-right-#{$i} {
-                                margin-right: percentage($i / $BREAKPOINT-COLUMNS);
+                                // Generate the left offset class
+                                &.-#{$breakpoint}-col-offset-left-#{$i} {
+                                    margin-left: percentage($i / $BREAKPOINT-COLUMNS);
+                                }
+
+                                // Generate the right offset class
+                                &.-#{$breakpoint}-col-offset-right-#{$i} {
+                                    margin-right: percentage($i / $BREAKPOINT-COLUMNS);
+                                }
                             }
                         }
                     }
