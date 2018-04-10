@@ -21,7 +21,7 @@
         $breakpoint-column-vertical-gutter: nth($breakpoint-data, 7);
         $breakpoint-vertical-rhythm: nth($breakpoint-data, 8);
 
-        @media (#{$breakpoint-type}: #{$breakpoint-width / getPropertyFromTypeScale(font-size, html, $CURRENT-BREAKPOINT)}em) {
+        @media (#{$breakpoint-type}: #{$breakpoint-width / get-property-from-type-scale(font-size, html, $CURRENT-BREAKPOINT)}em) {
             $CURRENT-BREAKPOINT: $breakpoint !global;
             $BREAKPOINT-WIDTH: $breakpoint-width !global;
             $BREAKPOINT-COLUMNS: $breakpoint-columns !global;
@@ -43,10 +43,10 @@
             $BREAKPOINT-VERTICAL-RHYTHM: $DEFAULT-BREAKPOINT-VERTICAL-RHYTHM !global;
         }
     }
-};
+}
 
 /**
- * generateFont
+ * generate-font
  *
  * Generate font-face declaration
  * Assumes you follow the following directory structure:
@@ -73,38 +73,38 @@
  *     900 - Black (Heavy)
  * @param {string} $fontStyle - Style of the font (normal, italic, oblique | Default: normal)
  */
-@mixin generateFont ($fontName, $fontFileName, $fontWeight: 400, $fontStyle: normal) {
+@mixin generate-font ($fontName, $fontFileName, $fontWeight: 400, $fontStyle: normal) {
     @font-face {
         font-family: $fontName;
         src: url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.eot');
         src: url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.eot?iefix') format('embedded-opentype'),
-             url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.woff') format('woff'),
-             url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.woff2') format('woff2'),
-             url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.svg') format('svg'),
-             url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.ttf') format('truetype');
+            url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.woff') format('woff'),
+            url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.woff2') format('woff2'),
+            url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.svg') format('svg'),
+            url('{{envPath}}/fonts/#{$fontName}/#{$fontFileName}.ttf') format('truetype');
         font-weight: $fontWeight;
         font-style: $fontStyle;
     }
-};
+}
 
 /**
- * setTypeScale
+ * set-type-scale
  *
  * @param {string} $type-scale - The style you wish to use from $TYPE-SCALES-MAP
  * @param {number} $context    - The context of the current type-scale
  * @param {string} $breakpoint - The breakpoint in which you wish to get the $style from
  */
-@mixin setTypeScale ($type-scale, $context: getPropertyFromTypeScale(font-size, html, $CURRENT-BREAKPOINT), $breakpoint: $CURRENT-BREAKPOINT, $type-scale-map: $TYPE-SCALES-MAP, $breakpoint-map: $BREAKPOINTS-MAP) {
+@mixin set-type-scale ($type-scale, $context: get-property-from-type-scale(font-size, html, $CURRENT-BREAKPOINT), $breakpoint: $CURRENT-BREAKPOINT, $type-scale-map: $TYPE-SCALES-MAP, $breakpoint-map: $BREAKPOINTS-MAP) {
 
     // $context is string
     @if type-of($context) == string {
 
         // Set $context as the font-size of $context
-        $context: getPropertyFromTypeScale(font-size, $context, $breakpoint, $type-scale-map, $breakpoint-map);
+        $context: get-property-from-type-scale(font-size, $context, $breakpoint, $type-scale-map, $breakpoint-map);
     }
 
     // $properties holds all the properties of $type-scale
-    $properties: getAllPropertiesFromTypeScale($type-scale, $breakpoint, $type-scale-map);
+    $properties: get-all-properties-from-type-scale($type-scale, $breakpoint, $type-scale-map);
 
     // Loop through $properties
     @each $property, $value in $properties {
@@ -116,17 +116,17 @@
             @if $type-scale == html {
 
                 // Set the font-size property as px
-                font-size: #{getPropertyFromTypeScale(font-size, html, $breakpoint, $type-scale-map)}px;
+                font-size: #{get-property-from-type-scale(font-size, html, $breakpoint, $type-scale-map)}px;
             }
 
             // $type-scale is not html
             @else {
 
                 // Set the font-size as em
-                font-size: #{getPropertyFromTypeScale(font-size, $type-scale, $breakpoint, $type-scale-map) / $context}em;
+                font-size: #{get-property-from-type-scale(font-size, $type-scale, $breakpoint, $type-scale-map) / $context}em;
 
                 // Set $context as the font-size of $type-scale
-                $context: getPropertyFromTypeScale(font-size, $type-scale, $breakpoint, $type-scale-map);
+                $context: get-property-from-type-scale(font-size, $type-scale, $breakpoint, $type-scale-map);
             }
         }
 
@@ -151,7 +151,7 @@
             @if (map-has-key($value, spacing)) {
                 $values: map-get($value, spacing);
                 $spacing: nth($values, 1);
-                $debug-context: getPropertyFromTypeScale(font-size, $type-scale, $breakpoint, $type-scale-map);
+                $debug-context: get-property-from-type-scale(font-size, $type-scale, $breakpoint, $type-scale-map);
 
                 @if (length($values) == 1) {
                     @include spacer('padding-top', $spacing, $debug-context, 'border-top');
@@ -159,6 +159,7 @@
 
                 @else if (length($values) == 2) {
                     $prop: nth($values, 2);
+
                     @include spacer($prop, $spacing, $debug-context, 'border-top');
                 }
 
@@ -189,14 +190,14 @@
             }
         }
     }
-};
+}
 
 /**
- * generateTypeScaleStyles
+ * generate-type-scale-styles
  *
  * @param {map} $type-scale-map - The map you want to generate the typescales from (Default: $TYPE-SCALES-MAP)
  */
-@mixin generateTypeScaleStyles ($type-scale-map: $TYPE-SCALES-MAP, $breakpoint-map: $BREAKPOINTS-MAP) {
+@mixin generate-type-scale-styles ($type-scale-map: $TYPE-SCALES-MAP, $breakpoint-map: $BREAKPOINTS-MAP) {
 
     // $breakpoint-map is a map
     @if type-of($breakpoint-map) == map {
@@ -220,7 +221,7 @@
                             #{$type-scale} {
 
                                 // Set the properties for the type scale
-                                @include setTypeScale($type-scale);
+                                @include set-type-scale($type-scale);
                             }
                         }
                     }
@@ -238,7 +239,7 @@
                                 #{$type-scale} {
 
                                     // Set the properties for the type scale
-                                    @include setTypeScale($type-scale);
+                                    @include set-type-scale($type-scale);
                                 }
                             }
                         }
@@ -257,14 +258,14 @@
     @else {
         @error ('`$breakpoint-map` is not a map');
     }
-};
+}
 
 /**
- * generateGridStyles
+ * generate-grid-styles
  *
  * @param {map} $breakpoint-map - The map you want to generate the breakpoints from (Default: $BREAKPOINTS-MAP)
  */
-@mixin generateGridStyles ($breakpoint-map: $BREAKPOINTS-MAP) {
+@mixin generate-grid-styles ($breakpoint-map: $BREAKPOINTS-MAP) {
 
     // $breakpoint-map is a map
     @if type-of($breakpoint-map) == map {
@@ -410,7 +411,6 @@
 
                     // Breakpoint flex grid styles
                     .flex-grid {
-
                         @include grid($gutters: true);
 
                         // Vertical class modifier
@@ -439,7 +439,7 @@
                         }
 
                         // Add vertical gutters modifier
-                        &.-#{$breakpoint}-horizontal-gutters {
+                        &.-#{$breakpoint}-vertical-gutters {
                             @include gutter(0, $BREAKPOINT-GRID-VERTICAL-GUTTER);
                         }
 
@@ -493,7 +493,7 @@
                             }
 
                             // Add vertical gutters modifier
-                            &.-#{$breakpoint}-horizontal-gutters {
+                            &.-#{$breakpoint}-vertical-gutters {
                                 @include gutter(0, $BREAKPOINT-GRID-VERTICAL-GUTTER);
                             }
 
@@ -572,11 +572,11 @@
     @else {
         @error ('`$breakpoint-map` is not a map');
     }
-};
+}
 
 // Clearfix
 @mixin clearfix () {
-    &:after {
+    &::after {
         clear: both;
         content: '';
         display: table;
@@ -584,7 +584,7 @@
 }
 
 // Vertical align
-@mixin verticalAlign () {
+@mixin vertical-align () {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -603,17 +603,17 @@
     }
 
     @else if $align == 'center' {
-        margin: 0 auto 0 auto;
+        margin: 0 auto;
     }
 
     @else if $align == 'top' {
-        margin: 0 auto auto auto;
+        margin: 0 auto auto;
     }
 
     @else if $align == 'bottom' {
-        margin: auto auto 0 auto;
+        margin: auto auto 0;
     }
-};
+}
 
 // Gutter
 @mixin gutter ($horizontal-gutter: $BREAKPOINT-GRID-HORIZONTAL-GUTTER, $vertical-gutter: $BREAKPOINT-GRID-VERTICAL-GUTTER) {
@@ -673,13 +673,13 @@
         width: calc((100% / #{$context}) * #{$columns});
     }
 
-    @elseif ($columns != null) {
+    @else if ($columns != null) {
         width: percentage($columns / $context);
     }
-};
+}
 
 // Vertical baseline background guide
-@mixin verticalBaseline ($height: $BREAKPOINT-VERTICAL-RHYTHM, $style: 'lines', $colour: rgba(0, 255, 255, 0.3)) {
+@mixin vertical-baseline ($height: $BREAKPOINT-VERTICAL-RHYTHM, $style: 'lines', $colour: rgba(0, 255, 255, 0.3)) {
 
     // $style is lines
     @if $style == 'lines' {
@@ -700,13 +700,13 @@
 }
 
 // Column overlay
-@mixin columnOverlay ($column-colour: rgba(0, 255, 255, 0.3), $gutter-colour: transparent) {
+@mixin column-overlay ($column-colour: rgba(0, 255, 255, 0.3), $gutter-colour: transparent) {
     background: linear-gradient(90deg, $gutter-colour em($BREAKPOINT-COLUMN-HORIZONTAL-GUTTER), $column-colour em($BREAKPOINT-COLUMN-HORIZONTAL-GUTTER), $column-colour calc(100% - #{em($BREAKPOINT-COLUMN-HORIZONTAL-GUTTER)}), $gutter-colour calc(100% - #{em($BREAKPOINT-COLUMN-HORIZONTAL-GUTTER)}), $gutter-colour 100%);
     background-size: percentage(1 / $BREAKPOINT-COLUMNS) 100%;
-};
+}
 
 // Spacer
-@mixin spacer ($prop: 'padding-top', $value: 1, $context: getPropertyFromTypeScale(font-size, html, $CURRENT-BREAKPOINT), $debug-prop: 'border-top', $spacings-map: $SPACINGS) {
+@mixin spacer ($prop: 'padding-top', $value: 1, $context: get-property-from-type-scale(font-size, html, $CURRENT-BREAKPOINT), $debug-prop: 'border-top', $spacings-map: $SPACINGS) {
 
     // `$DEBUG` is true
     @if ($DEBUG) {

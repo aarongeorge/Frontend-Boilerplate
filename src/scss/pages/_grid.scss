@@ -6,7 +6,7 @@
     &.-debug {
         @each $breakpoint, $value in $BREAKPOINTS {
             @include breakpoint($breakpoint) {
-                @include columnOverlay();
+                @include column-overlay();
             }
         }
     }

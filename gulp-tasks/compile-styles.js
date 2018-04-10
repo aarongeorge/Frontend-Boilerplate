@@ -7,11 +7,12 @@
  */
 
 // Dependencies
-const autoprefixer = require('gulp-autoprefixer');
+const autoprefixer = require('autoprefixer');
 const gulpif = require('gulp-if');
+const postcss = require('gulp-postcss');
 const sass = require('gulp-sass');
-const sourcemaps = require('gulp-sourcemaps');
 const sassVars = require('gulp-sass-vars');
+const sourcemaps = require('gulp-sourcemaps');
 
 // Task
 module.exports = (gulp, paths, environment) => {
@@ -24,7 +25,7 @@ module.exports = (gulp, paths, environment) => {
                 'precision': 14,
                 'includePaths': ['node_modules/']
             }))
-            .pipe(autoprefixer())
+            .pipe(postcss([autoprefixer()]))
             .pipe(gulpif(environment !== 'prod', sourcemaps.write('./')))
             .pipe(gulp.dest(paths.webroot.styles));
     };

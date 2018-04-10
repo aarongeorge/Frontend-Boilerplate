@@ -11,18 +11,18 @@
  * @param {int} $context - The context the `$target` will be derived from
  * @return {string}
  */
-@function em ($target, $context: getPropertyFromTypeScale(font-size, html, $CURRENT-BREAKPOINT), $breakpoint: $CURRENT-BREAKPOINT, $type-scale-map: $TYPE-SCALES-MAP) {
+@function em ($target, $context: get-property-from-type-scale(font-size, html, $CURRENT-BREAKPOINT), $breakpoint: $CURRENT-BREAKPOINT, $type-scale-map: $TYPE-SCALES-MAP) {
 
     // $context is string
     @if type-of($context) == string {
 
         // Set $context as the font-size of $context
-        $context: getPropertyFromTypeScale(font-size, $context, $breakpoint, $type-scale-map);
+        $context: get-property-from-type-scale(font-size, $context, $breakpoint, $type-scale-map);
     }
 
     // Return the value in em's
     @return #{$target / $context}em;
-};
+}
 
 /**
  * tracking
@@ -33,13 +33,13 @@
  * @param {int} $context - The context the `$target` will be derived from
  * @return {string}
  */
-@function tracking ($target, $context: getPropertyFromTypeScale(font-size, html, $CURRENT-BREAKPOINT), $breakpoint: $CURRENT-BREAKPOINT, $type-scale-map: $TYPE-SCALES-MAP) {
+@function tracking ($target, $context: get-property-from-type-scale(font-size, html, $CURRENT-BREAKPOINT), $breakpoint: $CURRENT-BREAKPOINT, $type-scale-map: $TYPE-SCALES-MAP) {
 
     // $context is string
     @if type-of($context) == string {
 
         // Set $context as the font-size of $context
-        $context: getPropertyFromTypeScale(font-size, $context, $breakpoint, $type-scale-map);
+        $context: get-property-from-type-scale(font-size, $context, $breakpoint, $type-scale-map);
     }
 
     // Return the value of letter-spacing
@@ -53,21 +53,21 @@
  * @param {int} $context - Value of current font-size (Default: $DEFAULT-FONT-SIZE)
  * @return {string}
  */
-@function lines ($lines: 1, $context: getPropertyFromTypeScale(font-size, html, $CURRENT-BREAKPOINT), $breakpoint: $CURRENT-BREAKPOINT, $type-scale-map: $TYPE-SCALES-MAP) {
+@function lines ($lines: 1, $context: get-property-from-type-scale(font-size, html, $CURRENT-BREAKPOINT), $breakpoint: $CURRENT-BREAKPOINT, $type-scale-map: $TYPE-SCALES-MAP) {
 
     // $context is string
     @if type-of($context) == string {
 
         // Set $context as the font-size of $context
-        $context: getPropertyFromTypeScale(font-size, $context, $breakpoint, $type-scale-map);
+        $context: get-property-from-type-scale(font-size, $context, $breakpoint, $type-scale-map);
     }
 
     // Return the value of line-height
     @return em(($lines * $BREAKPOINT-VERTICAL-RHYTHM), $context);
-};
+}
 
 /**
- * getKeyOfIndexFromMap
+ * get-key-of-index-from-map
  *
  * Returns the name of the key at $index of $map
  *
@@ -75,7 +75,7 @@
  * @param  {number} $index - The index of the key you want the name of
  * @return {string}
  */
-@function getKeyOfIndexFromMap ($map, $index) {
+@function get-key-of-index-from-map ($map, $index) {
 
     // $map is a map
     @if type-of($map) == map {
@@ -106,10 +106,10 @@
     @else {
         @error ('`$map` is not a map');
     }
-};
+}
 
 /**
- * getIndexOfKeyFromMap
+ * get-index-of-key-from-map
  *
  * Returns the index of the $key in $map
  *
@@ -117,7 +117,7 @@
  * @param  {string} $key - The key you wish to get the index of
  * @return {number}
  */
-@function getIndexOfKeyFromMap ($map, $key) {
+@function get-index-of-key-from-map ($map, $key) {
 
     // $map is a map
     @if type-of($map) == map {
@@ -139,10 +139,10 @@
     @else {
         @error ('`$map` is not a map');
     }
-};
+}
 
 /**
- * getValueOfKeyFromMap
+ * get-value-of-key-from-map
  *
  * Returns the value of $key in $map
  *
@@ -150,7 +150,7 @@
  * @param  {string}        $key - The key you wish to get the value for
  * @return {number|string}
  */
-@function getValueOfKeyFromMap ($map, $key) {
+@function get-value-of-key-from-map ($map, $key) {
 
     // $map is a map
     @if type-of($map) == map {
@@ -170,10 +170,10 @@
     @else {
         @error ('`$map` is not a map');
     }
-};
+}
 
 /**
- * getTypeScaleFromBreakpoint
+ * get-type-scale-from-breakpoint
  *
  * Returns the value of $type-scale in $breakpoint of $type-scale-map
  * Searches recursively backwards through $type-scale-map if $type-scale is not found in $breakpoint
@@ -182,7 +182,7 @@
  * @param  {string}        $breakpoint - The breakpoint that you wish to search
  * @return {number|string}
  */
-@function getTypeScaleFromBreakpoint ($type-scale, $breakpoint: getKeyOfIndexFromMap($TYPE-SCALES-MAP, 1), $type-scale-map: $TYPE-SCALES-MAP, $breakpoint-map: $BREAKPOINTS-MAP) {
+@function get-type-scale-from-breakpoint ($type-scale, $breakpoint: get-key-of-index-from-map($TYPE-SCALES-MAP, 1), $type-scale-map: $TYPE-SCALES-MAP, $breakpoint-map: $BREAKPOINTS-MAP) {
 
     // $breakpoint-map is a map
     @if type-of($breakpoint-map) == map {
@@ -200,7 +200,7 @@
                     @if map-has-key(map-get($type-scale-map, $breakpoint), $type-scale) {
 
                         // Return the value of $type-scale
-                        @return getValueOfKeyFromMap(map-get($type-scale-map, $breakpoint), $type-scale);
+                        @return get-value-of-key-from-map(map-get($type-scale-map, $breakpoint), $type-scale);
                     }
 
                     // $type-scale does not exist in $breakpoint
@@ -210,7 +210,7 @@
                         @if index(map-keys($type-scale-map), $breakpoint) > 1 {
 
                             // Run this function again searching one breakpoint lower for $type-scale
-                            @return getTypeScaleFromBreakpoint($type-scale, getKeyOfIndexFromMap($breakpoint-map, getIndexOfKeyFromMap($breakpoint-map, $breakpoint) - 1), $type-scale-map, $breakpoint-map);
+                            @return get-type-scale-from-breakpoint($type-scale, get-key-of-index-from-map($breakpoint-map, get-index-of-key-from-map($breakpoint-map, $breakpoint) - 1), $type-scale-map, $breakpoint-map);
                         }
 
                         // $breakpoint is the lowest breakpoint in $type-scale-map
@@ -229,7 +229,7 @@
                     @if index(map-keys($breakpoint-map), $breakpoint) > 1 {
 
                         // Run this function again searching one breakpoint lower for $type-scale
-                        @return getTypeScaleFromBreakpoint($type-scale, getKeyOfIndexFromMap($breakpoint-map, getIndexOfKeyFromMap($breakpoint-map, $breakpoint) - 1), $type-scale-map, $breakpoint-map);
+                        @return get-type-scale-from-breakpoint($type-scale, get-key-of-index-from-map($breakpoint-map, get-index-of-key-from-map($breakpoint-map, $breakpoint) - 1), $type-scale-map, $breakpoint-map);
                     }
 
                     // $breakpoint is the lowest breakpoint in $breakpoint-map
@@ -257,10 +257,10 @@
     @else {
         @error ('`$breakpoint-map` is not a map');
     }
- };
+}
 
 /**
- * getPropertyFromTypeScale
+ * get-property-from-type-scale
  *
  * Returns the value of $property of $type-scale in $breakpoint of $type-scale-map
  *
@@ -270,7 +270,7 @@
  * @param  {map}           $type-scale-map - The map you wish to search for $breakpoint
  * @return {number|string}
  */
-@function getPropertyFromTypeScale ($property, $type-scale, $breakpoint: getKeyOfIndexFromMap($TYPE-SCALES-MAP, 1), $type-scale-map: $TYPE-SCALES-MAP, $breakpoint-map: $BREAKPOINTS-MAP) {
+@function get-property-from-type-scale ($property, $type-scale, $breakpoint: get-key-of-index-from-map($TYPE-SCALES-MAP, 1), $type-scale-map: $TYPE-SCALES-MAP, $breakpoint-map: $BREAKPOINTS-MAP) {
 
     // $breakpoint-map is a map
     @if type-of($breakpoint-map) == map {
@@ -285,10 +285,10 @@
                 @if map-has-key($type-scale-map, $breakpoint) {
 
                     // $type-scale has $property
-                    @if map-has-key(getTypeScaleFromBreakpoint($type-scale, $breakpoint, $type-scale-map, $breakpoint-map), $property) {
+                    @if map-has-key(get-type-scale-from-breakpoint($type-scale, $breakpoint, $type-scale-map, $breakpoint-map), $property) {
 
                         // Return the value of $property
-                        @return map-get(getTypeScaleFromBreakpoint($type-scale, $breakpoint, $type-scale-map, $breakpoint-map), $property);
+                        @return map-get(get-type-scale-from-breakpoint($type-scale, $breakpoint, $type-scale-map, $breakpoint-map), $property);
                     }
 
                     // $type-scale does not have $property, throw error
@@ -304,7 +304,7 @@
                     @if index(map-keys($breakpoint-map), $breakpoint) > 1 {
 
                         // Run this function again searching one breakpoint lower for $type-scale
-                        @return getPropertyFromTypeScale($property, $type-scale, getKeyOfIndexFromMap($breakpoint-map, getIndexOfKeyFromMap($breakpoint-map, $breakpoint) - 1), $type-scale-map, $breakpoint-map);
+                        @return get-property-from-type-scale($property, $type-scale, get-key-of-index-from-map($breakpoint-map, get-index-of-key-from-map($breakpoint-map, $breakpoint) - 1), $type-scale-map, $breakpoint-map);
                     }
 
                     // $breakpoint is the lowest breakpoint in $breakpoint-map
@@ -332,16 +332,16 @@
     @else {
         @error ('`$breakpoint-map` is not a map');
     }
-};
+}
 
 /**
- * getAllPropertiesFromTypeScale
+ * get-all-properties-from-type-scale
  * @param  {string} $type-scale     - The type scale you wish to get the properties of
  * @param  {string} $breakpoint:    - The breakpoint you wish to get $type-scale from
  * @param  {map}    $type-scale-map - The map you wish to search for $breakpoint
  * @return {map}
  */
-@function getAllPropertiesFromTypeScale ($type-scale, $breakpoint: getKeyOfIndexFromMap($TYPE-SCALES-MAP, 1), $type-scale-map: $TYPE-SCALES-MAP, $breakpoint-map: $BREAKPOINTS-MAP) {
+@function get-all-properties-from-type-scale ($type-scale, $breakpoint: get-key-of-index-from-map($TYPE-SCALES-MAP, 1), $type-scale-map: $TYPE-SCALES-MAP, $breakpoint-map: $BREAKPOINTS-MAP) {
 
     // $breakpoint-map is a map
     @if type-of($breakpoint-map) == map {
@@ -368,7 +368,7 @@
                         @while $indexOfBreakpoint >= 1 {
 
                             // Add the properties of $type-scale to $properties
-                            $properties: map-merge(getTypeScaleFromBreakpoint($type-scale, getKeyOfIndexFromMap($breakpoint-map, $indexOfBreakpoint), $type-scale-map, $breakpoint-map), $properties);
+                            $properties: map-merge(get-type-scale-from-breakpoint($type-scale, get-key-of-index-from-map($breakpoint-map, $indexOfBreakpoint), $type-scale-map, $breakpoint-map), $properties);
 
                             // Decrement $indexOfBreakpoint
                             $indexOfBreakpoint: $indexOfBreakpoint - 1;
@@ -382,7 +382,7 @@
                     @else {
 
                         // Return the properties of $type-scale
-                        @return getTypeScaleFromBreakpoint($type-scale, $breakpoint, $type-scale-map, $breakpoint-map);
+                        @return get-type-scale-from-breakpoint($type-scale, $breakpoint, $type-scale-map, $breakpoint-map);
                     }
                 }
 
@@ -393,7 +393,7 @@
                     @if index(map-keys($breakpoint-map), $breakpoint) > 1 {
 
                         // Run this function again searching one breakpoint lower for $type-scale
-                        @return getAllPropertiesFromTypeScale($type-scale, getKeyOfIndexFromMap($breakpoint-map, getIndexOfKeyFromMap($breakpoint-map, $breakpoint) - 1), $type-scale-map, $breakpoint-map);
+                        @return get-all-properties-from-type-scale($type-scale, get-key-of-index-from-map($breakpoint-map, get-index-of-key-from-map($breakpoint-map, $breakpoint) - 1), $type-scale-map, $breakpoint-map);
                     }
 
                     // $breakpoint is the lowest breakpoint in $breakpoint-map
@@ -421,4 +421,4 @@
     @else {
         @error ('`$breakpoint-map` is not a map');
     }
-};
+}

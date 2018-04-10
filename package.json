@@ -17,6 +17,7 @@
     "build:prod": "./node_modules/.bin/gulp build --prod"
   },
   "devDependencies": {
+    "autoprefixer": "^8.1.0",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-2": "^6.24.1",
@@ -26,9 +27,9 @@
     "connect-history-api-fallback": "^1.4.0",
     "del": "^3.0.0",
     "gulp": "github:gulpjs/gulp#4.0",
-    "gulp-autoprefixer": "^4.0.0",
     "gulp-flatmap": "^1.0.0",
     "gulp-if": "^2.0.2",
+    "gulp-postcss": "^7.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.6.1",
     "gulp-sass": "^3.1.0",
@@ -36,6 +37,8 @@
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
     "merge-stream": "^1.0.1",
+    "tsify": "^3.0.4",
+    "typescript": "^2.8.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^2.0.0",
     "vinyl-transform": "^1.0.0"

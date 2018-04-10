@@ -3,7 +3,9 @@
  */
 
 // All the things reset
-*, *:before, *:after {
+*,
+*:before,
+*:after {
     border: 0;
     box-sizing: border-box;
     font: {
@@ -19,19 +21,67 @@
 }
 
 // Block level elements
-address, article, aside, audio, blockquote,
-canvas, dd, div, dl, fieldset, figcaption,
-figure, footer, form, h1, h2, h3, h4, h5, h6,
-header, hr, noscript, ol, output, p, pre,
-section, ul, video {
+address,
+article,
+aside,
+audio,
+blockquote,
+canvas,
+dd,
+div,
+dl,
+fieldset,
+figcaption,
+figure,
+footer,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+header,
+hr,
+noscript,
+ol,
+output,
+p,
+pre,
+section,
+ul,
+video {
     display: block;
 }
 
 // Inline level elements
-a, abbr, b, bdo, br, button, cite, code, dfn,
-em, i, img, input, kbd, label, map, object, q,
-samp, select, small, span, strong, sub, sup,
-textarea, var {
+a,
+abbr,
+b,
+bdo,
+br,
+button,
+cite,
+code,
+dfn,
+em,
+i,
+img,
+input,
+kbd,
+label,
+map,
+object,
+q,
+samp,
+select,
+small,
+span,
+strong,
+sub,
+sup,
+textarea,
+var {
     display: inline;
 }
 
