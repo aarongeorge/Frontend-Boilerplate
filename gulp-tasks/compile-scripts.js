@@ -15,6 +15,7 @@ const merge = require('merge-stream');
 const rename = require('gulp-rename');
 const source = require('vinyl-source-stream');
 const sourcemaps = require('gulp-sourcemaps');
+const tsify = require('tsify');
 const uglify = require('gulp-uglify');
 
 // Task
@@ -35,6 +36,7 @@ module.exports = (gulp, paths, environment) => {
                     'entries': entry.basePath + entry.filename,
                     'debug': true
                 })
+                .plugin(tsify)
                 .transform(babelify)
                 .bundle()
                 .pipe(source(entry.filename))
