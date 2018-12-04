@@ -1,12 +1,12 @@
 /**
- * Modal Page
+ * Modal
  */
 
 // Dependencies
-import ViewSwitcher from './modules/ViewSwitcher';
-import View from './modules/View';
+import ViewSwitcher from '../modules/ViewSwitcher';
+import View from '../modules/View';
 
-const modalPage = function () {
+const modal = function () {
 
     // Create viewSwitcher
     const viewSwitcher = new ViewSwitcher({
@@ -61,4 +61,4 @@ const modalPage = function () {
     }
 };
 
-export default modalPage;
+export default modal;

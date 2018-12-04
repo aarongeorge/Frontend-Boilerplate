@@ -3,7 +3,7 @@
  */
 
 // Dependencies
-import modalPage from './ModalPage';
+import modal from './pages/modal';
 
 window.addEventListener('DOMContentLoaded', () => {
     console.log('Loaded');
@@ -14,7 +14,7 @@ window.addEventListener('DOMContentLoaded', () => {
         case '/modal.html': {
 
             // Call `ModalPage`
-            modalPage();
+            modal();
             break;
         }
 

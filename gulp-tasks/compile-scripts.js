@@ -40,7 +40,10 @@ module.exports = (gulp, paths, environment) => {
                 .transform(babelify)
                 .bundle()
                 .pipe(source(entry.filename))
-                .pipe(rename({'basename': entry.rename}))
+                .pipe(rename({
+                    'basename': entry.rename,
+                    'extname': '.js'
+                }))
                 .pipe(buffer())
                 .pipe(gulpif(environment !== 'prod', sourcemaps.init({'loadMaps': true})))
                 .pipe(gulpif(environment === 'prod', uglify()))
