@@ -15,6 +15,14 @@ const modalPage = function () {
         'transitionOutDuration': 0
     });
 
+    window.viewSwitcher = viewSwitcher;
+
+    viewSwitcher.container.element.addEventListener('click', (e) => {
+        if (e.target.className === 'td') {
+            viewSwitcher.close();
+        }
+    });
+
     // Create views
     const testViewOne = new View({
         'element': document.querySelector('.testViewOne'),
