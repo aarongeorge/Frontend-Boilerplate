@@ -11,7 +11,7 @@ yarn run clean (Removes .cache/ and dist/)
 ```
 
 ## Known issues
-- Running `yarn run build` currently yields a broken build. Parcel has an issue at the moment dealing with Vue. I have tried the folliwng to fix it:
+- Running `yarn run build` currently yields a broken build. Parcel has an issue at the moment dealing with Vue. I have tried the following to fix it:
     - Disabling minification via the parcel flag `--no-minify`
     - Setting `NODE_ENV=development` as a prefix on the `build` command
     - Setting `mangle: false` in an `uglify.config.js` file

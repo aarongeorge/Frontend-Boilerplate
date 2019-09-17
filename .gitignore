@@ -1,4 +1,5 @@
 **/.DS_Store
+**/.parcel-cache
 **/.sass-cache
+**/dist
 **/node_modules
-**/webroot
