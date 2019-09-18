@@ -1,4 +1,3 @@
-import App from '../components/app';
 import Footer from '../components/footer';
 import PageContainer from '../components/page-container';
 import Navigation from '../components/navigation';
@@ -9,12 +8,13 @@ export default {
         Footer,
         Navigation
     },
+    'data': () => ({'dynamicContent': 'I am the dynamic content'}),
     'template':
 
         /* html */
         `<PageContainer>
             <Navigation />
-            <div>Homepage</div>
+            <div>Home Page - {{dynamicContent}}</div>
             <Footer />
         </PageContainer>`
 };
