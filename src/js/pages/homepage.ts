@@ -9,13 +9,12 @@ export default {
         Footer,
         Navigation
     },
-    'data': () => ({'replace': App._route.name}),
     'template':
 
         /* html */
         `<PageContainer>
             <Navigation />
-            <div>{{replace}}</div>
+            <div>Homepage</div>
             <Footer />
         </PageContainer>`
 };
