@@ -1,3 +1,4 @@
+import App from '../components/app';
 import Footer from '../components/footer';
 import PageContainer from '../components/page-container';
 import Navigation from '../components/navigation';
@@ -8,13 +9,14 @@ export default {
         Footer,
         Navigation
     },
-    'data': () => ({'dynamicContent': 'I am the dynamic content'}),
+    'data': () => ({'replace': App._route.name}),
+    // 'data': () => ({'replace': 'about'}),
     'template':
 
         /* html */
         `<PageContainer>
             <Navigation />
-            <div>About Page - {{dynamicContent}}</div>
+            <div>{{replace}}</div>
             <Footer />
         </PageContainer>`
 };

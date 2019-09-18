@@ -16,4 +16,5 @@ yarn run clean (Removes .cache/ and dist/)
     - Setting `NODE_ENV=development` as a prefix on the `build` command
     - Setting `mangle: false` in an `uglify.config.js` file
     - Removing all self-closing tags and replacing them with opening and closing tags
+- Running `yarn run build` currently yields a broken build if I leave `'data': () => ({'replace': App._route.name}),` in the `about` and `homepage` components. However running `yarn run serve` and then cd into the `dist` directory and start a webserver (http-server/serve), it works as intended. You can comment out those `data` lines and uncomment the other ones to see that `'data': () => ({'replace': 'Name of page here'})` format works when running `yarn run build`.
 - PurgeCSS doesn't automatically include `a` if you're referencing an `<router-link>` component. So make sure that when using CSSPurge, you explicitly reference these elements or add them to a whitelist.

@@ -10,7 +10,8 @@ export default new Vue({
 
         /* html */
         `<div id="app" class="h-full">
-            <transition mode="out-in"
+            <transition
+                mode="out-in"
                 enter-active-class="transition-all transition-fastest ease-out"
                 leave-active-class="transition-all transition-faster ease-in"
                 enter-class="opacity-0"
