@@ -11,10 +11,23 @@ yarn run clean (Removes .cache/ and dist/)
 ```
 
 ## Known issues
-- Running `yarn run build` currently yields a broken build. Parcel has an issue at the moment dealing with Vue. I have tried the following to fix it:
+- Running `yarn run build` currently yields a broken build. Parcel has an issue at the moment that I'm trying to deal with. I have tried the following to fix it:
     - Disabling minification via the parcel flag `--no-minify`
     - Setting `NODE_ENV=development` as a prefix on the `build` command
-    - Setting `mangle: false` in an `uglify.config.js` file
+    - Setting `mangle: false` in an `.terserrc` file
+    - Setting `compress: false` in an `.terserrc` file
     - Removing all self-closing tags and replacing them with opening and closing tags
-- Running `yarn run build` currently yields a broken build if I leave `'data': () => ({'replace': App._route.name}),` in the `about` and `homepage` components. However running `yarn run serve` and then cd into the `dist` directory and start a webserver (http-server/serve), it works as intended. You can comment out those `data` lines and uncomment the other ones to see that `'data': () => ({'replace': 'Name of page here'})` format works when running `yarn run build`.
+- Running `yarn run build` with `--no-minify` and a comment in `./src/js/pages/homepage.ts` on line `13` results in a working build (albeit not minified)
 - PurgeCSS doesn't automatically include `a` if you're referencing an `<router-link>` component. So make sure that when using CSSPurge, you explicitly reference these elements or add them to a whitelist.
+
+## Goal
+- Running `yarn run build` will provide a `dist` folder with minified bundles (JavaScript & CSS) and running [serve](https://www.npmjs.com/package/serve) in that folder will result in a working project (Nav links actually navigating to the different views, with the transition)
+
+You should be able to do this by cloning the repo and running the following commands
+
+```
+yarn install
+yarn run build
+cd ./dist
+serve
+```

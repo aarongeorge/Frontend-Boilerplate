@@ -10,7 +10,6 @@ export default {
         Navigation
     },
     'data': () => ({'replace': App._route.name}),
-    // 'data': () => ({'replace': 'about'}),
     'template':
 
         /* html */

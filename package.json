@@ -6,7 +6,7 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "build": "./node_modules/.bin/parcel build ./src/index.html --no-source-maps",
+    "build": "./node_modules/.bin/parcel build ./src/index.html --no-source-maps --no-minify",
     "clean": "rm -rf ./dist ./.cache",
     "serve": "./node_modules/.bin/parcel serve ./src/index.html"
   },
