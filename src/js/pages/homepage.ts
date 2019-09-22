@@ -1,5 +1,3 @@
-//
-import App from '../components/app';
 import Footer from '../components/footer';
 import PageContainer from '../components/page-container';
 import Navigation from '../components/navigation';
@@ -10,13 +8,12 @@ export default {
         Footer,
         Navigation
     },
-    'data': () => ({'replace': App._route.name}),
     'template':
 
         /* html */
         `<PageContainer>
             <Navigation />
-            <div>{{replace}}</div>
+            <div>Homepage</div>
             <Footer />
         </PageContainer>`
 };
