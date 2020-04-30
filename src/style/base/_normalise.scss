@@ -1,0 +1,53 @@
+/**
+ * Base: Normalise
+ */
+
+html {
+    font: {
+        family: Arial, sans-serif;
+        size: 16px;
+    }
+    line-height: 1.5em;
+    text-size-adjust: 100%;
+}
+
+body {
+    font: {
+        size: 100%;
+        smoothing: antialiased;
+    }
+    position: relative;
+    text-rendering: optimizeLegibility;
+}
+
+img {
+    border: 0;
+    display: block;
+    height: auto;
+    max-width: 100%;
+    width: auto;
+    -ms-interpolation-mode: bicubic;
+}
+
+input,
+textarea {
+    border: 0.0625em solid #000000;
+}
+
+// Chrome 62 on macOS rounds buttons
+button {
+    border-radius: 0;
+}
+
+// Make sure background color stays the same when in fullscreen mode
+html:-moz-full-screen-ancestor {
+    background-color: inherit;
+}
+
+html:-webkit-full-screen-ancestor {
+    background-color: inherit;
+}
+
+html:full-screen-ancestor {
+    background-color: inherit;
+}

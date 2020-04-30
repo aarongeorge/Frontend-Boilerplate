@@ -1,25 +1,17 @@
 module.exports = api => {
-    api.cache(true);
+    api.cache(true)
 
-    const presets = [
-        '@vue/babel-preset-jsx',
-        [
-            '@babel/preset-env',
-            {
-                'targets': {
-                    'browsers': [
-                        'last 2 versions',
-                        'ie >= 8'
-                    ]
-                }
-            }
-        ]
-    ];
-
-    const plugins = ['@babel/plugin-proposal-export-default-from'];
+    const plugins = []
+    const presets = [[
+        '@babel/preset-env',
+        {
+            corejs: '3.0.0',
+            useBuiltIns: 'entry'
+        }
+    ]]
 
     return {
         plugins,
         presets
-    };
-};
+    }
+}

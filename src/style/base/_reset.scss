@@ -1,0 +1,43 @@
+/**
+ * Base: Reset
+ */
+
+// All the things reset
+*, *:before, *:after {
+    border: 0;
+    box-sizing: border-box;
+    font: {
+        family: inherit;
+        size: 100%;
+        smoothing: antialiased;
+    }
+    line-height: inherit;
+    margin: 0;
+    outline: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+// Block level elements
+address, article, aside, audio, blockquote,
+canvas, dd, div, dl, fieldset, figcaption,
+figure, footer, form, h1, h2, h3, h4, h5, h6,
+header, hr, noscript, ol, output, p, pre,
+section, ul, video {
+    display: block;
+}
+
+// Inline level elements
+a, abbr, b, bdo, br, button, cite, code, dfn,
+em, i, img, input, kbd, label, map, object, q,
+samp, select, small, span, strong, sub, sup,
+textarea, var {
+    display: inline;
+}
+
+// Reset Table
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: table;
+}

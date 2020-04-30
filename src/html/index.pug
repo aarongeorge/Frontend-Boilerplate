@@ -1,0 +1,19 @@
+-
+    let title = 'HTML5 Template',
+        pages = ['typescale', 'grid', 'modal']
+
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        title #{title}
+        meta(name='description', content='This is my test for pug')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        link(rel='stylesheet', href='{{envPath}}/style/index.css')
+    body
+        ul
+            each page in pages
+                li: a(href=`./${page}.html`)= page
+
+        script(src='{{envPath}}/script/index.js')

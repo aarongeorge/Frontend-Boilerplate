@@ -1,6 +1,4 @@
-**/.cache
-**/.DS_Store
-**/.parcel-cache
+.DS_Store
 **/.sass-cache
-**/dist
 **/node_modules
+**/dist

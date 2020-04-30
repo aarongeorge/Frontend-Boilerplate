@@ -1,0 +1,29 @@
+- var title = 'Modal | HTML5 Template'
+
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        title #{title}
+        meta(name='description', content='This is my test for pug')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        link(rel='stylesheet', href='{{envPath}}/style/index.css')
+    body
+        a(href='#', data-action='open|testViewOne') Open View One
+        a(href='#', data-action='open|testViewTwo') Open View Two
+
+        #global-overlay
+            .table
+                .td
+                    .modal
+                        .view.testViewOne.bg-blue-400.h-full
+                            p Test View One
+                            a(href='#', data-action='close') Close
+                            a(href='#', data-action='open|testViewTwo') Open View Two
+                        .view.testViewTwo.bg-red-400.h-full
+                            p Test View Two
+                            a(href='#', data-action='close') Close
+                            a(href='#', data-action='open|testViewOne') Open View One
+
+        script(src='{{envPath}}/script/index.js')

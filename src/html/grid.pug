@@ -1,0 +1,17 @@
+- var title = 'Grid | HTML5 Template'
+
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        title #{title}
+        meta(name='description', content='This is my test for pug')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        link(rel='stylesheet', href='{{envPath}}/style/index.css')
+    body.page-grid
+        .test-grid-example
+            .grid
+                - for (var i = 0; i < 12; i++)
+                    .col.-col-3.-phablet-col-2.-tablet-col-3.-laptop-col-2.-desktop-col-1
+                        div #{i + 1}

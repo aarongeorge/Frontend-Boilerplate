@@ -1,0 +1,91 @@
+/**
+ * Components: Global Overlay
+ *
+ * Usage:
+ *
+ * <div id="global-overlay">
+ *     <div class="table">
+ *         <div class="td">
+ *             <div class="modal">
+ *             </div>
+ *         </div>
+ *     </div>
+ * </div>
+ *
+ * Features:
+ *
+ * - Modal that stays centered to the screen
+ *   but allows scrolling if the height of the
+ *   content is taller than the viewport
+ *
+ * - Adding the `-fullscreen` class will allow
+ *   you to have a fullscreen overlay without
+ *   the transparent background
+ */
+
+#global-overlay {
+    height: 100%;
+    left: -9999px;
+    opacity: 0;
+    overflow-y: hidden;
+    position: absolute;
+    top: 0;
+    transition-property: opacity;
+    transition-duration: 0.3s;
+    width: 100%;
+}
+
+body.-modal-visible {
+    overflow: hidden;
+
+    #global-overlay {
+        opacity: 1;
+        position: fixed;
+        left: 0;
+
+        &.-opening,
+        &.-open {
+            opacity: 1;
+        }
+
+        &.-closing,
+        &.-closed {
+            opacity: 0;
+        }
+
+        &.-fullscreen {
+            .table {
+                .td {
+                    vertical-align: inherit;
+
+                    .modal {
+                        height: 100%;
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        .table {
+            background-color: rgba(0, 0, 0, 0.2);
+            display: table;
+            height: 100%;
+            width: 100%;
+
+            .td {
+                display: table-cell;
+                height: 100%;
+                vertical-align: middle;
+                width: 100%;
+
+                .modal {
+                    background-color: #FFFFFF;
+                    cursor: default;
+                    margin: 0 auto;
+                    height: 80%;
+                    width: 80%;
+                }
+            }
+        }
+    }
+}

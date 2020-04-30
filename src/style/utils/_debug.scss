@@ -1,0 +1,20 @@
+/**
+ * Utils: Debug
+ */
+
+@if ($DEBUG) {
+    body::after {
+        background: #FFFFFF;
+        bottom: 0;
+        color: #000000;
+        padding: em(10);
+        position: fixed;
+        right: 0;
+
+        @each $breakpoint, $value in $BREAKPOINTS {
+            @include breakpoint($breakpoint) {
+                content: "#{$breakpoint} / #{nth($value, 1)} #{$BREAKPOINT-WIDTH}px / #{$BREAKPOINT-COLUMNS} cols";
+            }
+        }
+    }
+}
