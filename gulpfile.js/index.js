@@ -3,8 +3,8 @@
 */
 
 // Dependencies
-import * as gulp from 'gulp'
-import * as browserSync from 'browser-sync'
+const gulp = require('gulp')
+const browserSync = require('browser-sync')
 
 const bs = browserSync.create()
 

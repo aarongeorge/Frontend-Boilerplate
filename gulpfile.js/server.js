@@ -6,10 +6,10 @@
  */
 
 // Dependencies
-import * as historyApiFallback from 'connect-history-api-fallback'
+const historyApiFallback = require('connect-history-api-fallback')
 
 // Task
-module.exports = (paths: any, browserSync: any) => () => {
+module.exports = (paths, browserSync) => () => {
     browserSync.init({
         ghostMode: false,
         middleware: [historyApiFallback()],

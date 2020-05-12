@@ -5,7 +5,7 @@
  */
 
 // Task
-module.exports = (gulp: any, paths: any, browserSync: any) => () => {
+module.exports = (gulp, paths, browserSync) => () => {
 
     // HTML
     gulp.watch([
@@ -13,7 +13,7 @@ module.exports = (gulp: any, paths: any, browserSync: any) => () => {
         `${paths.src.font}/**/*`,
         `${paths.src.image}/**/*`
     ],
-    gulp.series('compile-templates', 'copy', 'replace-environment-variables', (cb: any) => {
+    gulp.series('compile-templates', 'copy', 'replace-environment-variables', cb => {
         browserSync.reload()
         cb()
     })).on('error', function handleError () {
@@ -22,7 +22,7 @@ module.exports = (gulp: any, paths: any, browserSync: any) => () => {
 
     // JS
     gulp.watch([`${paths.src.script}/**/*`],
-        gulp.series('compile-scripts', 'replace-environment-variables', (cb: any) => {
+        gulp.series('compile-scripts', 'replace-environment-variables', cb => {
             browserSync.reload()
             cb()
         })).on('error', function handleError () {
@@ -31,7 +31,7 @@ module.exports = (gulp: any, paths: any, browserSync: any) => () => {
 
     // SCSS
     gulp.watch([`${paths.src.style}/**/*`],
-        gulp.series('compile-styles', 'replace-environment-variables', (cb: any) => {
+        gulp.series('compile-styles', 'replace-environment-variables', cb => {
             browserSync.reload('index.css')
             cb()
         })).on('error', function handleError () {

@@ -5,17 +5,13 @@
  */
 
 // Dependencies
-import * as flatmap from 'gulp-flatmap'
-import * as replace from 'gulp-replace'
+const flatmap = require('gulp-flatmap')
+const replace = require('gulp-replace')
 
 // Task
-module.exports = (gulp: any, paths: any, environment: any, environmentVariables: any) => () => gulp.src([
-    `${paths.dist.html}/**/*`,
-    `${paths.dist.script}/**/*`,
-    `${paths.dist.style}/**/*`
-],
-{base: paths.dist.root})
-    .pipe(flatmap((stream: any) => {
+module.exports = (gulp, paths, environment, environmentVariables) => () => gulp.src([`${paths.dist.root}/**/*`],
+    { base: paths.dist.root })
+    .pipe(flatmap(stream => {
         for (let i = 0; i < environmentVariables[environment].length; i++) stream.pipe(replace(environmentVariables[environment][i].replaceString, environmentVariables[environment][i].value))
         return stream
     }))

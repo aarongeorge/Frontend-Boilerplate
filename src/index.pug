@@ -14,6 +14,6 @@ html(lang='en')
     body
         ul
             each page in pages
-                li: a(href=`./${page}.html`)= page
+                li: a(href=`./html/${page}.html`)= page
 
         script(src='{{envPath}}/script/index.js')
