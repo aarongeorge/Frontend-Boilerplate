@@ -1,103 +1,42 @@
 /**
  * Modules: Event Handler
  */
-
-// Constructor: EventHandler
 class EventHandler {
-    events: {
-        [x: string]: any
-    }
+	events: {[x: string]: any}
 
-    // Constructor
-    constructor () {
+	constructor () { this.events = {} }
 
-        // Object to store `events`
-        this.events = {}
-    }
+	addEvent (name: string, type: any, el: any, fn: any) {
+		let evt: any = void 0
 
-    // Method: addEvent
-    addEvent (name: string, type: any, el: any, fn: any) {
+		if (arguments.length > 1) evt = {name, element: el, type, function: fn}
+		else evt = name
 
-        // `evt` will hold the final object
-        let evt: any = void 0
+		const customEvent = Object.assign({}, evt)
 
-        // Passed individual params and not an object
-        if (arguments.length > 1) {
+		if (Object.prototype.hasOwnProperty.call(this.events, customEvent.name)) throw new Error(`\`name\` of \`${customEvent.name}\` is already in use`)
 
-            // Create the object
-            evt = {
-                name,
-                element: el,
-                type,
-                function: fn
-            }
-        }
+		customEvent.element.addEventListener(customEvent.type, customEvent.function)
 
-        // Passed object as first param
-        else {
+		this.events[customEvent.name] = customEvent
+	}
 
-            // Set `evt` to `name`
-            evt = name
-        }
+	removeEvent (eventName: string) {
+		if (typeof this.events[eventName] === 'undefined') throw new Error(`There is no event named \`${eventName}\``)
+		else {
+			const customEvent = this.events[eventName]
 
-        // Create new `CustomEvent`
-        const customEvent = Object.assign({}, evt)
+			customEvent.element.removeEventListener(customEvent.type, customEvent.function)
 
-        // `name` already exists
-        if (Object.prototype.hasOwnProperty.call(this.events, customEvent.name)) {
+			delete this.events[customEvent.name]
+		}
+	}
 
-            // Throw error
-            throw new Error(`\`name\` of \`${customEvent.name}\` is already in use`)
-        }
+	removeEvents () {
+		const eventNames = Object.keys(this.events)
 
-        // Add the listener to the element
-        customEvent.element.addEventListener(customEvent.type, customEvent.function)
-
-        // Add `customEvent` to `events`
-        this.events[customEvent.name] = customEvent
-    }
-
-    // Method: removeEvent
-    removeEvent (eventName: string) {
-
-        // `eventName` is undefined
-        if (typeof this.events[eventName] === 'undefined') {
-
-            // Throw error
-            throw new Error(`There is no event named \`${eventName}\``)
-        }
-
-        // `eventName` is defined
-        else {
-
-            // Store reference to `customEvent`
-            const customEvent = this.events[eventName]
-
-            // Remove the listener from the element
-            customEvent.element.removeEventListener(customEvent.type, customEvent.function)
-
-            // Remove `customEvent` from `events`
-            delete this.events[customEvent.name]
-        }
-    }
-
-    // Method: removeEvents
-    removeEvents () {
-
-        // Get all event names from `events`
-        const eventNames = Object.keys(this.events)
-
-        // Iterate over `eventNames`
-        eventNames.forEach(eventName => {
-
-            // Store reference to `currentEvent`
-            const customEvent = this.events[eventName]
-
-            // Remove `customEvent` from `events`
-            this.removeEvent(customEvent.name)
-        })
-    }
+		eventNames.forEach(eventName => { this.removeEvent(this.events[eventName].name) })
+	}
 }
 
-// Export `EventHandler`
 export default EventHandler

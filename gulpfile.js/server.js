@@ -9,15 +9,12 @@
 const historyApiFallback = require('connect-history-api-fallback')
 
 // Task
-module.exports = (paths, browserSync) => () => {
-    browserSync.init({
-        ghostMode: false,
-        middleware: [historyApiFallback()],
-        notify: true,
-        port: 1337,
-        server: {
-            baseDir: paths.dist.root,
-            directory: false
-        }
-    })
+module.exports = ({paths, bs}) => () => {
+	bs.init({
+		ghostMode: false,
+		middleware: [historyApiFallback()],
+		notify: true,
+		port: 1337,
+		server: {baseDir: paths.dist.root, directory: false}
+	})
 }

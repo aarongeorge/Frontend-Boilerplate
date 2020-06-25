@@ -9,39 +9,39 @@ The package.json will install Gulp 4 locally, but you will need the Gulp 4 CLI t
 
 To do so you will need to go into terminal and run the following commands:
 
-    yarn global remove gulp
-    yarn global add gulpjs/gulp#4.0
+	yarn global remove gulp
+	yarn global add gulpjs/gulp#4.0
 
 All this does is remove the Gulp 3 CLI that you have installed globally and installs the Gulp 4 CLI in its place.
 
 Now to run the project just cd into the root of the directory and run:
 
-    gulp
+	gulp
 
 That’s all there is :)
 
 ### Breakpoints
 Breakpoints are defined in `/src/scss/utils/_variables.scss` in the map `$BREAKPOINTS`.
 
-    @key   {string} - Name of breakpoint
-    @value {string} - Type of breakpoint (min, max)
-    @value {int}    - Width that breakpoint starts
-    @value {int}    - Number of columns for grid
-    @value {int}    - Gutter width for each column
+	@key   {string} - Name of breakpoint
+	@value {string} - Type of breakpoint (min, max)
+	@value {int}    - Width that breakpoint starts
+	@value {int}    - Number of columns for grid
+	@value {int}    - Gutter width for each column
 
 The `default` breakpoint is used by default. To use any other breakpoint defined in the map (e.g. tablet), you simply use:
 
-    @include breakpoint (tablet) {
-        // Styles for tablet breakpoint
-    }
+	@include breakpoint (tablet) {
+		// Styles for tablet breakpoint
+	}
 
 ### Typography
 Typography is defined in `/src/scss/utils/_variables.scss` in the map `$TYPE-SCALES`.
 
-    @key   {string}       - Name of breakpoint
-    @key   {string}       - Name of element
-    @key   {string}       - Property
-    @value {string | int} - Value of property
+	@key   {string}       - Name of breakpoint
+	@key   {string}       - Name of element
+	@key   {string}       - Property
+	@value {string | int} - Value of property
 
 The `$TYPE-SCALES` map is tied to the `$BREAKPOINTS` map. For an entry to exist in `$TYPE-SCALES`, it must first exist in `$BREAKPOINTS`.
 
@@ -57,21 +57,21 @@ Everything in `$TYPE-SCALES` is automatically created by using the `generateType
 
 Using the default `$TYPE-SCALES` and `$BREAKPOINTS` maps we can have the following code:
 
-    .testingTypography {
-        @include setTypeScale(h1);
+	.testingTypography {
+		@include setTypeScale(h1);
 
-        .nestedContent {
-            @include setTypeScale(h2, h1);
-        }
-    }
+		.nestedContent {
+			@include setTypeScale(h2, h1);
+		}
+	}
 
-    @include breakpoint (tablet) {
-        @include setTypeScale(h2);
+	@include breakpoint (tablet) {
+		@include setTypeScale(h2);
 
-        .nestedContent {
-            @include setTypeScale(h3, h1);
-        }
-    }
+		.nestedContent {
+			@include setTypeScale(h3, h1);
+		}
+	}
 
 `setTypeScale` takes an entry defined in `$TYPE-SCALES` as the first parameter and an optional context as the second parameter.
 

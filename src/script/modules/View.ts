@@ -1,306 +1,170 @@
-// Constructor: View
+/**
+ * Modules: View
+ */
 const View = class {
-    [x: string]: any
+	[x: string]: any
 
-    constructor (options = {} as any) {
+	constructor (options = {} as any) {
+		this.animationType = 'transitionDuration'
+		this.classes = {
+			closed: '-closed',
+			closing: '-closing',
+			open: '-open',
+			opening: '-opening'
+		}
+		this.transitionInDuration = 100
+		this.transitionOutDuration = 100
+		this.openingCallback = () => {}
+		this.openCallback = () => {}
+		this.closingCallback = () => {}
+		this.closedCallback = () => {}
 
-        // Defaults
-        this.animationType = 'transitionDuration'
-        this.classes = {
-            closed: '-closed',
-            closing: '-closing',
-            open: '-open',
-            opening: '-opening'
-        }
-        this.transitionInDuration = 100
-        this.transitionOutDuration = 100
-        this.openingCallback = () => {}
-        this.openCallback = () => {}
-        this.closingCallback = () => {}
-        this.closedCallback = () => {}
+		for (const i in options) if (Object.prototype.hasOwnProperty.call(options, i)) this[i] = options[i]
 
-        // Override defaults
-        if (Object.keys(options).length) {
-            for (const i in options) {
-                if (Object.prototype.hasOwnProperty.call(options, i)) {
-                    this[i] = options[i]
-                }
-            }
-        }
+		this.lastInteraction = 0
+		this.state = 'closed'
+		this.timeFromZero = 0
+		this.viewElement = this.element
 
-        // Other settings
-        this.lastInteraction = 0
-        this.state = 'closed'
-        this.timeFromZero = 0
-        this.viewElement = this.element
+		this.viewElement.classList.add(this.classes.closed)
 
-        // Add `classes.closed` to `viewElement`
-        this.viewElement.classList.add(this.classes.closed)
+		this.viewElement.style[this.animationType] = `${this.transitionInDuration}ms`
+	}
 
-        // Update `animationType`
-        this.viewElement.style[this.animationType] = `${this.transitionInDuration}ms`
-    }
+	open (cb = () => {}) {
+		const _this = this
 
-    // Method: open
-    open (cb = () => {}) {
+		switch (this.state) {
+			case 'closed': {
+				this.state = 'opening'
+				this.timeFromZero = 0
+				this.lastInteraction = window.performance.now()
 
-        // Store reference to `this`
-        const _this = this
+				this.openingCallback()
 
-        // Switch over `state`
-        switch (this.state) {
+				this.viewElement.style[this.animationType] = `${this.transitionInDuration}ms`
 
-            // Closed
-            case 'closed': {
+				this.viewElement.classList.remove(this.classes.closed)
+				this.viewElement.classList.add(this.classes.opening)
 
-                // Update `state`
-                this.state = 'opening'
+				this.timeout = window.setTimeout(() => {
+					_this.timeFromZero = _this.transitionOutDuration
+					_this.state = 'open'
 
-                // Update `timeFromZero`
-                this.timeFromZero = 0
+					_this.openCallback()
+					_this.viewElement.classList.remove(_this.classes.opening)
+					_this.viewElement.classList.add(_this.classes.open)
 
-                // Update `lastInteraction`
-                this.lastInteraction = window.performance.now()
+					return cb()
 
-                // Call `openingCallback`
-                this.openingCallback()
+				}, this.transitionInDuration)
 
-                // Update `animationType`
-                this.viewElement.style[this.animationType] = `${this.transitionInDuration}ms`
+				break
+			}
 
-                // Remove `classes.closed` class
-                this.viewElement.classList.remove(this.classes.closed)
+			case 'closing': {
+				this.state = 'opening'
 
-                // Add `classes.opening` class
-                this.viewElement.classList.add(this.classes.opening)
+				window.clearTimeout(this.timeout)
 
-                // Set a timeout for `transitionDuration`
-                this.timeout = window.setTimeout(() => {
+				this.timeFromZero -= window.performance.now() - this.lastInteraction
+				this.lastInteraction = window.performance.now()
+				this.viewElement.style[this.animationType] = `${this.transitionDuration - this.timeFromZero}ms`
 
-                    // Update `timeFromZero`
-                    _this.timeFromZero = _this.transitionOutDuration
+				this.viewElement.classList.remove(this.classes.closing)
+				this.viewElement.classList.add(this.classes.opening)
 
-                    // Set `state` to `open`
-                    _this.state = 'open'
+				this.timeout = window.setTimeout(() => {
+					_this.timeFromZero = _this.transitionDuration
+					_this.state = 'open'
 
-                    // Call `openCallback`
-                    _this.openCallback()
+					_this.openCallback()
+					_this.viewElement.classList.remove(_this.classes.opening)
+					_this.viewElement.classList.add(_this.classes.open)
 
-                    // Remove `classes.opening` class
-                    _this.viewElement.classList.remove(_this.classes.opening)
+					return cb()
 
-                    // Add `classes.open` class
-                    _this.viewElement.classList.add(_this.classes.open)
+				}, this.transitionDuration - this.timeFromZero)
 
-                    // Call `cb`
-                    return cb()
+				break
+			}
 
-                }, this.transitionInDuration)
+			case 'open': { return cb() }
 
-                break
-            }
+			case 'opening': { break }
 
-            // Closing
-            case 'closing': {
+			default: { break }
+		}
+	}
 
-                // Update `state`
-                this.state = 'opening'
+	close (cb = () => {}) {
+		const _this = this
 
-                // Clear timeout for `close`
-                window.clearTimeout(this.timeout)
+		switch (this.state) {
 
-                // Update `timeFromZero`
-                this.timeFromZero -= window.performance.now() - this.lastInteraction
+			case 'closed': { return cb() }
 
-                // Update `lastInteraction`
-                this.lastInteraction = window.performance.now()
+			case 'closing': { break }
 
-                // Update `animationType`
-                this.viewElement.style[this.animationType] = `${this.transitionDuration - this.timeFromZero}ms`
+			case 'open': {
+				this.state = 'closing'
+				this.timeFromZero = this.transitionInDuration
+				this.lastInteraction = window.performance.now()
 
-                // Remove `classes.closing` class
-                this.viewElement.classList.remove(this.classes.closing)
+				this.closingCallback()
 
-                // Add `classes.opening` class
-                this.viewElement.classList.add(this.classes.opening)
+				this.viewElement.style[this.animationType] = `${this.transitionOutDuration}ms`
 
-                // Set a timeout for `transitionDuration`
-                this.timeout = window.setTimeout(() => {
+				this.viewElement.classList.remove(this.classes.open)
+				this.viewElement.classList.add(this.classes.closing)
 
-                    // Update `timeFromZero`
-                    _this.timeFromZero = _this.transitionDuration
+				this.timeout = window.setTimeout(() => {
+					_this.timeFromZero = 0
+					_this.state = 'closed'
 
-                    // Set `state` to `open`
-                    _this.state = 'open'
+					_this.closedCallback()
 
-                    // Call `openallback`
-                    _this.openCallback()
+					_this.viewElement.classList.remove(_this.classes.closing)
+					_this.viewElement.classList.add(_this.classes.closed)
 
-                    // Remove `classes.opening` class
-                    _this.viewElement.classList.remove(_this.classes.opening)
+					return cb()
 
-                    // Add `classes.open` class
-                    _this.viewElement.classList.add(_this.classes.open)
+				}, this.transitionOutDuration)
 
-                    // Call `cb`
-                    return cb()
+				break
+			}
 
-                }, this.transitionDuration - this.timeFromZero)
+			case 'opening': {
+				this.state = 'closing'
 
-                break
-            }
+				window.clearTimeout(this.timeout)
 
-            // Open
-            case 'open': {
+				this.timeFromZero += window.performance.now() - this.lastInteraction
+				this.lastInteraction = window.performance.now()
+				this.viewElement.style[this.animationType] = `${this.timeFromZero}ms`
 
-                // Already open so call `cb`
-                return cb()
-            }
+				this.viewElement.classList.remove(this.classes.opening)
+				this.viewElement.classList.add(this.classes.closing)
 
-            // Opening
-            case 'opening': {
+				this.timeout = window.setTimeout(() => {
+					_this.timeFromZero = 0
+					_this.state = 'closed'
 
-                // Already opening so do nothing
-                break
-            }
+					_this.closedCallback()
 
-            // Default
-            default: {
-                break
-            }
-        }
-    }
+					_this.viewElement.classList.remove(_this.classes.closing)
+					_this.viewElement.classList.add(_this.classes.closed)
 
-    // Method: close
-    close (cb = () => {}) {
+					return cb()
 
-        // Store reference to `this`
-        const _this = this
+				}, this.timeFromZero)
 
-        // Switch over `state`
-        switch (this.state) {
+				break
+			}
 
-            // Closed
-            case 'closed': {
-
-                // Already closed so call `cb`
-                return cb()
-            }
-
-            // Closing
-            case 'closing': {
-
-                // Already closing so do nothing
-                break
-            }
-
-            // Open
-            case 'open': {
-
-                // Update `state`
-                this.state = 'closing'
-
-                // Update `timeFromZero`
-                this.timeFromZero = this.transitionInDuration
-
-                // Update `lastInteraction`
-                this.lastInteraction = window.performance.now()
-
-                // Call `closingCallback`
-                this.closingCallback()
-
-                // Update `animationType`
-                this.viewElement.style[this.animationType] = `${this.transitionOutDuration}ms`
-
-                // Remove `classes.opening` class
-                this.viewElement.classList.remove(this.classes.open)
-
-                // Add `classes.closed` class
-                this.viewElement.classList.add(this.classes.closing)
-
-                // Set a timeout for `transitionDuration`
-                this.timeout = window.setTimeout(() => {
-
-                    // Update `timeFromZero`
-                    _this.timeFromZero = 0
-
-                    // Set `state` to `closed`
-                    _this.state = 'closed'
-
-                    // Call `closedCallback`
-                    _this.closedCallback()
-
-                    // Remove `classes.closing` class
-                    _this.viewElement.classList.remove(_this.classes.closing)
-
-                    // Add `classes.closed` class
-                    _this.viewElement.classList.add(_this.classes.closed)
-
-                    // Call `cb`
-                    return cb()
-
-                }, this.transitionOutDuration)
-
-                break
-            }
-
-            // Opening
-            case 'opening': {
-
-                // Update `state`
-                this.state = 'closing'
-
-                // Clear timeout for `open`
-                window.clearTimeout(this.timeout)
-
-                // Update `timeFromZero`
-                this.timeFromZero += window.performance.now() - this.lastInteraction
-
-                // Update `lastInteraction`
-                this.lastInteraction = window.performance.now()
-
-                // Update `animationType`
-                this.viewElement.style[this.animationType] = `${this.timeFromZero}ms`
-
-                // Remove `classes.opening` class
-                this.viewElement.classList.remove(this.classes.opening)
-
-                // Add `classes.closing` class
-                this.viewElement.classList.add(this.classes.closing)
-
-                // Set a timeout for `transitionDuration`
-                this.timeout = window.setTimeout(() => {
-
-                    // Update `timeFromZero`
-                    _this.timeFromZero = 0
-
-                    // Set `state` to `closed`
-                    _this.state = 'closed'
-
-                    // Call `closedCallback`
-                    _this.closedCallback()
-
-                    // Remove `classes.closing` class
-                    _this.viewElement.classList.remove(_this.classes.closing)
-
-                    // Add `classes.closed` class
-                    _this.viewElement.classList.add(_this.classes.closed)
-
-                    // Call `cb`
-                    return cb()
-
-                }, this.timeFromZero)
-
-                break
-            }
-
-            // Default
-            default: {
-                break
-            }
-        }
-    }
+			default: { break }
+		}
+	}
 }
 
-// Export `View`
 export default View

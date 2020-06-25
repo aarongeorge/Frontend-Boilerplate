@@ -10,12 +10,9 @@
 const rollup = require('rollup')
 const typescript = require('@rollup/plugin-typescript')
 
-module.exports = (gulp, paths, environment) => async () => {
+module.exports = ({paths, environment}) => async () => {
 	
-	const bundle = await rollup.rollup({
-		input: `${paths.src.script}/index.ts`,
-		plugins: [typescript()]
-	})
+	const bundle = await rollup.rollup({input: `${paths.src.script}/index.ts`, plugins: [typescript()]})
 	
 	await bundle.write({
 		file: `${paths.dist.script}/index.js`,

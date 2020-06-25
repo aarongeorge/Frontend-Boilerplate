@@ -6,7 +6,7 @@
         "noImplicitAny": false,
         "lib": ["es5", "es2016", "dom"],
         "target": "es5",
-        "typeRoots": [ "./typings", "./node_modules/@types"]
+        "typeRoots": ["./node_modules/@types", "./typings"]
     },
     "files": ["src/script"],
     "include": ["src/script"]

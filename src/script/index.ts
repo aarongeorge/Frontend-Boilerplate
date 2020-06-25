@@ -5,7 +5,7 @@
 import modalPage from './ModalPage'
 
 window.addEventListener('DOMContentLoaded', () => {
-    console.log('Loaded!')
+	console.log('Loaded!')
 
-    modalPage()
+	modalPage()
 })

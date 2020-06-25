@@ -34,24 +34,24 @@ const paths = {
 // Environment variables
 const environmentVariables = {
 	local: [
-		{ replaceString: '{{envPath}}', value: '' },
-		{ replaceString: '{{cacheBuster}}', value: Number(new Date()) }
+		{replaceString: '{{envPath}}', value: ''},
+		{replaceString: '{{cacheBuster}}', value: Number(new Date())}
 	],
 	dev: [
-		{ replaceString: '{{envPath}}', value: '' },
-		{ replaceString: '{{cacheBuster}}', value: Number(new Date()) }
+		{replaceString: '{{envPath}}', value: ''},
+		{replaceString: '{{cacheBuster}}', value: Number(new Date())}
 	],
 	qa: [
-		{ replaceString: '{{envPath}}', value: '' },
-		{ replaceString: '{{cacheBuster}}', value: Number(new Date()) }
+		{replaceString: '{{envPath}}', value: '' },
+		{replaceString: '{{cacheBuster}}', value: Number(new Date())}
 	],
 	uat: [
-		{ replaceString: '{{envPath}}', value: '' },
-		{ replaceString: '{{cacheBuster}}', value: Number(new Date()) }
+		{replaceString: '{{envPath}}', value: ''},
+		{replaceString: '{{cacheBuster}}', value: Number(new Date())}
 	],
 	prod: [
-		{ replaceString: '{{envPath}}', value: '' },
-		{ replaceString: '{{cacheBuster}}', value: Number(new Date()) }
+		{replaceString: '{{envPath}}', value: ''},
+		{replaceString: '{{cacheBuster}}', value: Number(new Date())}
 	]
 }
 
@@ -64,13 +64,13 @@ for (const env of Object.keys(environmentVariables)) {
 
 // Tasks
 gulp.task('clean', require('./clean')(paths))
-gulp.task('copy', require('./copy')(gulp, paths))
-gulp.task('compile-scripts', require('./compile-scripts')(gulp, paths, environment))
-gulp.task('compile-styles', require('./compile-styles')(gulp, paths, environment))
-gulp.task('compile-templates', require('./compile-templates')(gulp, paths))
-gulp.task('replace-environment-variables', require('./replace-environment-variables')(gulp, paths, environment, environmentVariables))
-gulp.task('server', require('./server')(paths, bs))
-gulp.task('watch', require('./watch')(gulp, paths, bs))
+gulp.task('copy', require('./copy')({gulp, paths}))
+gulp.task('compile-scripts', require('./compile-scripts')({gulp, paths, environment}))
+gulp.task('compile-styles', require('./compile-styles')({gulp, paths, environment}))
+gulp.task('compile-templates', require('./compile-templates')({gulp, paths}))
+gulp.task('replace-environment-variables', require('./replace-environment-variables')({gulp, paths, environment, environmentVariables}))
+gulp.task('server', require('./server')({paths, bs}))
+gulp.task('watch', require('./watch')({gulp, paths, bs}))
 
 // Default
 gulp.task('default',
